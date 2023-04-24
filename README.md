@@ -9,12 +9,12 @@
   ![License MIT](https://img.shields.io/badge/LICENSE-MIT-EA4560?style=for-the-badge)
 </div>
 
-## Description
+## 💻 Description
 
 A ecommerce API to practice server scaling. I want to simulate a usecase that an app 
 would be used to thousands of users, and this project is a solution to this usecase in specific.
 
-## To do
+## 🗒️ To do
 
  - [ ] Develop main functionalities 
    - [ ] Create account (as store administrator and as client)
@@ -29,9 +29,9 @@ would be used to thousands of users, and this project is a solution to this usec
  - [ ] Make a load balacing in the database (and study the different strategies)
  - [ ] Use Message Queue Tool to long-awaited routes/process 
 
-## License
+## 📝 License
 
-MIT
+This project is under license [MIT](./LICENSE).
 
 ![built-with-love](https://forthebadge.com/images/badges/built-with-love.svg)
 
