@@ -1,5 +1,5 @@
 <h1 align="center">
-  <h1>Ecommerce API</h1>
+  Ecommerce API
 </h1>
 
 <div align="center">
