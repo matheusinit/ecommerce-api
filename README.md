@@ -1,12 +1,13 @@
-<p align="center">
+<h1 align="center">
   <h1>Ecommerce API</h1>
-</p>
+</h1>
 
-<p align="center">
+<div align="center">
+
   ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
   ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
   ![License MIT](https://img.shields.io/badge/LICENSE-MIT-EA4560?style=for-the-badge)
-</p>
+</div>
 
 ## Description
 
