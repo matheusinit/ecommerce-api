@@ -16,7 +16,18 @@ would be used to thousands of users, and this project is a solution to this usec
 
 ## To do
 
- - [ ] To do
+ - [ ] Develop main functionalities 
+   - [ ] Create account (as store administrator and as client)
+   - [ ] Post a product
+   - [ ] List products
+   - [ ] Edit a product
+   - [ ] Delete a product
+   - [ ] Buy a product 
+   - [ ] Send email when the payment is confirmed
+   - [ ] Star a product
+ - [ ] Make a load balacing with Nginx
+ - [ ] Make a load balacing in the database (and study the different strategies)
+ - [ ] Use Message Queue Tool to long-awaited routes/process 
 
 ## License
 
