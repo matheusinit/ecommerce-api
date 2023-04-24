@@ -1,10 +1,11 @@
 import express, { type Request, type Response } from 'express'
+import { RegisterUser } from './usecases/register-user'
 
 const app = express()
 
-app.get('/', (request: Request, response: Response) => {
-  return response.json({ message: 'Hello World' })
-})
+const registerUser = new RegisterUser()
+
+app.use('/v1/', (request: Request, response: Response) => response.json(registerUser.execute()))
 
 const SERVER_PORT = 8080
 
