@@ -1,11 +1,10 @@
-import express, { type Request, type Response } from 'express'
-import { RegisterUser } from './usecases/register-user'
+import express from 'express'
+import router from './infra/http/routes'
 
 const app = express()
 
-const registerUser = new RegisterUser()
-
-app.use('/v1/', (request: Request, response: Response) => response.json(registerUser.execute()))
+app.use(express.json())
+app.use('/v1', router)
 
 const SERVER_PORT = 8080
 
