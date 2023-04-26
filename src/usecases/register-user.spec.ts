@@ -37,4 +37,22 @@ describe('Register user usecase', () => {
     // Assert
     void expect(promise).rejects.toThrowError()
   })
+
+  it('should return the data on success', async () => {
+    const userRepository = new InMemoryUserRepository()
+    const sut = new RegisterUser(userRepository)
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'matheus@email.com',
+      password: 'some-random-password'
+    }
+
+    const user = await sut.execute(userData)
+
+    expect(user).toBeTruthy()
+    expect(user.name).toBe(userData.name)
+    expect(user.email).toBe(userData.email)
+    expect(user.password).not.toBe(userData.password)
+  })
 })
