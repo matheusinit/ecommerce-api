@@ -14,11 +14,20 @@ import { describe, it, expect } from 'vitest'
 import { RegisterUser } from './register-user'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 
+const makeSut = () => {
+  const userRepository = new InMemoryUserRepository()
+  const sut = new RegisterUser(userRepository)
+
+  return {
+    userRepository,
+    sut
+  }
+}
+
 describe('Register user usecase', () => {
   it('should throw if email is already registered', async () => {
     // Arrange
-    const userRepository = new InMemoryUserRepository()
-    const sut = new RegisterUser(userRepository)
+    const { userRepository, sut } = makeSut()
 
     await userRepository.store({
       email: 'matheus@email.com',
@@ -39,8 +48,7 @@ describe('Register user usecase', () => {
   })
 
   it('should return the data on success', async () => {
-    const userRepository = new InMemoryUserRepository()
-    const sut = new RegisterUser(userRepository)
+    const { sut } = makeSut()
 
     const userData = {
       name: 'Matheus Oliveira',
@@ -57,8 +65,7 @@ describe('Register user usecase', () => {
   })
 
   it('should return the password hashed', async () => {
-    const userRepository = new InMemoryUserRepository()
-    const sut = new RegisterUser(userRepository)
+    const { sut } = makeSut()
 
     const userData = {
       name: 'Matheus Oliveira',
