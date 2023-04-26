@@ -95,4 +95,19 @@ describe('Register user usecase', () => {
 
     expect(user.type).toBe('STORE-ADMIN')
   })
+
+  it('may be created as type customer', async () => {
+    const { sut } = makeSut()
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'matheus@email.com',
+      password: 'some-random-password',
+      type: 'CUSTOMER' as const
+    }
+
+    const user = await sut.execute(userData)
+
+    expect(user.type).toBe('CUSTOMER')
+  })
 })
