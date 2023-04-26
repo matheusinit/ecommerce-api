@@ -1,6 +1,3 @@
-// 1. Ensure that will throw an error if email is registered
-// 2. Ensure returns user data if created successfully
-// 3. Ensure password is hashed
 // 4. Ensure user can be created of type store administrator
 // 5. Ensure user of type customer can be created
 // 6. Ensure to throw an error if a unknown type is passed
@@ -31,13 +28,15 @@ describe('Register user usecase', () => {
 
     await userRepository.store({
       email: 'matheus@email.com',
-      password: 'some-random-password'
+      password: 'some-random-password',
+      type: 'STORE-ADMIN' as const
     })
 
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
-      password: 'some-random-password'
+      password: 'some-random-password',
+      type: 'STORE-ADMIN' as const
     }
 
     // Act
@@ -53,7 +52,8 @@ describe('Register user usecase', () => {
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
-      password: 'some-random-password'
+      password: 'some-random-password',
+      type: 'STORE-ADMIN' as const
     }
 
     const user = await sut.execute(userData)
@@ -70,7 +70,8 @@ describe('Register user usecase', () => {
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
-      password: 'some-random-password'
+      password: 'some-random-password',
+      type: 'STORE-ADMIN' as const
     }
 
     const user = await sut.execute(userData)
@@ -78,5 +79,20 @@ describe('Register user usecase', () => {
 
     expect(salt).toBeTruthy()
     expect(key).toBeTruthy()
+  })
+
+  it('may be created as type store administrator', async () => {
+    const { sut } = makeSut()
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'matheus@email.com',
+      password: 'some-random-password',
+      type: 'STORE-ADMIN' as const
+    }
+
+    const user = await sut.execute(userData)
+
+    expect(user.type).toBe('STORE-ADMIN')
   })
 })
