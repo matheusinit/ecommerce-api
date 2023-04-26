@@ -31,7 +31,7 @@ export class RegisterUser {
       throw new Error('Email registered')
     }
 
-    const hashedPassword = hash(password)
+    const hashedPassword = await hash(password)
 
     const user = await this.userRepository.store({ name, email, password: hashedPassword })
 

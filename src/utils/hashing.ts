@@ -1,9 +1,11 @@
 import crypto from 'crypto'
+import { promisify } from 'util'
 
-export const hash = (value: string) => {
-  const salt = crypto.randomBytes(8).toString('hex')
+const scryptAsync = promisify(crypto.scrypt)
 
-  const result = crypto.scryptSync(value, salt, 64)
+export const hash = async (value: string) => {
+  const salt = crypto.randomBytes(16).toString('hex')
 
-  return `${salt}:${result.toString('hex')}`
+  const key = await scryptAsync(value, salt, 64)
+  return salt + ':' + (key as Buffer).toString('hex')
 }
