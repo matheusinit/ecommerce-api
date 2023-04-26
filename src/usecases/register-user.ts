@@ -1,5 +1,4 @@
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
-import { prisma } from '../infra/db'
 import { hash } from '../utils/hashing'
 
 interface Request {
