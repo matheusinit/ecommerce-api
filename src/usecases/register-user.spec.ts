@@ -1,5 +1,3 @@
-// 4. Ensure user can be created of type store administrator
-// 5. Ensure user of type customer can be created
 // 6. Ensure to throw an error if a unknown type is passed
 // 8. Ensure a user logged in cannot create an account
 // 9. Ensure that email is a valid email
@@ -109,5 +107,21 @@ describe('Register user usecase', () => {
     const user = await sut.execute(userData)
 
     expect(user.type).toBe('CUSTOMER')
+  })
+
+  it('should throw an error if a unknown type is passed', async () => {
+    const { sut } = makeSut()
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'matheus@email.com',
+      password: 'some-random-password',
+      type: 'UNKNOWN-TYPE' as const
+    }
+
+    // @ts-expect-error "This should use wrong constant to test feature in run time instead of compile time"
+    const promise = sut.execute(userData)
+
+    void expect(promise).rejects.toThrowError()
   })
 })
