@@ -55,4 +55,21 @@ describe('Register user usecase', () => {
     expect(user.email).toBe(userData.email)
     expect(user.password).not.toBe(userData.password)
   })
+
+  it('should return the password hashed', async () => {
+    const userRepository = new InMemoryUserRepository()
+    const sut = new RegisterUser(userRepository)
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'matheus@email.com',
+      password: 'some-random-password'
+    }
+
+    const user = await sut.execute(userData)
+    const [salt, key] = user.password.split(':')
+
+    expect(salt).toBeTruthy()
+    expect(key).toBeTruthy()
+  })
 })
