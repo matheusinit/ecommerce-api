@@ -1,1 +1,1 @@
-export type UserType = 'STORE-ADMIN'
+export type UserType = 'STORE-ADMIN' | 'CUSTOMER'
