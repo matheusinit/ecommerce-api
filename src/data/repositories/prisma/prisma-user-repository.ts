@@ -14,11 +14,11 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   async store (params: StoreUserProps): Promise<User> {
-    const { name, email, password } = params
+    const { name, email, type, password } = params
 
     const user = await prisma.user.create({
       data: {
-        name, email, password
+        name, email, password, type
       }
     })
 

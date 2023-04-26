@@ -1,7 +1,10 @@
+import { type UserType } from '../dtos/user-type'
+
 interface UserProps {
   id: string
   name?: string
   email: string
+  type: UserType
   password: string
   createdAt: Date
   updatedAt?: Date
@@ -11,18 +14,17 @@ interface UserProps {
 interface UserPropsInput {
   name?: string
   email: string
+  type: UserType
   password: string
 }
 
 export class User {
   private readonly props: UserProps
 
-  constructor ({ name, email, password }: UserPropsInput) {
+  constructor (params: UserPropsInput) {
     this.props = {
+      ...params,
       id: 'random-id',
-      name,
-      email,
-      password,
       createdAt: new Date()
     }
   }
@@ -45,6 +47,14 @@ export class User {
 
   set email (newEmail: string) {
     this.email = newEmail
+  }
+
+  get type () {
+    return this.props.type
+  }
+
+  set type (type: UserType) {
+    this.props.type = type
   }
 
   get password () {

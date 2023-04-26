@@ -19,6 +19,7 @@ export class InMemoryUserRepository implements UserRepository {
       id: userEntity.id,
       name: userEntity.name ?? null,
       email: userEntity.email,
+      type: userEntity.type,
       password: userEntity.password,
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt ?? null,
@@ -27,12 +28,13 @@ export class InMemoryUserRepository implements UserRepository {
   }
 
   async store (params: StoreUserProps): Promise<User> {
-    const { name, email, password } = params
+    const { name, email, password, type } = params
 
     const userEntity = new EntityUser({
       name,
       email,
-      password
+      password,
+      type
     })
 
     this.users.push(userEntity)
@@ -41,6 +43,7 @@ export class InMemoryUserRepository implements UserRepository {
       id: userEntity.id,
       name: userEntity.name ?? null,
       email: userEntity.email,
+      type: userEntity.type,
       password: userEntity.password,
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt ?? null,
