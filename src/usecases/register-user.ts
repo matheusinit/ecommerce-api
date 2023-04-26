@@ -1,3 +1,4 @@
+import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 import { prisma } from '../infra/db'
 import { hash } from '../utils/hashing'
 
@@ -18,26 +19,22 @@ interface Response {
 }
 
 export class RegisterUser {
+  constructor (
+    private readonly userRepository: UserRepository
+  ) {}
+
   async execute (request: Request): Promise<Response> {
     const { name, email, password } = request
 
-    const emailRegistered = await prisma.user.findFirst({
-      where: {
-        email
-      }
-    })
+    const isEmailRegistered = await this.userRepository.findByEmail({ email })
 
-    if (emailRegistered !== null) {
+    if (isEmailRegistered !== null) {
       throw new Error('Email registered')
     }
 
     const hashedPassword = hash(password)
 
-    const user = await prisma.user.create({
-      data: {
-        name, email, password: hashedPassword
-      }
-    })
+    const user = await this.userRepository.store({ name, email, password: hashedPassword })
 
     return user
   }
