@@ -25,11 +25,19 @@ export class RegisterUser {
       throw new Error(`'${type}' is not recognizable. Please use 'STORE-ADMIN' or 'CUSTOMER'`)
     }
 
+    const nameSchema = z.string().min(3).optional()
+
+    const nameValidation = nameSchema.safeParse(name)
+
+    if (!nameValidation.success) {
+      throw new Error('Name need to be at least 3 characters long')
+    }
+
     const emailSchema = z.string().email()
 
-    const isEmailValidation = emailSchema.safeParse(email)
+    const emailValidation = emailSchema.safeParse(email)
 
-    if (!isEmailValidation.success) {
+    if (!emailValidation.success) {
       throw new Error('Email is invalid')
     }
 
