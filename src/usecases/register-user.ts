@@ -26,6 +26,10 @@ export class RegisterUser {
       throw new Error('User type must be specified')
     }
 
+    if (!email || (email && !email.trim())) {
+      throw new Error('Email must be specified')
+    }
+
     const userTypeSchema = z.enum(['STORE-ADMIN', 'CUSTOMER'])
 
     const typeParse = userTypeSchema.safeParse(type)
