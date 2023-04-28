@@ -33,6 +33,14 @@ export class RegisterUser {
       throw new Error('Name need to be at least 3 characters long')
     }
 
+    const passwordSchema = z.string().min(8)
+
+    const passwordValidation = passwordSchema.safeParse(password)
+
+    if (!passwordValidation.success) {
+      throw new Error('Password need to be at least 8 characters long')
+    }
+
     const emailSchema = z.string().email()
 
     const emailValidation = emailSchema.safeParse(email)
