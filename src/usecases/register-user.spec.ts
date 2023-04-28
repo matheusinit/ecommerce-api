@@ -195,4 +195,19 @@ describe('Register user usecase', () => {
 
     void expect(promise).rejects.toThrowError('Password must be specified')
   })
+
+  it('should throw if type is empty', async () => {
+    const { sut } = makeSut()
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'matheus@email.com',
+      password: 'some-random-password1.'
+    }
+
+    // @ts-expect-error "Password should not be defined to test it its inexistence in runtime"
+    const promise = sut.execute(userData)
+
+    void expect(promise).rejects.toThrowError('User type must be specified')
+  })
 })
