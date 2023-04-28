@@ -23,14 +23,14 @@ describe('Register user usecase', () => {
 
     await userRepository.store({
       email: 'matheus@email.com',
-      password: 'some-random-password1',
+      password: 'some-random-password1.',
       type: 'STORE-ADMIN' as const
     })
 
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
-      password: 'some-random-password1',
+      password: 'some-random-password1.',
       type: 'STORE-ADMIN' as const
     }
 
@@ -47,7 +47,7 @@ describe('Register user usecase', () => {
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
-      password: 'some-random-password1',
+      password: 'some-random-password1.',
       type: 'STORE-ADMIN' as const
     }
 
@@ -65,7 +65,7 @@ describe('Register user usecase', () => {
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
-      password: 'some-random-password1',
+      password: 'some-random-password1.',
       type: 'STORE-ADMIN' as const
     }
 
@@ -82,7 +82,7 @@ describe('Register user usecase', () => {
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
-      password: 'some-random-password1',
+      password: 'some-random-password1.',
       type: 'STORE-ADMIN' as const
     }
 
@@ -97,7 +97,7 @@ describe('Register user usecase', () => {
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
-      password: 'some-random-password1',
+      password: 'some-random-password1.',
       type: 'CUSTOMER' as const
     }
 
@@ -112,7 +112,7 @@ describe('Register user usecase', () => {
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
-      password: 'some-random-password1',
+      password: 'some-random-password1.',
       type: 'UNKNOWN-TYPE' as const
     }
 
@@ -128,7 +128,7 @@ describe('Register user usecase', () => {
     const userData = {
       name: 'Matheus Oliveira',
       email: 'invalid_email',
-      password: 'some-random-password1',
+      password: 'some-random-password1.',
       type: 'CUSTOMER' as const
     }
 
@@ -143,7 +143,7 @@ describe('Register user usecase', () => {
     const userData = {
       name: 'Ab',
       email: 'valid_email@email.com',
-      password: 'some-random-password1',
+      password: 'some-random-password1.',
       type: 'CUSTOMER' as const
     }
 
