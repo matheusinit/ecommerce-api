@@ -33,6 +33,10 @@ export class RegisterUser {
       throw new Error('Name need to be at least 3 characters long')
     }
 
+    if (!password || (password && !password.trim())) {
+      throw new Error('Password must be specified')
+    }
+
     const passwordSchema = z.string().min(8).regex(/[0-9][.,:$#!@&*]/)
 
     const passwordValidation = passwordSchema.safeParse(password)
