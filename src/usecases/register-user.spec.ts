@@ -1,5 +1,4 @@
-// 8. Ensure a user logged in cannot create an account
-// 12. Check for fields to be empty (ensure that throw if they are, except name)
+// 1. Ensure a user logged in cannot create an account
 
 import { describe, it, expect } from 'vitest'
 import { RegisterUser } from './register-user'
@@ -209,5 +208,20 @@ describe('Register user usecase', () => {
     const promise = sut.execute(userData)
 
     void expect(promise).rejects.toThrowError('User type must be specified')
+  })
+
+  it('should throw if email is empty', async () => {
+    const { sut } = makeSut()
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      password: 'some-random-password1.',
+      type: 'CUSTOMER' as const
+    }
+
+    // @ts-expect-error "Email should not be defined to test it its inexistence in runtime"
+    const promise = sut.execute(userData)
+
+    void expect(promise).rejects.toThrowError('Email must be specified')
   })
 })
