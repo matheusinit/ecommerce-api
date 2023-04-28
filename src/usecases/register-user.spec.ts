@@ -1,5 +1,4 @@
 // 8. Ensure a user logged in cannot create an account
-// 10. Check lengths for name as name and surname
 // 11. Check password to be at least 8 chars long and use letter and numbers with special chars
 // 12. Check for fields to be empty (ensure that throw if they are, except name)
 
@@ -145,6 +144,21 @@ describe('Register user usecase', () => {
       name: 'Ab',
       email: 'valid_email@email.com',
       password: 'some-random-password',
+      type: 'CUSTOMER' as const
+    }
+
+    const promise = sut.execute(userData)
+
+    void expect(promise).rejects.toThrowError()
+  })
+
+  it('should throw if password is not at least 8 chars long', async () => {
+    const { sut } = makeSut()
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'matheus@email.com',
+      password: 'passw',
       type: 'CUSTOMER' as const
     }
 
