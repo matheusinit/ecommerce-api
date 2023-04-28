@@ -17,6 +17,15 @@ export class RegisterUser {
 
   async execute (request: Request) {
     const { name, email, password, type } = request
+
+    if (!password || (password && !password.trim())) {
+      throw new Error('Password must be specified')
+    }
+
+    if (!type || (type && !type.trim())) {
+      throw new Error('User type must be specified')
+    }
+
     const userTypeSchema = z.enum(['STORE-ADMIN', 'CUSTOMER'])
 
     const typeParse = userTypeSchema.safeParse(type)
@@ -31,10 +40,6 @@ export class RegisterUser {
 
     if (!nameValidation.success) {
       throw new Error('Name need to be at least 3 characters long')
-    }
-
-    if (!password || (password && !password.trim())) {
-      throw new Error('Password must be specified')
     }
 
     const passwordSchema = z.string().min(8).regex(/[0-9][.,:$#!@&*]/)
