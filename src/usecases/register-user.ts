@@ -25,6 +25,14 @@ export class RegisterUser {
       throw new Error(`'${type}' is not recognizable. Please use 'STORE-ADMIN' or 'CUSTOMER'`)
     }
 
+    const emailSchema = z.string().email()
+
+    const isEmailValidation = emailSchema.safeParse(email)
+
+    if (!isEmailValidation.success) {
+      throw new Error('Email is invalid')
+    }
+
     const isEmailRegistered = await this.userRepository.findByEmail({ email })
 
     if (isEmailRegistered !== null) {
