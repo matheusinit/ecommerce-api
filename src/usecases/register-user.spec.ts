@@ -1,4 +1,3 @@
-// 6. Ensure to throw an error if a unknown type is passed
 // 8. Ensure a user logged in cannot create an account
 // 9. Ensure that email is a valid email
 // 10. Check lengths for name as name and surname
@@ -120,6 +119,21 @@ describe('Register user usecase', () => {
     }
 
     // @ts-expect-error "This should use wrong constant to test feature in run time instead of compile time"
+    const promise = sut.execute(userData)
+
+    void expect(promise).rejects.toThrowError()
+  })
+
+  it('should throw an error if email is not valid', async () => {
+    const { sut } = makeSut()
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'invalid_email',
+      password: 'some-random-password',
+      type: 'CUSTOMER' as const
+    }
+
     const promise = sut.execute(userData)
 
     void expect(promise).rejects.toThrowError()
