@@ -1,5 +1,4 @@
 // 8. Ensure a user logged in cannot create an account
-// 11. Check password to be at least 8 chars long and use letter and numbers with special chars
 // 12. Check for fields to be empty (ensure that throw if they are, except name)
 
 import { describe, it, expect } from 'vitest'
@@ -180,5 +179,20 @@ describe('Register user usecase', () => {
     const promise = sut.execute(userData)
 
     void expect(promise).rejects.toThrowError()
+  })
+
+  it('should throw if password is empty', async () => {
+    const { sut } = makeSut()
+
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'matheus@email.com',
+      type: 'CUSTOMER' as const
+    }
+
+    // @ts-expect-error "Password should not be defined to test it its inexistence in runtime"
+    const promise = sut.execute(userData)
+
+    void expect(promise).rejects.toThrowError('Password must be specified')
   })
 })
