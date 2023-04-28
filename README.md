@@ -17,7 +17,8 @@ would be used to thousands of users, and this project is a solution to this usec
 ## 🗒️ To do
 
  - [ ] Develop main functionalities 
-   - [ ] Create account (as store administrator and as client)
+   - [x] Create account (as store administrator and as client)
+   - [ ] User can login and logout
    - [ ] Post a product
    - [ ] List products
    - [ ] Edit a product
