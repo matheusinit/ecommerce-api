@@ -33,7 +33,7 @@ export class RegisterUser {
       throw new Error('Name need to be at least 3 characters long')
     }
 
-    const passwordSchema = z.string().min(8).regex(/[0-9]/)
+    const passwordSchema = z.string().min(8).regex(/[0-9][.,:$#!@&*]/)
 
     const passwordValidation = passwordSchema.safeParse(password)
 
