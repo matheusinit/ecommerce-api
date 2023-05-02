@@ -1,13 +1,15 @@
 import { expect, it, describe } from 'vitest'
 import { AuthenticateUser } from './authenticate-user'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
+import { hash } from '~/utils/hashing'
 
 const makeSut = () => {
   const userRepositoryInMemory = new InMemoryUserRepository()
   const sut = new AuthenticateUser(userRepositoryInMemory)
 
   return {
-    sut
+    sut,
+    userRepositoryInMemory
   }
 }
 
@@ -44,6 +46,25 @@ describe('Authenticate User', () => {
     const userCredentails = {
       email: 'not-registered-user@email.com',
       password: 'random-password'
+    }
+
+    const promise = sut.execute(userCredentails)
+
+    void expect(promise).rejects.toThrowError('Email not registered or password is wrong')
+  })
+
+  it('should throw if the password doesnt not matches', async () => {
+    const { sut, userRepositoryInMemory } = makeSut()
+
+    await userRepositoryInMemory.store({
+      email: 'user@email.com',
+      password: await hash('actual-password'),
+      type: 'CUSTOMER'
+    })
+
+    const userCredentails = {
+      email: 'user@email.com',
+      password: 'wrong-password'
     }
 
     const promise = sut.execute(userCredentails)
