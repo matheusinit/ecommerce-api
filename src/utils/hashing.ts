@@ -9,3 +9,12 @@ export const hash = async (value: string) => {
   const key = await scryptAsync(value, salt, 64)
   return salt + ':' + (key as Buffer).toString('hex')
 }
+
+export const verify = async (hashing: string, passphrase: string) => {
+  const [salt, key] = hashing.split(':')
+
+  const keyBuffer = Buffer.from(key, 'hex')
+  const derivedKey = await scryptAsync(passphrase, salt, 64) as Buffer
+
+  return crypto.timingSafeEqual(keyBuffer, derivedKey)
+}

@@ -1,5 +1,5 @@
 import { type PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
-import { prisma } from '~/infra/db'
+import { verify } from '~/utils/hashing'
 
 interface AuthenticateUserRequest {
   email: string
@@ -27,6 +27,12 @@ export class AuthenticateUser {
     })
 
     if (!isUserRegistered) {
+      throw Error('Email not registered or password is wrong')
+    }
+
+    const passwordMatches = await verify(isUserRegistered.password, password)
+
+    if (!passwordMatches) {
       throw Error('Email not registered or password is wrong')
     }
   }
