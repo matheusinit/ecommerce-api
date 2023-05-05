@@ -1,6 +1,8 @@
 import { type PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
 import { verify } from '~/utils/hashing'
 
+import { createSigner } from 'fast-jwt'
+
 interface AuthenticateUserRequest {
   email: string
   password: string
@@ -34,6 +36,17 @@ export class AuthenticateUser {
 
     if (!passwordMatches) {
       throw Error('Email not registered or password is wrong')
+    }
+
+    const signAsync = createSigner({ key: async () => 'secret' })
+
+    const jwtToken = await signAsync({
+      id: isUserRegistered.id,
+      type: isUserRegistered.type
+    })
+
+    return {
+      token: jwtToken
     }
   }
 }
