@@ -71,4 +71,22 @@ describe('Authenticate User', () => {
 
     void expect(promise).rejects.toThrowError('Email not registered or password is wrong')
   })
+
+  it('should return a json web token', async () => {
+    const { sut, userRepositoryInMemory } = makeSut()
+    await userRepositoryInMemory.store({
+      email: 'user@email.com',
+      password: await hash('random-password'),
+      type: 'CUSTOMER'
+    })
+
+    const userCredentails = {
+      email: 'user@email.com',
+      password: 'random-password'
+    }
+
+    const response = await sut.execute(userCredentails)
+
+    expect(response.token).toBeTypeOf('string')
+  })
 })
