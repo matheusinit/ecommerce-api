@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { verifyToken } from './verify-token'
 
 describe('Verify token', () => {
-  it('should throw an if token is mal formed', async () => {
+  it('should throw an error if token is malformed', async () => {
     const sut = verifyToken
     const token = 'invalid-token'
 
