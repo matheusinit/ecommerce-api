@@ -46,7 +46,7 @@ export class AuthenticateUser {
 
     const accessTokenSignAsync = createSigner({
       key: async () => env.ACCESS_TOKEN_SECRET,
-      expiresIn: 300000
+      expiresIn: ms('5m')
     })
 
     const refreshTokenSignAsync = createSigner({
