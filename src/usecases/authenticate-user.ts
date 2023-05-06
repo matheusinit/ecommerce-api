@@ -3,6 +3,7 @@ import { verify } from '~/utils/hashing'
 
 import { createSigner } from 'fast-jwt'
 import ms from 'ms'
+import { env } from '~/config/env'
 
 // 1. Authenticate - refresh token (5min) and access token (1d)
 // 2. Refresh token - access token (5min)
@@ -44,12 +45,12 @@ export class AuthenticateUser {
     }
 
     const accessTokenSignAsync = createSigner({
-      key: async () => 'secret',
+      key: async () => env.ACCESS_TOKEN_SECRET,
       expiresIn: 300000
     })
 
     const refreshTokenSignAsync = createSigner({
-      key: async () => 'secret',
+      key: async () => env.REFRESH_TOKEN_SECRET,
       expiresIn: ms('1d')
     })
 
