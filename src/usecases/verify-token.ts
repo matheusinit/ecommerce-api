@@ -5,7 +5,5 @@ export const verifyToken = async (token: string) => {
 
   const result = await verifierAsync(token)
 
-  console.log(result)
-
   return result
 }
