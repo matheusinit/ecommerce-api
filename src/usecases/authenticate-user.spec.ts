@@ -87,6 +87,7 @@ describe('Authenticate User', () => {
 
     const response = await sut.execute(userCredentails)
 
-    expect(response.token).toBeTypeOf('string')
+    expect(response.accessToken).toBeTypeOf('string')
+    expect(response.refreshToken).toBeTypeOf('string')
   })
 })
