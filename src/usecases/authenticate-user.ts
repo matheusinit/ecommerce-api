@@ -38,7 +38,10 @@ export class AuthenticateUser {
       throw Error('Email not registered or password is wrong')
     }
 
-    const signAsync = createSigner({ key: async () => 'secret' })
+    const signAsync = createSigner({
+      key: async () => 'secret',
+      expiresIn: 300000
+    })
 
     const jwtToken = await signAsync({
       id: isUserRegistered.id,
