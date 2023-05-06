@@ -1,9 +1,9 @@
-import { type PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
 import { verify } from '~/utils/hashing'
 
 import { createSigner } from 'fast-jwt'
 import ms from 'ms'
 import { env } from '~/config/env'
+import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 
 // 1. Authenticate - refresh token (5min) and access token (1d)
 // 2. Refresh token - access token (5min)
@@ -16,7 +16,7 @@ interface AuthenticateUserRequest {
 
 export class AuthenticateUser {
   constructor (
-    private readonly userRepository: PrismaUserRepository
+    private readonly userRepository: UserRepository
   ) {}
 
   async execute (request: AuthenticateUserRequest) {
