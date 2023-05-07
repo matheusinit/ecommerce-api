@@ -1,13 +1,10 @@
 import { verify } from '~/utils/hashing'
 
-import { createSigner } from 'fast-jwt'
 import ms from 'ms'
 import { env } from '~/config/env'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 import { tokenSigner } from '~/utils/jwt-generator'
 
-// 1. Authenticate - refresh token (5min) and access token (1d)
-// 2. Refresh token - access token (5min)
 // 3. Logout - Put the jwt in a black list in Redis
 
 interface AuthenticateUserRequest {
