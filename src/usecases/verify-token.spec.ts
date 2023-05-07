@@ -6,7 +6,7 @@ describe('Verify token', () => {
     const sut = verifyToken
     const token = 'invalid-token'
 
-    const result = sut(token)
+    const result = sut(token, 'secret')
 
     void expect(result).rejects.toThrowError()
   })
@@ -15,7 +15,7 @@ describe('Verify token', () => {
     const sut = verifyToken
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
 
-    const result = sut(token)
+    const result = sut(token, 'secret')
 
     void expect(result).rejects.toThrowError('The token signature is invalid')
   })
