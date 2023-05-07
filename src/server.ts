@@ -1,6 +1,8 @@
 import express from 'express'
 import router from './infra/http/routes'
 
+import './infra/cache/'
+
 const app = express()
 
 app.use(express.json())

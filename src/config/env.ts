@@ -26,7 +26,10 @@ const baseSchema = z
 const productionEnvSchema = z.object({
   ACCESS_TOKEN_SECRET: z.string(),
   REFRESH_TOKEN_SECRET: z.string(),
-  PORT: z.number()
+  PORT: z.number(),
+  REDIS_PASSWORD: z.string(),
+  REDIS_HOST: z.string(),
+  REDIS_PORT: z.string()
 })
 
 let envSchema
