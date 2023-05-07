@@ -5,7 +5,10 @@ import { hash } from '~/utils/hashing'
 
 const makeSut = () => {
   const userRepositoryInMemory = new InMemoryUserRepository()
-  const sut = new AuthenticateUser(userRepositoryInMemory)
+  const tokenSigner = async <T, R>(secret: T, payload: R, expiresIn: number) => {
+    return await new Promise<string>((resolve, reject) => { resolve('token') })
+  }
+  const sut = new AuthenticateUser(userRepositoryInMemory, tokenSigner)
 
   return {
     sut,

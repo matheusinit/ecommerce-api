@@ -6,10 +6,11 @@ import { AuthenticateUser } from '~/usecases/authenticate-user'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { UpdateSignInToken } from '~/usecases/update-sign-in-token'
 import { UpdateSignInTokenController } from '~/controllers/update-sign-in-token-controller'
+import { tokenSigner } from '~/utils/jwt-generator'
 
 const makeAuthenticateUserController = () => {
   const userRepository = new PrismaUserRepository()
-  const authenticateUser = new AuthenticateUser(userRepository)
+  const authenticateUser = new AuthenticateUser(userRepository, tokenSigner)
   const authenticateUserController = new AuthenticateUserController(authenticateUser)
 
   return authenticateUserController
