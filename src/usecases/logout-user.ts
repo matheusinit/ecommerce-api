@@ -1,5 +1,4 @@
 import { env } from '~/config/env'
-import { verifyToken } from './verify-token'
 import { type TokenRepository } from '~/data/repositories/cache/token-repository'
 
 interface Request {
