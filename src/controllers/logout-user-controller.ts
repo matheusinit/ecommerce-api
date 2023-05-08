@@ -8,12 +8,15 @@ export class LogoutUserController {
 
   async handle (request: Request, response: Response) {
     const accessToken = request.cookies['access-token']
-    const { userId } = request.body
 
     const result = await this.logoutUser.execute({
-      accessToken,
-      userId
+      accessToken
     })
+
+    if (!result.sucess) {
+      console.log(result)
+      return response.status(500).send(result)
+    }
 
     response.clearCookie('access-token')
     response.clearCookie('refresh-token')

@@ -9,6 +9,7 @@ import { UpdateSignInTokenController } from '~/controllers/update-sign-in-token-
 import { tokenSigner } from '~/utils/jwt-generator'
 import { LogoutUserController } from '~/controllers/logout-user-controller'
 import { LogoutUser } from '~/usecases/logout-user'
+import { RedisTokenRepository } from '~/data/repositories/redis/redis-token-repository'
 
 const makeAuthenticateUserController = () => {
   const userRepository = new PrismaUserRepository()
@@ -26,7 +27,8 @@ const makeSignInTokenController = () => {
 }
 
 const makeLogoutUserController = () => {
-  const logoutUser = new LogoutUser()
+  const tokenRepository = new RedisTokenRepository()
+  const logoutUser = new LogoutUser(tokenRepository)
   const logoutUserController = new LogoutUserController(logoutUser)
 
   return logoutUserController

@@ -1,5 +1,6 @@
 import { type AuthenticateUser } from '~/usecases/authenticate-user'
 import { type Request, type Response } from 'express'
+import ms from 'ms'
 
 export class AuthenticateUserController {
   constructor (
@@ -16,12 +17,12 @@ export class AuthenticateUserController {
 
     response.cookie('access-token', accessToken, {
       httpOnly: true,
-      maxAge: 60 * 5
+      maxAge: ms('5m')
     })
 
     response.cookie('refresh-token', refreshToken, {
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7
+      maxAge: ms('1w')
     })
 
     return response.status(200).send({
