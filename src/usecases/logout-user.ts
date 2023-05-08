@@ -1,7 +1,9 @@
 import { env } from '~/config/env'
 import { verifyToken } from './verify-token'
+import redis from '~/infra/cache'
 
 interface Request {
+  userId: string
   accessToken: string
 }
 
@@ -12,6 +14,8 @@ export class LogoutUser {
 
       // add token into a black list in Redis with expires in 5min
       // and at protected routes check if the token is there, if it is logout user from all devices, if not continue
+
+      await redis.set(request.userId, request.accessToken)
 
       return {
         sucess: true

@@ -7,6 +7,8 @@ import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { UpdateSignInToken } from '~/usecases/update-sign-in-token'
 import { UpdateSignInTokenController } from '~/controllers/update-sign-in-token-controller'
 import { tokenSigner } from '~/utils/jwt-generator'
+import { LogoutUserController } from '~/controllers/logout-user-controller'
+import { LogoutUser } from '~/usecases/logout-user'
 
 const makeAuthenticateUserController = () => {
   const userRepository = new PrismaUserRepository()
@@ -23,9 +25,17 @@ const makeSignInTokenController = () => {
   return updateSignInTokenController
 }
 
+const makeLogoutUserController = () => {
+  const logoutUser = new LogoutUser()
+  const logoutUserController = new LogoutUserController(logoutUser)
+
+  return logoutUserController
+}
+
 const authRoutes = Router()
 
 authRoutes.post('/', expressRouteAdapt(makeAuthenticateUserController()))
 authRoutes.post('/access-token', expressRouteAdapt(makeSignInTokenController()))
+authRoutes.post('/logout', expressRouteAdapt(makeLogoutUserController()))
 
 export default authRoutes
