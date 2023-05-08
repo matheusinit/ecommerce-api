@@ -15,6 +15,9 @@ export class LogoutUserController {
       userId
     })
 
+    response.clearCookie('access-token')
+    response.clearCookie('refresh-token')
+
     return response.status(200).send(result)
   }
 }
