@@ -1,6 +1,6 @@
 import * as z from 'zod'
 import * as dotenv from 'dotenv'
-import { productionEnvSchema } from './env'
+import { productionEnvSchema } from './schema'
 
 dotenv.config()
 
