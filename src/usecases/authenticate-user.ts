@@ -3,6 +3,7 @@ import { verify } from '~/utils/hashing'
 import ms from 'ms'
 import { env } from '~/config/env'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
+import { type TokenRepository } from '~/data/repositories/cache/token-repository'
 
 // 3. Logout - Put the jwt in a black list in Redis
 
@@ -16,7 +17,8 @@ type TokenSigner = <T, R>(secret: T, payload: R, expiresIn: number) => Promise<s
 export class AuthenticateUser {
   constructor (
     private readonly userRepository: UserRepository,
-    private readonly tokenSigner: TokenSigner
+    private readonly tokenSigner: TokenSigner,
+    private readonly tokenRepository: TokenRepository
   ) {}
 
   async execute (request: AuthenticateUserRequest) {
@@ -56,6 +58,8 @@ export class AuthenticateUser {
     const refreshToken = await this.tokenSigner(env.REFRESH_TOKEN_SECRET, {
       id: isUserRegistered.id
     }, ms('1w'))
+
+    await this.tokenRepository.set(isUserRegistered.id, '')
 
     return {
       accessToken,

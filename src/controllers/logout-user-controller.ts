@@ -14,7 +14,6 @@ export class LogoutUserController {
     })
 
     if (!result.sucess) {
-      console.log(result)
       return response.status(500).send(result)
     }
 

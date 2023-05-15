@@ -14,7 +14,8 @@ import { verifyToken } from '~/usecases/verify-token'
 
 const makeAuthenticateUserController = () => {
   const userRepository = new PrismaUserRepository()
-  const authenticateUser = new AuthenticateUser(userRepository, tokenSigner)
+  const tokenRepository = new RedisTokenRepository()
+  const authenticateUser = new AuthenticateUser(userRepository, tokenSigner, tokenRepository)
   const authenticateUserController = new AuthenticateUserController(authenticateUser)
 
   return authenticateUserController
