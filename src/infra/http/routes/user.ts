@@ -5,6 +5,8 @@ import { RegisterUserController } from '~/controllers/register-user-controller'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { Router, type Request, type Response } from 'express'
 import { isAuthenticated } from '../middlewares/auth'
+import { verifyToken } from '~/usecases/verify-token'
+import { env } from '~/config/env'
 
 const makeRegisterUserController = () => {
   const userRepository = new PrismaUserRepository()
@@ -17,9 +19,11 @@ const makeRegisterUserController = () => {
 const userRoutes = Router()
 
 userRoutes.get('/me', isAuthenticated, async (request: Request, response: Response) => {
-  return response.status(200).send({
-    data: 'Protected resource'
-  })
+  const accessToken = request.cookies['access-token']
+
+  const payload = await verifyToken(accessToken, env.ACCESS_TOKEN_SECRET)
+
+  return response.status(200).send(payload)
 })
 userRoutes.post('/', expressRouteAdapt(makeRegisterUserController()))
 
