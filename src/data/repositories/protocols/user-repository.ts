@@ -12,7 +12,12 @@ export interface FindByEmailParams {
   email: string
 }
 
+export interface FindByIdDtos {
+  id: string
+}
+
 export abstract class UserRepository {
   abstract store (params: StoreUserProps): Promise<User>
   abstract findByEmail (params: FindByEmailParams): Promise<User | null>
+  abstract findById (params: FindByIdDtos): Promise<User | null>
 }

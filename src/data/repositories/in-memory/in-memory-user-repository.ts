@@ -1,10 +1,14 @@
 // import { type User } from '@prisma/client'
 import { User as EntityUser } from '~/data/entities/user'
 import { type User } from '@prisma/client'
-import { type FindByEmailParams, type StoreUserProps, type UserRepository } from '~/data/repositories/protocols/user-repository'
+import { type FindByIdDtos, type FindByEmailParams, type StoreUserProps, type UserRepository } from '~/data/repositories/protocols/user-repository'
 
 export class InMemoryUserRepository implements UserRepository {
   private readonly users: EntityUser[] = []
+
+  async findById (params: FindByIdDtos): Promise<User | null> {
+    throw new Error('Method not implemented.')
+  }
 
   async findByEmail (params: FindByEmailParams): Promise<User | null> {
     const { email } = params
