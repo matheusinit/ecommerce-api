@@ -30,6 +30,10 @@ would be used to thousands of users, and this project is a solution to this usec
  - [ ] Make a load balacing in the database (and study the different strategies)
  - [ ] Use Message Queue Tool to long-awaited routes/process 
 
+## Reference for studies
+  - [How to store money in database](https://stackoverflow.com/questions/224462/storing-money-in-a-decimal-column-what-precision-and-scale)
+  - [Floating decimal vs fixed decimal](https://softwareengineering.stackexchange.com/questions/62038/what-is-the-difference-between-a-floating-decimal-number-and-fixed-decimal-numbe)
+
 ## 📝 License
 
 This project is under license [MIT](./LICENSE).
