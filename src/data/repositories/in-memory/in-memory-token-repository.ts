@@ -6,4 +6,8 @@ export class InMemoryTokenRepository implements TokenRepository {
   async set (key: string, value: string): Promise<void> {
     this.cache[key] = value
   }
+
+  async getBykey (key: string): Promise<string | null> {
+    return this.cache[key]
+  }
 }

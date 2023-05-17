@@ -2,13 +2,15 @@ import { expect, it, describe } from 'vitest'
 import { AuthenticateUser } from './authenticate-user'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 import { hash } from '~/utils/hashing'
+import { InMemoryTokenRepository } from '~/data/repositories/in-memory/in-memory-token-repository'
 
 const makeSut = () => {
   const userRepositoryInMemory = new InMemoryUserRepository()
   const tokenSigner = async <T, R>(secret: T, payload: R, expiresIn: number) => {
     return await new Promise<string>((resolve, reject) => { resolve('token') })
   }
-  const sut = new AuthenticateUser(userRepositoryInMemory, tokenSigner)
+  const tokenRepository = new InMemoryTokenRepository()
+  const sut = new AuthenticateUser(userRepositoryInMemory, tokenSigner, tokenRepository)
 
   return {
     sut,
