@@ -7,7 +7,20 @@ export class InMemoryUserRepository implements UserRepository {
   private readonly users: EntityUser[] = []
 
   async findById (params: FindByIdDtos): Promise<User | null> {
-    throw new Error('Method not implemented.')
+    const userEntity = this.users.find(user => user.id === params.id) ?? null
+
+    if (!userEntity) return null
+
+    return {
+      id: userEntity.id,
+      name: userEntity.name ?? null,
+      email: userEntity.email,
+      type: userEntity.type,
+      password: userEntity.password,
+      createdAt: userEntity.createdAt,
+      updatedAt: userEntity.updatedAt ?? null,
+      deletedAt: userEntity.deletedAt ?? null
+    }
   }
 
   async findByEmail (params: FindByEmailParams): Promise<User | null> {
@@ -31,7 +44,7 @@ export class InMemoryUserRepository implements UserRepository {
     }
   }
 
-  async store (params: StoreUserProps): Promise<User> {
+  async store (params: StoreUserProps, id?: string): Promise<User> {
     const { name, email, password, type } = params
 
     const userEntity = new EntityUser({
@@ -39,12 +52,12 @@ export class InMemoryUserRepository implements UserRepository {
       email,
       password,
       type
-    })
+    }, id)
 
     this.users.push(userEntity)
 
     return {
-      id: userEntity.id,
+      id: id ?? userEntity.id,
       name: userEntity.name ?? null,
       email: userEntity.email,
       type: userEntity.type,
