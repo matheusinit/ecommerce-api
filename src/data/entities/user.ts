@@ -21,10 +21,10 @@ interface UserPropsInput {
 export class User {
   private readonly props: UserProps
 
-  constructor (params: UserPropsInput) {
+  constructor (params: UserPropsInput, id?: string) {
     this.props = {
       ...params,
-      id: 'random-id',
+      id: id ?? 'random-id',
       createdAt: new Date()
     }
   }
