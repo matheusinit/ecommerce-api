@@ -21,6 +21,12 @@ export class CreateProductController {
       })
     }
 
+    if (!userId) {
+      return response.status(400).send({
+        message: 'User ID is required'
+      })
+    }
+
     const product = await this.createProduct.execute({ name, price, userId })
 
     return response.status(201).send(product)
