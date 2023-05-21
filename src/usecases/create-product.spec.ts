@@ -3,11 +3,21 @@ import { CreateProduct } from './create-product'
 import { InMemoryProductRepository } from '~/data/repositories/in-memory/in-memory-product-repository'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 
+const makeSut = () => {
+  const productRepository = new InMemoryProductRepository()
+  const userRepository = new InMemoryUserRepository()
+  const sut = new CreateProduct(productRepository, userRepository)
+
+  return {
+    productRepository,
+    userRepository,
+    sut
+  }
+}
+
 describe('Create product', () => {
   it('should throw an error if user is not found', async () => {
-    const productRepository = new InMemoryProductRepository()
-    const userRepository = new InMemoryUserRepository()
-    const sut = new CreateProduct(productRepository, userRepository)
+    const { sut } = makeSut()
 
     const userId = 'not-created-user'
     const name = 'random-product-name'
@@ -23,9 +33,7 @@ describe('Create product', () => {
   })
 
   it('should throw an error if user is not store admin', async () => {
-    const productRepository = new InMemoryProductRepository()
-    const userRepository = new InMemoryUserRepository()
-    const sut = new CreateProduct(productRepository, userRepository)
+    const { sut, userRepository } = makeSut()
 
     await userRepository.store({
       name: 'not store admin',
@@ -48,9 +56,7 @@ describe('Create product', () => {
   })
 
   it('should return a product on success', async () => {
-    const productRepository = new InMemoryProductRepository()
-    const userRepository = new InMemoryUserRepository()
-    const sut = new CreateProduct(productRepository, userRepository)
+    const { sut, userRepository } = makeSut()
 
     await userRepository.store({
       name: 'store admin',
