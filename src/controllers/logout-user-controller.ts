@@ -1,12 +1,14 @@
-import { type Request, type Response } from 'express'
+import { type Controller } from '~/infra/protocols/controller'
+import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type LogoutUser } from '~/usecases/logout-user'
+import { internalServerError, ok } from '~/utils/http'
 
-export class LogoutUserController {
+export class LogoutUserController implements Controller {
   constructor (
     private readonly logoutUser: LogoutUser
   ) {}
 
-  async handle (request: Request, response: Response) {
+  async handle (request: HttpRequest) {
     const accessToken = request.cookies['access-token']
 
     const result = await this.logoutUser.execute({
@@ -14,12 +16,14 @@ export class LogoutUserController {
     })
 
     if (!result.sucess) {
-      return response.status(500).send(result)
+      return internalServerError(result)
     }
 
-    response.clearCookie('access-token')
-    response.clearCookie('refresh-token')
+    const response = ok(result)
 
-    return response.status(200).send(result)
+    return {
+      ...response,
+      cookiesBin: ['access-token', 'refresh-token']
+    }
   }
 }

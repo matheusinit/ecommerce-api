@@ -1,13 +1,15 @@
-import { type Response, type Request } from 'express'
 import { type UserType } from '~/data/dtos/user-type'
+import { type Controller } from '~/infra/protocols/controller'
+import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type RegisterUser } from '~/usecases/register-user'
+import { badRequest, created, internalServerError } from '~/utils/http'
 
-export class RegisterUserController {
+export class RegisterUserController implements Controller {
   constructor (
     private readonly registerUser: RegisterUser
   ) {}
 
-  async handle (request: Request, response: Response) {
+  async handle (request: HttpRequest) {
     try {
       const { name, type, email, password } = request.body
 
@@ -24,7 +26,7 @@ export class RegisterUserController {
       }
 
       if (!type || (type && !type.trim())) {
-        return response.status(400).json({
+        return badRequest({
           message: 'Type must be specified'
         })
       }
@@ -33,43 +35,43 @@ export class RegisterUserController {
         name, type, email, password
       })
 
-      return response.status(201).send(user)
+      return created(user)
     } catch (err) {
       const error = err as Error
 
       const type = request.body.type as UserType
 
       if (error.message === `'${type}' is not recognizable. Please use 'STORE-ADMIN' or 'CUSTOMER'`) {
-        return response.status(400).json({
+        return badRequest({
           message: error.message
         })
       }
 
       if (error.message === 'Name need to be at least 3 characters long') {
-        return response.status(400).json({
+        return badRequest({
           message: error.message
         })
       }
 
       if (error.message === 'Password need to be at least 8 characters long and have at least number and one special character') {
-        return response.status(400).json({
+        return badRequest({
           message: error.message
         })
       }
 
       if (error.message === 'Email is invalid') {
-        return response.status(400).json({
+        return badRequest({
           message: error.message
         })
       }
 
       if (error.message === 'Email registered') {
-        return response.status(400).json({
+        return badRequest({
           message: error.message
         })
       }
 
-      return response.status(500).json({
+      return internalServerError({
         message: 'A internal error happened in our server'
       })
     }

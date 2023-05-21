@@ -1,5 +1,6 @@
-import { type Request, type Response } from 'express'
+import { type HttpRequest } from '~/infra/protocols/http-request'
+import { type HttpResponse } from '~/infra/protocols/http-response'
 
 export interface Controller {
-  handle: (request: Request, response: Response) => Promise<Response>
+  handle: (request: HttpRequest) => Promise<HttpResponse>
 }

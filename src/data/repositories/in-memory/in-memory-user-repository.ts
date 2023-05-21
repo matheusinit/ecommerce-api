@@ -1,4 +1,3 @@
-// import { type User } from '@prisma/client'
 import { User as EntityUser } from '~/data/entities/user'
 import { type User } from '@prisma/client'
 import { type FindByIdDtos, type FindByEmailParams, type StoreUserProps, type UserRepository } from '~/data/repositories/protocols/user-repository'

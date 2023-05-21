@@ -1,34 +1,30 @@
-import { type Request, type Response } from 'express'
+import { type Controller } from '~/infra/protocols/controller'
+import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type CreateProduct } from '~/usecases/create-product'
+import { badRequest, created } from '~/utils/http'
 
-export class CreateProductController {
+export class CreateProductController implements Controller {
   constructor (
     private readonly createProduct: CreateProduct
   ) {}
 
-  async handle (request: Request, response: Response) {
+  async handle (request: HttpRequest) {
     const { name, price, userId } = request.body
 
     if (!name) {
-      return response.status(400).send({
-        message: 'Name is required'
-      })
+      return badRequest('Name is required')
     }
 
     if (!price) {
-      return response.status(400).send({
-        message: 'Price is required'
-      })
+      return badRequest('Price is required')
     }
 
     if (!userId) {
-      return response.status(400).send({
-        message: 'User ID is required'
-      })
+      return badRequest('User ID is required')
     }
 
     const product = await this.createProduct.execute({ name, price, userId })
 
-    return response.status(201).send(product)
+    return created(product)
   }
 }
