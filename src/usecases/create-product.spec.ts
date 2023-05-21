@@ -46,4 +46,30 @@ describe('Create product', () => {
 
     await expect(promise).rejects.toThrowError('User does not have authorization')
   })
+
+  it('should return a product on success', async () => {
+    const productRepository = new InMemoryProductRepository()
+    const userRepository = new InMemoryUserRepository()
+    const sut = new CreateProduct(productRepository, userRepository)
+
+    await userRepository.store({
+      name: 'store admin',
+      type: 'STORE-ADMIN',
+      email: 'store-admin@gmail.com',
+      password: 'encrypted-password'
+    }, 'store-admin-id')
+
+    const userId = 'store-admin-id'
+    const name = 'random-product-name'
+    const price = 1000
+
+    const product = await sut.execute({
+      userId,
+      name,
+      price
+    })
+
+    expect(product).toBeTruthy()
+    expect(product.name).toBe('random-product-name')
+  })
 })

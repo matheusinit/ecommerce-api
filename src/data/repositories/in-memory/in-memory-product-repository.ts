@@ -1,5 +1,6 @@
 import { type Product } from '@prisma/client'
 import { type CreateOperationDtos, type ProductRepository } from '../protocols/product-repository'
+import crypto from 'crypto'
 
 export class InMemoryProductRepository implements ProductRepository {
   private readonly products: Product[] = []
@@ -8,10 +9,10 @@ export class InMemoryProductRepository implements ProductRepository {
       name, price, userId
     } = data
 
-    if (!id) throw Error('Must pass id property')
+    const randomId = crypto.randomUUID()
 
     const product = {
-      id,
+      id: id ?? randomId,
       name,
       price,
       userId,
