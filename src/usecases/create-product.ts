@@ -1,3 +1,4 @@
+import { type CreateProduct } from '~/data/protocols/create-product'
 import { type ProductRepository } from '~/data/repositories/protocols/product-repository'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 
@@ -7,7 +8,7 @@ interface CreateProductParams {
   userId: string
 }
 
-export class CreateProduct {
+export class DbCreateProduct implements CreateProduct {
   constructor (
     private readonly productRepository: ProductRepository,
     private readonly userRepository: UserRepository

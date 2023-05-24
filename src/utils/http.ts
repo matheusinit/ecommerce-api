@@ -18,6 +18,11 @@ export const ok = <T,>(body: T) => ({
   body
 })
 
+export const unauthorized = <T,>(body: T) => ({
+  statusCode: 403,
+  body
+})
+
 export const httpError = (message: string) => ({
   message
 })
