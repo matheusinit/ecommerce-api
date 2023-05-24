@@ -42,4 +42,18 @@ describe('Authenticate user controller', () => {
 
     expect(httpResponse.body).toEqual(httpError('email is required'))
   })
+
+  it('should return a bad request if password is not provided', async () => {
+    const { sut } = makeSut()
+
+    const httpRequest: HttpRequest = {
+      body: {
+        email: 'random-email@email.com'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse.body).toEqual(httpError('password is required'))
+  })
 })
