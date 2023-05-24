@@ -4,20 +4,33 @@ import { type AuthenticateUser } from '~/data/protocols/authenticate-user'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { httpError } from '~/utils/http'
 
-describe('Authenticate user controller', () => {
-  it('should return a bad request if email is not provided', async () => {
-    class AuthenticateUserStub implements AuthenticateUser {
-      async execute (request: { email: string, password: string }) {
-        return {
-          accessToken: 'random-token',
-          refreshToken: 'random-token'
-        }
+const makeAuthenticateUser = () => {
+  class AuthenticateUserStub implements AuthenticateUser {
+    async execute (request: { email: string, password: string }) {
+      return {
+        accessToken: 'random-token',
+        refreshToken: 'random-token'
       }
     }
+  }
 
-    const usecase = new AuthenticateUserStub()
+  return new AuthenticateUserStub()
+}
 
-    const sut = new AuthenticateUserController(usecase)
+const makeSut = () => {
+  const authenticateUser = makeAuthenticateUser()
+
+  const sut = new AuthenticateUserController(authenticateUser)
+
+  return {
+    sut,
+    authenticateUser
+  }
+}
+
+describe('Authenticate user controller', () => {
+  it('should return a bad request if email is not provided', async () => {
+    const { sut } = makeSut()
 
     const httpRequest: HttpRequest = {
       body: {
