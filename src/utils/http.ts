@@ -17,3 +17,7 @@ export const ok = <T,>(body: T) => ({
   statusCode: 200,
   body
 })
+
+export const httpError = (message: string) => ({
+  message
+})

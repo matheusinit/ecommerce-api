@@ -1,7 +1,7 @@
 import ms from 'ms'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { badRequest, ok } from '~/utils/http'
+import { badRequest, httpError, ok } from '~/utils/http'
 import { type Cookie } from '~/infra/protocols/http-response'
 import { defineCookies } from '~/utils/cookies'
 import { type AuthenticateUser } from '~/data/protocols/authenticate-user'
@@ -15,9 +15,7 @@ export class AuthenticateUserController implements Controller {
     const { email, password } = request.body
 
     if (!email) {
-      return badRequest({
-        message: 'email is required'
-      })
+      return badRequest(httpError('email is required'))
     }
 
     const { accessToken, refreshToken } = await this.authenticateUser.execute({
