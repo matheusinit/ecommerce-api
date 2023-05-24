@@ -4,6 +4,7 @@ import ms from 'ms'
 import { env } from '~/config/env'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 import { type TokenRepository } from '~/data/repositories/cache/token-repository'
+import { type AuthenticateUser } from '~/data/protocols/authenticate-user'
 
 // 3. Logout - Put the jwt in a black list in Redis
 
@@ -14,7 +15,7 @@ interface AuthenticateUserRequest {
 
 type TokenSigner = <T, R>(secret: T, payload: R, expiresIn: number) => Promise<string>
 
-export class AuthenticateUser {
+export class DbAuthenticateUser implements AuthenticateUser {
   constructor (
     private readonly userRepository: UserRepository,
     private readonly tokenSigner: TokenSigner,

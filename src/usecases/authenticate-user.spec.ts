@@ -1,5 +1,5 @@
 import { expect, it, describe } from 'vitest'
-import { AuthenticateUser } from './authenticate-user'
+import { DbAuthenticateUser } from './authenticate-user'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 import { hash } from '~/utils/hashing'
 import { InMemoryTokenRepository } from '~/data/repositories/in-memory/in-memory-token-repository'
@@ -10,7 +10,7 @@ const makeSut = () => {
     return await new Promise<string>((resolve, reject) => { resolve('token') })
   }
   const tokenRepository = new InMemoryTokenRepository()
-  const sut = new AuthenticateUser(userRepositoryInMemory, tokenSigner, tokenRepository)
+  const sut = new DbAuthenticateUser(userRepositoryInMemory, tokenSigner, tokenRepository)
 
   return {
     sut,
