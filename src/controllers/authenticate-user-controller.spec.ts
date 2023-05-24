@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vitest } from 'vitest'
 import { AuthenticateUserController } from './authenticate-user-controller'
 import { type AuthenticateUser } from '~/data/protocols/authenticate-user'
 import { type HttpRequest } from '~/infra/protocols/http-request'
@@ -55,5 +55,22 @@ describe('Authenticate user controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse.body).toEqual(httpError('password is required'))
+  })
+
+  it('should return a internal server error if email could not reach the usecase class', async () => {
+    const { sut, authenticateUser } = makeSut()
+
+    vitest.spyOn(authenticateUser, 'execute').mockReturnValueOnce(Promise.reject(new Error('\'email\' is not provided')))
+
+    const httpRequest: HttpRequest = {
+      body: {
+        email: 'random-email@email.com',
+        password: 'random-email'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse.body).toEqual(httpError('an internal error occured involving the \'email\' field'))
   })
 })
