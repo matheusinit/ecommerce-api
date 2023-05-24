@@ -2,7 +2,7 @@
 import { Router } from 'express'
 import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
 import { AuthenticateUserController } from '~/controllers/authenticate-user-controller'
-import { AuthenticateUser } from '~/usecases/authenticate-user'
+import { DbAuthenticateUser } from '~/usecases/authenticate-user'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { UpdateSignInToken } from '~/usecases/update-sign-in-token'
 import { UpdateSignInTokenController } from '~/controllers/update-sign-in-token-controller'
@@ -15,7 +15,7 @@ import { verifyToken } from '~/usecases/verify-token'
 const makeAuthenticateUserController = () => {
   const userRepository = new PrismaUserRepository()
   const tokenRepository = new RedisTokenRepository()
-  const authenticateUser = new AuthenticateUser(userRepository, tokenSigner, tokenRepository)
+  const authenticateUser = new DbAuthenticateUser(userRepository, tokenSigner, tokenRepository)
   const authenticateUserController = new AuthenticateUserController(authenticateUser)
 
   return authenticateUserController
