@@ -18,6 +18,10 @@ export class AuthenticateUserController implements Controller {
       return badRequest(httpError('email is required'))
     }
 
+    if (!password) {
+      return badRequest(httpError('password is required'))
+    }
+
     const { accessToken, refreshToken } = await this.authenticateUser.execute({
       email,
       password
