@@ -73,4 +73,21 @@ describe('Authenticate user controller', () => {
 
     expect(httpResponse.body).toEqual(httpError('an internal error occured involving the \'email\' field'))
   })
+
+  it('should return a internal server error if password could not reach the usecase class', async () => {
+    const { sut, authenticateUser } = makeSut()
+
+    vitest.spyOn(authenticateUser, 'execute').mockReturnValueOnce(Promise.reject(new Error('\'password\' is not provided')))
+
+    const httpRequest: HttpRequest = {
+      body: {
+        email: 'random-email@email.com',
+        password: 'random-email'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse.body).toEqual(httpError('an internal error occured involving the \'password\' field'))
+  })
 })
