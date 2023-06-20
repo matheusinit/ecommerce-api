@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch ./src/server.ts",
-    "unit-test": "vitest",
+    "unit-test": "vitest -c ./vitest-unit-test.config.ts",
+    "integration-test": "vitest -c ./vitest-integration-test.config.ts",
     "db-studio": "prisma studio"
   },
   "keywords": [
