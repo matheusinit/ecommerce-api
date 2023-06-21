@@ -19,7 +19,7 @@ would be used to thousands of users, and this project is a solution to this usec
  - [ ] Develop main functionalities 
    - [x] Create account (as store administrator and as client)
    - [x] User can login and logout
-   - [ ] Post a product
+   - [x] Post a product
    - [ ] List products
    - [ ] Edit a product
    - [ ] Delete a product
