@@ -57,7 +57,7 @@ export class AuthenticateUserController implements Controller {
         return internalServerError(httpError('an internal error occured involving the \'password\' field'))
       }
 
-      return internalServerError(httpError('an unexplicated error occured'))
+      return internalServerError(httpError(error.message))
     }
   }
 }

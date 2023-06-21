@@ -36,7 +36,7 @@ export class CreateProductController implements Controller {
         return unauthorized(httpError(error.message))
       }
 
-      return internalServerError(httpError('expected error occured'))
+      return internalServerError(httpError(error.message))
     }
   }
 }
