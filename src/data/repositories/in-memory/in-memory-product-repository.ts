@@ -4,6 +4,11 @@ import crypto from 'crypto'
 
 export class InMemoryProductRepository implements ProductRepository {
   private readonly products: Product[] = []
+
+  async list (): Promise<Product[]> {
+    return this.products
+  }
+
   async create (data: CreateOperationDtos, id?: string): Promise<Product> {
     const {
       name, price, userId
