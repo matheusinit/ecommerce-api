@@ -6,6 +6,6 @@ export interface ProductData {
   userId: string
 }
 
-export interface CreateProduct {
+export interface PublishProduct {
   execute: (productData: ProductData) => Promise<Product>
 }

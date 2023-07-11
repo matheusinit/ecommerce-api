@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest'
-import { DbCreateProduct } from './create-product'
+import { DbPublishProduct } from './db-publish-product'
 import { InMemoryProductRepository } from '~/data/repositories/in-memory/in-memory-product-repository'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 
 const makeSut = () => {
   const productRepository = new InMemoryProductRepository()
   const userRepository = new InMemoryUserRepository()
-  const sut = new DbCreateProduct(productRepository, userRepository)
+  const sut = new DbPublishProduct(productRepository, userRepository)
 
   return {
     productRepository,
