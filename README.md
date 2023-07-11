@@ -19,16 +19,16 @@ would be used to thousands of users, and this project is a solution to this usec
  - [ ] Develop main functionalities 
    - [x] Create account (as store administrator and as client)
    - [x] User can login and logout
-   - [x] Post a product
-   - [ ] List products
-   - [ ] Edit a product
-   - [ ] Delete a product
-   - [ ] Buy a product 
+   - [x] Publish a product
+   - [ ] List products 
+   - [ ] Edit product price, name and stock
+   - [ ] Archive product
+   - [ ] Buy a product using a credit card 
    - [ ] Send email when the payment is confirmed
-   - [ ] Star a product
+   - [ ] Favorite a product
  - [ ] Make a load balacing with Nginx
  - [ ] Make a load balacing in the database (and study the different strategies)
- - [ ] Use Message Queue Tool to long-awaited routes/process 
+ - [ ] Use Message Queue Tool to long-awaited routes/process (buy a product)
 
 ## Reference for studies
   - [How to store money in database](https://stackoverflow.com/questions/224462/storing-money-in-a-decimal-column-what-precision-and-scale)
