@@ -15,7 +15,7 @@ const makeSut = () => {
   }
 }
 
-describe('Create product', () => {
+describe('Publish product', () => {
   it('should throw an error if user is not found', async () => {
     const { sut } = makeSut()
 
