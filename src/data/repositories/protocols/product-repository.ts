@@ -8,4 +8,5 @@ export interface CreateOperationDtos {
 
 export abstract class ProductRepository {
   abstract create (data: CreateOperationDtos): Promise<Product>
+  abstract list (): Promise<Product[]>
 }

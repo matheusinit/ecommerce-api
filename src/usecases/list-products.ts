@@ -1,15 +1,12 @@
-import { prisma } from '~/infra/db'
+import { type ProductRepository } from '~/data/repositories/protocols/product-repository'
 
 export class ListProducts {
+  constructor (
+    private readonly productRepository: ProductRepository
+  ) {}
+
   async execute () {
-    const products = await prisma.product.findMany({
-      where: {
-        deletedAt: null
-      },
-      orderBy: {
-        name: 'asc'
-      }
-    })
+    const products = await this.productRepository.list()
 
     return products
   }
