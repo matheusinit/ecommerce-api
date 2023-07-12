@@ -7,7 +7,9 @@
     "dev": "tsx watch ./src/server.ts",
     "unit-test": "vitest -c ./vitest-unit-test.config.ts",
     "integration-test": "vitest -c ./vitest-integration-test.config.ts",
-    "db-studio": "prisma studio"
+    "db-studio": "prisma studio",
+    "typecheck": "tsc --noEmit",
+    "build": "tsup ./src/"
   },
   "keywords": [
     "NodeJS",

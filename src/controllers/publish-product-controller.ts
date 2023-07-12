@@ -1,13 +1,13 @@
-import { type CreateProduct } from '~/data/protocols/create-product'
+import { type PublishProduct } from '~/data/protocols/publish-product'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { badRequest, created, httpError, internalServerError, unauthorized } from '~/utils/http'
 import { verifyToken } from '~/usecases/verify-token'
 import { env } from '~/config/env'
 
-export class CreateProductController implements Controller {
+export class PublishProductController implements Controller {
   constructor (
-    private readonly createProduct: CreateProduct
+    private readonly publishProduct: PublishProduct
   ) {}
 
   async handle (request: HttpRequest) {
@@ -28,7 +28,7 @@ export class CreateProductController implements Controller {
         return badRequest('Price is required')
       }
 
-      const product = await this.createProduct.execute({ name, price, userId })
+      const product = await this.publishProduct.execute({ name, price, userId })
 
       return created(product)
     } catch (error) {
