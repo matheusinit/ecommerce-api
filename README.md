@@ -30,6 +30,20 @@ would be used to thousands of users, and this project is a solution to this usec
  - [ ] Make a load balacing in the database (and study the different strategies)
  - [ ] Use Message Queue Tool to long-awaited routes/process (buy a product)
 
+## Convention
+
+### Branch name convention
+
+Use the category of the changes e.g. `feat`, `test`, the number of the issue in `(#issue-number)-issue` and a short description to summarize the meaning of the changes like `archive-product`
+
+Example: `feat/issue-01/archive-product`
+
+### Pull Request Naming
+
+Use the issue number `[#issue-number]`. Followed by the issue title to end all.
+
+Example: `[#01] Add feature Archive product`
+
 ## Reference for studies
   - [How to store money in database](https://stackoverflow.com/questions/224462/storing-money-in-a-decimal-column-what-precision-and-scale)
   - [Floating decimal vs fixed decimal](https://softwareengineering.stackexchange.com/questions/62038/what-is-the-difference-between-a-floating-decimal-number-and-fixed-decimal-numbe)
