@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { CreateProductController } from '~/controllers/publish-product-controller'
+import { PublishProductController } from '~/controllers/publish-product-controller'
 import { ListProductsController } from '~/controllers/list-products-controller'
 import { PrismaProductRepository } from '~/data/repositories/prisma/prisma-product-repository'
 import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
@@ -14,7 +14,7 @@ const makePublishProductController = () => {
   const userRepository = new PrismaUserRepository()
   const productRepository = new PrismaProductRepository()
   const dbPublishProduct = new DbPublishProduct(productRepository, userRepository)
-  const publishProductController = new CreateProductController(dbPublishProduct)
+  const publishProductController = new PublishProductController(dbPublishProduct)
 
   return publishProductController
 }

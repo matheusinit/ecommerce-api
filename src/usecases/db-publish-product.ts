@@ -1,8 +1,8 @@
-import { type PublishProduct } from '~/data/protocols/create-product'
+import { type PublishProduct } from '~/data/protocols/publish-product'
 import { type ProductRepository } from '~/data/repositories/protocols/product-repository'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 
-interface CreateProductParams {
+interface PublishProductParams {
   name: string
   price: number
   userId: string
@@ -14,7 +14,7 @@ export class DbPublishProduct implements PublishProduct {
     private readonly userRepository: UserRepository
   ) {}
 
-  async execute (params: CreateProductParams) {
+  async execute (params: PublishProductParams) {
     const { name, price, userId } = params
 
     const user = await this.userRepository.findById({ id: userId })
