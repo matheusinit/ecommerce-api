@@ -32,6 +32,12 @@ would be used to thousands of users, and this project is a solution to this usec
 
 ## Convention
 
+### Issue name convention
+
+Use a short and descriptive name for the problem or request.
+
+Example: `Add feature Archive product`
+
 ### Branch name convention
 
 Use the category of the changes e.g. `feat`, `test`, the number of the issue in `(#issue-number)-issue` and a short description to summarize the meaning of the changes like `archive-product`
