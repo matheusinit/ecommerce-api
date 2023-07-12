@@ -20,7 +20,8 @@ const makePublishProductController = () => {
 }
 
 const makeListProductsController = () => {
-  const listProducts = new ListProducts()
+  const productRepository = new PrismaProductRepository()
+  const listProducts = new ListProducts(productRepository)
   return new ListProductsController(listProducts)
 }
 
