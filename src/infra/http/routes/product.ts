@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { PublishProductController } from '~/controllers/publish-product-controller'
-import { ListProductsController } from '~/controllers/list-products-controller'
+import { PublishProductController, ListProductsController } from '~/controllers/product'
 import { PrismaProductRepository } from '~/data/repositories/prisma/prisma-product-repository'
 import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
 import { DbPublishProduct } from '~/usecases/db-publish-product'
