@@ -20,16 +20,26 @@ describe('List products controller', () => {
   })
 
   afterEach(async () => {
-    await prisma.product.deleteMany()
-  })
+    const product = await prisma.product.findFirst({
+      where: {
+        name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear'
+      }
+    })
 
-  afterAll(async () => {
+    await prisma.product.delete({
+      where: {
+        id: product?.id ?? ''
+      }
+    })
+
     await prisma.user.delete({
       where: {
         email: 'tester@email.com'
       }
     })
+  })
 
+  afterAll(async () => {
     await prisma.$disconnect()
   })
 
