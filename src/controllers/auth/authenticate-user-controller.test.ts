@@ -75,7 +75,7 @@ describe('POST /auth', () => {
         .post('/v1/auth')
         .send({
           email: 'invalid.email@email.com',
-          password: user.password
+          password: 'wrong-password'
         })
 
       expect(response.statusCode).toBe(400)
