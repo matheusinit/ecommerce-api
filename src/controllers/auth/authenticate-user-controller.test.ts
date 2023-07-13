@@ -7,6 +7,13 @@ import { type UserType } from '~/data/dtos/user-type'
 
 let prisma: PrismaClient
 
+interface User {
+  name: string
+  type: UserType
+  email: string
+  password: string
+}
+
 describe('POST /auth', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
@@ -28,13 +35,6 @@ describe('POST /auth', () => {
 
   describe('when adding a valid user and body', () => {
     it('then should authenticate user', async () => {
-      interface User {
-        name: string
-        type: UserType
-        email: string
-        password: string
-      }
-
       const user: User = {
         name: 'Matheus Oliveira',
         type: 'STORE-ADMIN',
@@ -60,13 +60,6 @@ describe('POST /auth', () => {
 
   describe('when adding invalid credentials', () => {
     it('then should get bad request', async () => {
-      interface User {
-        name: string
-        type: UserType
-        email: string
-        password: string
-      }
-
       const user: User = {
         name: 'Matheus Oliveira',
         type: 'STORE-ADMIN',
