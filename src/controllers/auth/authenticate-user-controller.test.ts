@@ -15,7 +15,11 @@ describe('POST /auth', () => {
   })
 
   afterEach(async () => {
-    await prisma.user.deleteMany()
+    await prisma.user.delete({
+      where: {
+        email: 'matheus.oliveira@email.com'
+      }
+    })
   })
 
   afterAll(async () => {
@@ -50,6 +54,38 @@ describe('POST /auth', () => {
         })
 
       expect(response.statusCode).toBe(200)
+      expect(response.body).toBeDefined()
+    })
+  })
+
+  describe('when adding invalid credentials', () => {
+    it('then should get bad request', async () => {
+      interface User {
+        name: string
+        type: UserType
+        email: string
+        password: string
+      }
+
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      await request(app)
+        .post('/v1/user')
+        .send(user)
+
+      const response = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'invalid.email@email.com',
+          password: user.password
+        })
+
+      expect(response.statusCode).toBe(400)
       expect(response.body).toBeDefined()
     })
   })
