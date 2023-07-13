@@ -5,31 +5,41 @@ import { PrismaClient } from '@prisma/client'
 
 let prisma: PrismaClient
 
+const clearProductRecord = async () => {
+  const product = await prisma.product.findFirst({
+    where: {
+      name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear'
+    }
+  })
+
+  await prisma.product.delete({
+    where: {
+      id: product?.id
+    }
+  })
+}
+
+const clearUserRecord = async () => {
+  await prisma.user.delete({
+    where: {
+      email: 'tester@email.com'
+    }
+  })
+}
+
 describe('List products controller', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
 
     await prisma.$connect()
-
-    await request(app).post('/v1/user').send({
-      name: 'Tester',
-      email: 'tester@email.com',
-      type: 'STORE-ADMIN',
-      password: 'testerpass13!'
-    })
   })
 
   afterEach(async () => {
-    await prisma.product.deleteMany()
+    await clearProductRecord()
+    await clearUserRecord()
   })
 
   afterAll(async () => {
-    await prisma.user.delete({
-      where: {
-        email: 'tester@email.com'
-      }
-    })
-
     await prisma.$disconnect()
   })
 
@@ -38,6 +48,13 @@ describe('List products controller', () => {
       accessToken: string
       refreshToken: string
     }
+
+    await request(app).post('/v1/user').send({
+      name: 'Tester',
+      email: 'tester@email.com',
+      type: 'STORE-ADMIN',
+      password: 'testerpass13!'
+    })
 
     const { body } = await request(app)
       .post('/v1/auth')

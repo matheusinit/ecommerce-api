@@ -7,6 +7,14 @@ import { type UserType } from '~/data/dtos/user-type'
 
 let prisma: PrismaClient
 
+const clearUserRecord = async () => {
+  await prisma.user.delete({
+    where: {
+      email: 'matheus.oliveira@email.com'
+    }
+  })
+}
+
 describe('POST /auth', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
@@ -15,7 +23,7 @@ describe('POST /auth', () => {
   })
 
   afterEach(async () => {
-    await prisma.user.deleteMany()
+    await clearUserRecord()
   })
 
   afterAll(async () => {
