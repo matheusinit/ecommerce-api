@@ -103,7 +103,7 @@ describe('POST /auth', () => {
         .post('/v1/auth')
         .send({
           email: '',
-          password: 'wrong-password'
+          password: user.password
         })
 
       expect(response.statusCode).toBe(400)
@@ -125,7 +125,7 @@ describe('POST /auth', () => {
       const response = await request(app)
         .post('/v1/auth')
         .send({
-          password: 'wrong-password'
+          password: user.password
         })
 
       expect(response.statusCode).toBe(400)
