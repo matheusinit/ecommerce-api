@@ -86,5 +86,28 @@ describe('POST /auth', () => {
       expect(response.statusCode).toBe(400)
       expect(response.body).toBeDefined()
     })
+
+    it('when adding a empty string as email, then should get bad request', async () => {
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      await request(app)
+        .post('/v1/user')
+        .send(user)
+
+      const response = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: '',
+          password: 'wrong-password'
+        })
+
+      expect(response.statusCode).toBe(400)
+      expect(response.body).toBeDefined()
+    })
   })
 })
