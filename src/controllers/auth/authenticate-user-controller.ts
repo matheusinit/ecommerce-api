@@ -57,6 +57,10 @@ export class AuthenticateUserController implements Controller {
         return internalServerError(httpError('an internal error occured involving the \'password\' field'))
       }
 
+      if (error instanceof Error && error.message === 'Email not registered or password is wrong') {
+        return badRequest(httpError('email not registered or password is wrong'))
+      }
+
       return internalServerError(httpError(error.message))
     }
   }
