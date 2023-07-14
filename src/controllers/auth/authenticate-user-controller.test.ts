@@ -56,6 +56,32 @@ describe('POST /auth', () => {
       expect(response.statusCode).toBe(200)
       expect(response.body).toBeDefined()
     })
+
+    it('then should return access token and refresh token', async () => {
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      await request(app)
+        .post('/v1/user')
+        .send(user)
+
+      const response = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: user.email,
+          password: user.password
+        })
+
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toEqual(expect.objectContaining({
+        accessToken: expect.any(String),
+        refreshToken: expect.any(String)
+      }))
+    })
   })
 
   describe('when using invalid credentials', () => {
