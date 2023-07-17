@@ -6,6 +6,8 @@ import { type Cookie } from '~/infra/protocols/http-response'
 import { defineCookies } from '~/utils/cookies'
 import { type AuthenticateUser } from '~/data/protocols/authenticate-user'
 
+import z from 'zod'
+
 export class AuthenticateUserController implements Controller {
   constructor (
     private readonly authenticateUser: AuthenticateUser
@@ -21,6 +23,14 @@ export class AuthenticateUserController implements Controller {
 
       if (!password) {
         return badRequest(httpError('password is required'))
+      }
+
+      const emailSchema = z.string().email()
+
+      const result = emailSchema.safeParse(email)
+
+      if (!result.success) {
+        return badRequest(httpError('invalid email'))
       }
 
       const { accessToken, refreshToken } = await this.authenticateUser.execute({
