@@ -85,11 +85,6 @@ describe('POST /auth', () => {
   })
 
   describe('when using invalid credentials', () => {
-    // [ ] when adding a empty email, then should get bad request
-    // [ ] when adding a empty password, then should get bad request
-    // [ ] when adding a invalid email, then should get bad request
-    // [ ] when adding a invalid password, then should get bad request
-
     it('then should get bad request', async () => {
       const user: User = {
         name: 'Matheus Oliveira',
