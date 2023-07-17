@@ -158,7 +158,7 @@ describe('POST /auth', () => {
       expect(response.body).toBeDefined()
     })
 
-    it('when providing invalid email, then should get bad request', async () => {
+    it('when providing not registered email, then should get bad request', async () => {
       const user: User = {
         name: 'Matheus Oliveira',
         type: 'STORE-ADMIN',
@@ -173,7 +173,7 @@ describe('POST /auth', () => {
       const response = await request(app)
         .post('/v1/auth')
         .send({
-          email: 'invalid-email@email.com',
+          email: 'not-registed-email@email.com',
           password: user.password
         })
 
