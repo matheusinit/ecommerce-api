@@ -24,11 +24,11 @@ export class LogoutUser {
       await this.tokenRepository.set(payload.id, accessToken)
 
       return {
-        sucess: true
+        success: true
       }
     } catch (err) {
       return {
-        sucess: false,
+        success: false,
         error: err
       }
     }

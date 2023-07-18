@@ -19,7 +19,7 @@ export class LogoutUserController implements Controller {
       accessToken
     })
 
-    if (!result.sucess) {
+    if (!result.success) {
       return internalServerError(result)
     }
 
