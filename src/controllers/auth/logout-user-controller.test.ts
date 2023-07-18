@@ -107,7 +107,7 @@ describe('POST /logout', () => {
     })
   })
 
-  it('when using invalid access token cookie, then should get unauthorized', async () => {
+  it('when using any access token cookie, then should get unauthorized', async () => {
     const user: User = {
       name: 'Matheus Oliveira',
       type: 'STORE-ADMIN',
@@ -125,5 +125,30 @@ describe('POST /logout', () => {
 
     expect(response.statusCode).toBe(401)
     expect(response.body).toBeDefined()
+  })
+
+  it('when using invalid access token cookie, then should get unauthorized', async () => {
+    const user: User = {
+      name: 'Matheus Oliveira',
+      type: 'STORE-ADMIN',
+      email: 'matheus.oliveira@email.com',
+      password: 'minhasenha1!'
+    }
+
+    await request(app)
+      .post('/v1/user')
+      .send(user)
+
+    const accessToken = 'invalid-cookie'
+    const refreshToken = 'invalid-cookie'
+
+    const response = await request(app)
+      .post('/v1/auth/logout')
+      .set('Cookie', [`access-token=${accessToken}`, `refresh-token=${refreshToken}`])
+      .send()
+
+    expect(response.statusCode).toBe(401)
+    expect(response.body).toBeDefined()
+    expect(response.body.message).toEqual('invalid access token cookie')
   })
 })
