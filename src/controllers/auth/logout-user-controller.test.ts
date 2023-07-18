@@ -22,11 +22,11 @@ describe('POST /logout', () => {
   })
 
   afterEach(async () => {
-    // await prisma.user.delete({
-    //   where: {
-    //     email: 'matheus.oliveira@email.com'
-    //   }
-    // })
+    await prisma.user.delete({
+      where: {
+        email: 'matheus.oliveira@email.com'
+      }
+    })
   })
 
   afterAll(async () => {
