@@ -105,6 +105,46 @@ describe('POST /logout', () => {
         success: true
       })
     })
+
+    it('should clear cookies from response', async () => {
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      await request(app)
+        .post('/v1/user')
+        .send(user)
+
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: user.email,
+          password: user.password
+        })
+
+      interface Tokens {
+        accessToken: string
+        refreshToken: string
+      }
+
+      const tokens: Tokens = body
+
+      const response = await request(app)
+        .post('/v1/auth/logout')
+        .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+        .send()
+
+      const cookies = response.header['set-cookie']
+
+      const accessTokenCookie = String(cookies[0].split(';').at(0)).split('=').at(1)
+      const refreshTokenCookie = String(cookies[1].split(';').at(0)).split('=').at(1)
+
+      expect(accessTokenCookie).toBe('')
+      expect(refreshTokenCookie).toBe('')
+    })
   })
 
   it('when using any access token cookie, then should get unauthorized', async () => {
