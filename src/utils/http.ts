@@ -18,8 +18,13 @@ export const ok = <T,>(body: T) => ({
   body
 })
 
-export const unauthorized = <T,>(body: T) => ({
+export const forbidden = <T,>(body: T) => ({
   statusCode: 403,
+  body
+})
+
+export const unauthorized = <T,>(body: T) => ({
+  statusCode: 401,
   body
 })
 

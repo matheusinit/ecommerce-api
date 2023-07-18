@@ -1,7 +1,7 @@
 import { type PublishProduct } from '~/data/protocols/publish-product'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { badRequest, created, httpError, internalServerError, unauthorized } from '~/utils/http'
+import { badRequest, created, httpError, internalServerError, forbidden } from '~/utils/http'
 import { verifyToken } from '~/usecases/verify-token'
 import { env } from '~/config/env'
 
@@ -33,7 +33,7 @@ export class PublishProductController implements Controller {
       return created(product)
     } catch (error) {
       if (error instanceof Error && error.message === 'User does not have authorization') {
-        return unauthorized(httpError(error.message))
+        return forbidden(httpError(error.message))
       }
 
       return internalServerError(httpError('expected error occured'))
