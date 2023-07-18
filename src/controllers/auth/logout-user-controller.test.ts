@@ -22,11 +22,11 @@ describe('POST /logout', () => {
   })
 
   afterEach(async () => {
-    await prisma.user.delete({
-      where: {
-        email: 'matheus.oliveira@email.com'
-      }
-    })
+    // await prisma.user.delete({
+    //   where: {
+    //     email: 'matheus.oliveira@email.com'
+    //   }
+    // })
   })
 
   afterAll(async () => {
@@ -67,6 +67,43 @@ describe('POST /logout', () => {
 
       expect(response.statusCode).toBe(200)
       expect(response.body).toBeDefined()
+    })
+
+    it('should return success property as true', async () => {
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      await request(app)
+        .post('/v1/user')
+        .send(user)
+
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: user.email,
+          password: user.password
+        })
+
+      interface Tokens {
+        accessToken: string
+        refreshToken: string
+      }
+
+      const tokens: Tokens = body
+
+      const response = await request(app)
+        .post('/v1/auth/logout')
+        .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+        .send()
+
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toEqual({
+        success: true
+      })
     })
   })
 
