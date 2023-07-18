@@ -20,7 +20,7 @@ export class LogoutUserController implements Controller {
     })
 
     if (!result.success) {
-      return internalServerError(result)
+      return unauthorized(httpError('invalid access token cookie'))
     }
 
     const response = ok(result)

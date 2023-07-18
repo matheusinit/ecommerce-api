@@ -29,7 +29,7 @@ export class LogoutUser {
     } catch (err) {
       return {
         success: false,
-        error: err
+        error: (err as Error).message
       }
     }
   }
