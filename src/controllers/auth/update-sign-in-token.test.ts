@@ -69,4 +69,41 @@ describe('POST /access-token', () => {
       expect(response.body).toBeDefined()
     })
   })
+
+  describe('when not using a refresh token cookie', () => {
+    it('then should return unauthorized', async () => {
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      await request(app)
+        .post('/v1/user')
+        .send(user)
+
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: user.email,
+          password: user.password
+        })
+
+      interface Tokens {
+        accessToken: string
+        refreshToken: string
+      }
+
+      const tokens: Tokens = body
+
+      const response = await request(app)
+        .post('/v1/auth/access-token')
+        .set('Cookie', [`access-token=${tokens.accessToken}`])
+        .send()
+
+      expect(response.statusCode).toBe(401)
+      expect(response.body).toBeDefined()
+    })
+  })
 })
