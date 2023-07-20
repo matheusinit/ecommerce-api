@@ -114,4 +114,14 @@ describe('GET /product', () => {
       price: 29900
     }))
   })
+
+  describe('when there is none product published', () => {
+    it('should return none products', async () => {
+      const response = await request(app).get('/v1/product/')
+
+      expect(response.status).toBe(200)
+      expect(response.body.length).toBe(0)
+      expect(response.body).toBeInstanceOf(Array)
+    })
+  })
 })
