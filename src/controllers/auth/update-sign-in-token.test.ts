@@ -14,6 +14,11 @@ interface User {
   password: string
 }
 
+interface Tokens {
+  accessToken: string
+  refreshToken: string
+}
+
 describe('POST /access-token', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
@@ -53,11 +58,6 @@ describe('POST /access-token', () => {
           password: user.password
         })
 
-      interface Tokens {
-        accessToken: string
-        refreshToken: string
-      }
-
       const tokens: Tokens = body
 
       const response = await request(app)
@@ -89,11 +89,6 @@ describe('POST /access-token', () => {
           email: user.email,
           password: user.password
         })
-
-      interface Tokens {
-        accessToken: string
-        refreshToken: string
-      }
 
       const tokens: Tokens = body
 

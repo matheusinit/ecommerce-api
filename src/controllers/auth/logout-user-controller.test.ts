@@ -14,6 +14,11 @@ interface User {
   password: string
 }
 
+interface Tokens {
+  accessToken: string
+  refreshToken: string
+}
+
 describe('POST /logout', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
@@ -53,11 +58,6 @@ describe('POST /logout', () => {
           password: user.password
         })
 
-      interface Tokens {
-        accessToken: string
-        refreshToken: string
-      }
-
       const tokens: Tokens = body
 
       const response = await request(app)
@@ -87,11 +87,6 @@ describe('POST /logout', () => {
           email: user.email,
           password: user.password
         })
-
-      interface Tokens {
-        accessToken: string
-        refreshToken: string
-      }
 
       const tokens: Tokens = body
 
@@ -124,11 +119,6 @@ describe('POST /logout', () => {
           email: user.email,
           password: user.password
         })
-
-      interface Tokens {
-        accessToken: string
-        refreshToken: string
-      }
 
       const tokens: Tokens = body
 
