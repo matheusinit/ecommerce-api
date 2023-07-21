@@ -19,7 +19,7 @@ interface Tokens {
   refreshToken: string
 }
 
-describe('POST /access-token', () => {
+describe('POST /auth/access-token', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
 

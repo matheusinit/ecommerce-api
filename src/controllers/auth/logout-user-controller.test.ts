@@ -19,7 +19,7 @@ interface Tokens {
   refreshToken: string
 }
 
-describe('POST /logout', () => {
+describe('POST /auth/logout', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
 
