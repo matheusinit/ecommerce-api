@@ -13,7 +13,7 @@ interface User {
   password: string
 }
 
-describe('GET /product', () => {
+describe('GET /products', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
 
@@ -26,7 +26,7 @@ describe('GET /product', () => {
       password: 'minhasenha1!'
     }
 
-    await request(app).post('/v1/user').send(user)
+    await request(app).post('/v1/users').send(user)
   })
 
   afterEach(async () => {
@@ -55,14 +55,14 @@ describe('GET /product', () => {
     const tokens: Tokens = body
 
     await request(app)
-      .post('/v1/product')
+      .post('/v1/products')
       .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
       .send({
         name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear',
         price: 29900
       })
 
-    const response = await request(app).get('/v1/product/')
+    const response = await request(app).get('/v1/products')
 
     expect(response.status).toBe(200)
     expect(response.body.length).toBe(1)
@@ -74,7 +74,7 @@ describe('GET /product', () => {
 
   describe('when there is none product published', () => {
     it('should return none products', async () => {
-      const response = await request(app).get('/v1/product/')
+      const response = await request(app).get('/v1/products')
 
       expect(response.status).toBe(200)
       expect(response.body.length).toBe(0)

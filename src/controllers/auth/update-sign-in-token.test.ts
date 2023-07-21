@@ -48,7 +48,7 @@ describe('POST /auth/access-token', () => {
       }
 
       await request(app)
-        .post('/v1/user')
+        .post('/v1/users')
         .send(user)
 
       const { body } = await request(app)
@@ -80,7 +80,7 @@ describe('POST /auth/access-token', () => {
       }
 
       await request(app)
-        .post('/v1/user')
+        .post('/v1/users')
         .send(user)
 
       const { body } = await request(app)

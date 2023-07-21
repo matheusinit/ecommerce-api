@@ -48,7 +48,7 @@ describe('POST /auth/logout', () => {
       }
 
       await request(app)
-        .post('/v1/user')
+        .post('/v1/users')
         .send(user)
 
       const { body } = await request(app)
@@ -78,7 +78,7 @@ describe('POST /auth/logout', () => {
       }
 
       await request(app)
-        .post('/v1/user')
+        .post('/v1/users')
         .send(user)
 
       const { body } = await request(app)
@@ -110,7 +110,7 @@ describe('POST /auth/logout', () => {
       }
 
       await request(app)
-        .post('/v1/user')
+        .post('/v1/users')
         .send(user)
 
       const { body } = await request(app)
@@ -146,7 +146,7 @@ describe('POST /auth/logout', () => {
     }
 
     await request(app)
-      .post('/v1/user')
+      .post('/v1/users')
       .send(user)
 
     const response = await request(app)
@@ -166,7 +166,7 @@ describe('POST /auth/logout', () => {
     }
 
     await request(app)
-      .post('/v1/user')
+      .post('/v1/users')
       .send(user)
 
     const accessToken = 'invalid-cookie'

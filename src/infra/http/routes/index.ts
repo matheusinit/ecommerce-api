@@ -5,8 +5,8 @@ import productRoutes from './product'
 
 const router = Router()
 
-router.use('/user', userRoutes)
+router.use('/users', userRoutes)
 router.use('/auth', authRoutes)
-router.use('/product', productRoutes)
+router.use('/products', productRoutes)
 
 export default router
