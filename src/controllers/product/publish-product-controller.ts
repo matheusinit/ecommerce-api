@@ -21,7 +21,7 @@ export class PublishProductController implements Controller {
       const userId = dehashedPayload.id
 
       if (!name) {
-        return badRequest('Name is required')
+        return badRequest(httpError('Name is required'))
       }
 
       if (!price) {
