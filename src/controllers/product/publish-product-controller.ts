@@ -1,7 +1,7 @@
 import { type PublishProduct } from '~/data/protocols/publish-product'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { badRequest, created, httpError, internalServerError, forbidden } from '~/utils/http'
+import { badRequest, created, httpError, internalServerError, forbidden, unauthorized } from '~/utils/http'
 import { verifyToken } from '~/usecases/verify-token'
 import { env } from '~/config/env'
 
@@ -15,6 +15,10 @@ export class PublishProductController implements Controller {
       const { name, price } = request.body
 
       const accessToken = request.cookies['access-token']
+
+      if (!accessToken) {
+        return unauthorized(httpError('Not authenticated'))
+      }
 
       const dehashedPayload = await verifyToken(accessToken, env.ACCESS_TOKEN_SECRET)
 
