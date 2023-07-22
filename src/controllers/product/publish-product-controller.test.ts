@@ -31,11 +31,11 @@ describe('POST /products', () => {
 
   afterEach(async () => {
     await prisma.product.deleteMany()
-
-    await prisma.user.deleteMany()
   })
 
   afterAll(async () => {
+    await prisma.user.deleteMany()
+
     await prisma.$disconnect()
   })
 
@@ -68,5 +68,33 @@ describe('POST /products', () => {
       price: 29900,
       createdAt: expect.any(String)
     }))
+  })
+
+  describe('when using invalid body', () => {
+    it('when name is not specified, then should get bad request', async () => {
+      interface Tokens {
+        accessToken: string
+        refreshToken: string
+      }
+
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const response = await request(app)
+        .post('/v1/products')
+        .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+        .send({
+          price: 29900
+        })
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
   })
 })
