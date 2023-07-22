@@ -147,4 +147,26 @@ describe('POST /products', () => {
       expect(response.body.message).toBeDefined()
     })
   })
+
+  it('when price is an empty string, then should get bad request', async () => {
+    const { body } = await request(app)
+      .post('/v1/auth')
+      .send({
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      })
+
+    const tokens: Tokens = body
+
+    const response = await request(app)
+      .post('/v1/products')
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({
+        name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear',
+        price: ''
+      })
+
+    expect(response.status).toBe(400)
+    expect(response.body.message).toBeDefined()
+  })
 })
