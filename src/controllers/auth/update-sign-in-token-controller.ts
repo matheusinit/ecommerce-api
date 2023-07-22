@@ -13,7 +13,13 @@ export class UpdateSignInTokenController implements Controller {
       return badRequest(httpError('No cookies are defined'))
     }
 
+    const accessToken = request.cookies['access-token']
+
     const refreshToken = request.cookies['refresh-token']
+
+    if (!accessToken) {
+      return unauthorized(httpError('Access token not provided'))
+    }
 
     if (!refreshToken) {
       return unauthorized(httpError('unauthenticated'))
