@@ -13,6 +13,11 @@ interface User {
   password: string
 }
 
+interface Tokens {
+  accessToken: string
+  refreshToken: string
+}
+
 describe('POST /products', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
@@ -40,11 +45,6 @@ describe('POST /products', () => {
   })
 
   it('should return the product data on success', async () => {
-    interface Tokens {
-      accessToken: string
-      refreshToken: string
-    }
-
     const { body } = await request(app)
       .post('/v1/auth')
       .send({
@@ -72,11 +72,6 @@ describe('POST /products', () => {
 
   describe('when using invalid body', () => {
     it('when name is not specified, then should get bad request', async () => {
-      interface Tokens {
-        accessToken: string
-        refreshToken: string
-      }
-
       const { body } = await request(app)
         .post('/v1/auth')
         .send({
@@ -91,6 +86,27 @@ describe('POST /products', () => {
         .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
         .send({
           price: 29900
+        })
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
+
+    it('when price is not specified, then should get bad request', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const response = await request(app)
+        .post('/v1/products')
+        .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+        .send({
+          name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear'
         })
 
       expect(response.status).toBe(400)
