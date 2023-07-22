@@ -4,6 +4,7 @@ import { type HttpRequest } from '~/infra/protocols/http-request'
 import { badRequest, created, httpError, internalServerError, forbidden, unauthorized } from '~/utils/http'
 import { verifyToken } from '~/usecases/verify-token'
 import { env } from '~/config/env'
+import { z } from 'zod'
 
 export class PublishProductController implements Controller {
   constructor (
@@ -26,6 +27,14 @@ export class PublishProductController implements Controller {
 
       if (!name) {
         return badRequest(httpError('Name is required'))
+      }
+
+      const ProductNameSchema = z.string().min(5)
+
+      const validation = ProductNameSchema.safeParse(name)
+
+      if (!validation.success) {
+        return badRequest(httpError('Name requires at least 5 characters'))
       }
 
       if (!price) {
