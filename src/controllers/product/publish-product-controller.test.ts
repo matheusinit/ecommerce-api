@@ -70,6 +70,18 @@ describe('POST /products', () => {
     }))
   })
 
+  it('should get unauthorized when not providing access token', async () => {
+    const response = await request(app)
+      .post('/v1/products')
+      .send({
+        name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear',
+        price: 29900
+      })
+
+    expect(response.status).toBe(401)
+    expect(response.body.message).toBeDefined()
+  })
+
   describe('when using invalid body', () => {
     it('when name is not specified, then should get bad request', async () => {
       const { body } = await request(app)
