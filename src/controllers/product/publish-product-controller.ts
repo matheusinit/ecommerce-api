@@ -25,7 +25,7 @@ export class PublishProductController implements Controller {
       }
 
       if (!price) {
-        return badRequest('Price is required')
+        return badRequest(httpError('Price is required'))
       }
 
       const product = await this.publishProduct.execute({ name, price, userId })
