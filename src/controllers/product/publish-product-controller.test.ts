@@ -124,5 +124,27 @@ describe('POST /products', () => {
       expect(response.status).toBe(400)
       expect(response.body.message).toBeDefined()
     })
+
+    it('when name is an empty string, then should get bad request', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const response = await request(app)
+        .post('/v1/products')
+        .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+        .send({
+          name: '',
+          price: 29900
+        })
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
   })
 })
