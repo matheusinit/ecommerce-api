@@ -162,5 +162,19 @@ describe('POST /users', () => {
       expect(response.status).toBe(400)
       expect(response.body.message).toBeDefined()
     })
+
+    it('when provided password is has non-special characters e one number, should get bad request', async () => {
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'password1'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
   })
 })
