@@ -134,5 +134,19 @@ describe('POST /users', () => {
       expect(response.status).toBe(400)
       expect(response.body.message).toBeDefined()
     })
+
+    it('when password is not provided, should get bad request', async () => {
+      // @ts-expect-error "Avoid field 'password' to test feature at missing field"
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
   })
 })
