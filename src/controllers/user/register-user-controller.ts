@@ -13,7 +13,7 @@ export class RegisterUserController implements Controller {
     try {
       const { name, type, email, password } = request.body
 
-      if (!name) {
+      if (!name?.trim()) {
         return badRequest(httpError('Name must be a valid value'))
       }
 
