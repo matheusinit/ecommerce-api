@@ -5,12 +5,14 @@ import app from '~/app'
 import { type UserType } from '~/data/dtos/user-type'
 
 let prisma: PrismaClient
+
 interface User {
   name: string
   type: UserType
   email: string
   password: string
 }
+
 describe('POST /users', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
@@ -44,6 +46,22 @@ describe('POST /users', () => {
         email: 'matheus.oliveira@email.com',
         password: expect.any(String)
       }))
+    })
+  })
+
+  describe('when adding a invalid body', () => {
+    it('when name is not provided, should get bad request', async () => {
+      // @ts-expect-error "Avoid field 'name' to test feature"
+      const user: User = {
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
     })
   })
 })
