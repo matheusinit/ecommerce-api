@@ -68,7 +68,7 @@ describe('POST /users', () => {
       const user: User = {
         name: 'Jo',
         type: 'STORE-ADMIN',
-        email: 'matheus.oliveira@email.com',
+        email: 'matheus.oliveir@email.com',
         password: 'minhasenha1!'
       }
 
@@ -79,9 +79,24 @@ describe('POST /users', () => {
     })
 
     it('when type is not provided, should get bad request', async () => {
-      // @ts-expect-error "Avoid field 'name' to test feature at missing field"
+      // @ts-expect-error "Avoid field 'type' to test feature at missing field"
       const user: User = {
         name: 'Matheus Oliveira',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
+
+    it('when type is neither \'STORE-ADMIN\' or \'CUSTOMER\', should get bad request', async () => {
+      const user: User = {
+        name: 'Matheus Oliveira',
+        // @ts-expect-error "Use incorrect type for field 'type' to test feature"
+        type: 'INVALID-USER-TYPE',
         email: 'matheus.oliveira@email.com',
         password: 'minhasenha1!'
       }
