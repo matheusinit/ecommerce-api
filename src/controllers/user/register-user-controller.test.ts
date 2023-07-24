@@ -47,6 +47,25 @@ describe('POST /users', () => {
         password: expect.any(String)
       }))
     })
+
+    it('when user type is \'CUSTOMER\', should get created', async () => {
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'CUSTOMER',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(201)
+      expect(response.body).toEqual(expect.objectContaining({
+        name: 'Matheus Oliveira',
+        type: 'CUSTOMER',
+        email: 'matheus.oliveira@email.com',
+        password: expect.any(String)
+      }))
+    })
   })
 
   describe('when adding a invalid body', () => {
