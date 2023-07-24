@@ -52,9 +52,7 @@ export class RegisterUserController implements Controller {
       }
 
       if (error.message === 'Password need to be at least 8 characters long, has at least one number and one special character') {
-        return badRequest({
-          message: error.message
-        })
+        return badRequest(httpError(error.message))
       }
 
       if (error.message === 'Email is invalid') {

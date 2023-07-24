@@ -39,7 +39,7 @@ export class RegisterUser {
     const passwordValidation = passwordSchema.safeParse(password)
 
     if (!passwordValidation.success) {
-      throw new Error('Password need to be at least 8 characters long and have at least number and one special character')
+      throw new Error('Password need to be at least 8 characters long, has at least one number and one special character')
     }
 
     const emailSchema = z.string().email()
