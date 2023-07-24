@@ -1,5 +1,12 @@
 version: '3.7'
 services:
+  api-rest-app:
+    build: .
+    ports:
+      - 8000:8000
+    depends_on:
+      - database
+      - cache
   database:
     container_name: ecommerce_db
     image: postgres:14
