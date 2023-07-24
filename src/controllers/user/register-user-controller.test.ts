@@ -125,6 +125,21 @@ describe('POST /users', () => {
       expect(response.body.message).toBeDefined()
     })
 
+    it('when type contains only spaces, should get bad request', async () => {
+      const user: User = {
+        name: 'Matheus Oliveira',
+        // @ts-expect-error "Do not use correct type for field 'type' to test feature"
+        type: ' '.repeat(10),
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
+
     it('when type is neither \'STORE-ADMIN\' or \'CUSTOMER\', should get bad request', async () => {
       const user: User = {
         name: 'Matheus Oliveira',
