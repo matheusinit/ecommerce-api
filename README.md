@@ -20,7 +20,7 @@ would be used to thousands of users, and this project is a solution to this usec
    - [x] Create account (as store administrator and as client)
    - [x] User can login and logout
    - [x] Publish a product
-   - [ ] List products 
+   - [x] List products 
    - [ ] Edit product price, name and stock
    - [ ] Archive product
    - [ ] Buy a product using a credit card 
