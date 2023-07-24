@@ -51,7 +51,7 @@ export class RegisterUserController implements Controller {
         })
       }
 
-      if (error.message === 'Password need to be at least 8 characters long and have at least number and one special character') {
+      if (error.message === 'Password need to be at least 8 characters long, has at least one number and one special character') {
         return badRequest({
           message: error.message
         })
