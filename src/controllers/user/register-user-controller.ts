@@ -2,7 +2,7 @@ import { type UserType } from '~/data/dtos/user-type'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type RegisterUser } from '~/usecases/register-user'
-import { badRequest, created, internalServerError } from '~/utils/http'
+import { badRequest, created, httpError, internalServerError } from '~/utils/http'
 
 export class RegisterUserController implements Controller {
   constructor (
@@ -12,6 +12,10 @@ export class RegisterUserController implements Controller {
   async handle (request: HttpRequest) {
     try {
       const { name, type, email, password } = request.body
+
+      if (!name) {
+        return badRequest(httpError('Name must be a valid value'))
+      }
 
       if (!password || (password && !password.trim())) {
         throw new Error('Password must be specified')
