@@ -22,17 +22,11 @@ export class RegisterUserController implements Controller {
       }
 
       if (!type || (type && !type.trim())) {
-        throw new Error('User type must be specified')
+        return badRequest(httpError('User type must be specified. Use \'STORE-ADMIN\' or \'CUSTOMER\''))
       }
 
       if (!email || (email && !email.trim())) {
         throw new Error('Email must be specified')
-      }
-
-      if (!type || (type && !type.trim())) {
-        return badRequest({
-          message: 'Type must be specified'
-        })
       }
 
       const user = await this.registerUser.execute({
