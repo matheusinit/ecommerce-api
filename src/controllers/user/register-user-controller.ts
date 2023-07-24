@@ -18,7 +18,7 @@ export class RegisterUserController implements Controller {
       }
 
       if (!password || (password && !password.trim())) {
-        throw new Error('Password must be specified')
+        return badRequest(httpError('Password must be specified'))
       }
 
       if (!type || (type && !type.trim())) {
