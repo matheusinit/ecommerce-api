@@ -1,4 +1,4 @@
-import { describe, it, expect, vitest } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { LogoutUser } from './logout-user'
 import { InMemoryTokenRepository } from '~/data/repositories/in-memory/in-memory-token-repository'
 
