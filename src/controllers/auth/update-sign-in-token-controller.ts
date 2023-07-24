@@ -1,7 +1,7 @@
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type UpdateSignInToken } from '~/usecases/update-sign-in-token'
-import { ok } from '~/utils/http'
+import { badRequest, httpError, ok, unauthorized } from '~/utils/http'
 
 export class UpdateSignInTokenController implements Controller {
   constructor (
@@ -9,7 +9,21 @@ export class UpdateSignInTokenController implements Controller {
   ) {}
 
   async handle (request: HttpRequest) {
-    const { refreshToken } = request.body
+    if (!request.cookies) {
+      return badRequest(httpError('No cookies are defined'))
+    }
+
+    const accessToken = request.cookies['access-token']
+
+    const refreshToken = request.cookies['refresh-token']
+
+    if (!accessToken) {
+      return unauthorized(httpError('Access token not provided'))
+    }
+
+    if (!refreshToken) {
+      return unauthorized(httpError('unauthenticated'))
+    }
 
     const token = await this.updateSignInToken.execute({ refreshToken })
 

@@ -1,7 +1,7 @@
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type LogoutUser } from '~/usecases/logout-user'
-import { internalServerError, ok } from '~/utils/http'
+import { httpError, internalServerError, ok, unauthorized } from '~/utils/http'
 
 export class LogoutUserController implements Controller {
   constructor (
@@ -11,12 +11,16 @@ export class LogoutUserController implements Controller {
   async handle (request: HttpRequest) {
     const accessToken = request.cookies['access-token']
 
+    if (!accessToken) {
+      return unauthorized(httpError('user not authenticated'))
+    }
+
     const result = await this.logoutUser.execute({
       accessToken
     })
 
-    if (!result.sucess) {
-      return internalServerError(result)
+    if (!result.success) {
+      return unauthorized(httpError('invalid access token cookie'))
     }
 
     const response = ok(result)

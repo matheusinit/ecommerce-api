@@ -35,7 +35,7 @@ describe('Logout user', () => {
 
     const result = await sut.execute({ accessToken })
 
-    expect(result.sucess).toBe(false)
+    expect(result.success).toBe(false)
   })
 
   it('should return success as true when a valid token is passed', async () => {
@@ -44,6 +44,6 @@ describe('Logout user', () => {
 
     const result = await sut.execute({ accessToken })
 
-    expect(result.sucess).toBe(true)
+    expect(result.success).toBe(true)
   })
 })

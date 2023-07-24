@@ -1,10 +1,13 @@
 import { PrismaClient } from '@prisma/client'
+import { env } from '~/config/env'
 
 export const prisma = new PrismaClient({
-  log: [
-    'query',
-    'info',
-    'warn',
-    'error'
-  ]
+  log: env.test
+    ? ['info', 'warn', 'error']
+    : [
+        'query',
+        'info',
+        'warn',
+        'error'
+      ]
 })

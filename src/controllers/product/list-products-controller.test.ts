@@ -2,34 +2,40 @@ import { beforeAll, afterEach, describe, expect, it, afterAll } from 'vitest'
 import request from 'supertest'
 import app from '~/app'
 import { PrismaClient } from '@prisma/client'
+import { type UserType } from '~/data/dtos/user-type'
 
 let prisma: PrismaClient
 
-describe('List products controller', () => {
+interface User {
+  name: string
+  type: UserType
+  email: string
+  password: string
+}
+
+describe('GET /products', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
 
     await prisma.$connect()
 
-    await request(app).post('/v1/user').send({
-      name: 'Tester',
-      email: 'tester@email.com',
+    const user: User = {
+      name: 'Matheus Oliveira',
       type: 'STORE-ADMIN',
-      password: 'testerpass13!'
-    })
+      email: 'matheus.oliveira@email.com',
+      password: 'minhasenha1!'
+    }
+
+    await request(app).post('/v1/users').send(user)
   })
 
   afterEach(async () => {
     await prisma.product.deleteMany()
+
+    await prisma.user.deleteMany()
   })
 
   afterAll(async () => {
-    await prisma.user.delete({
-      where: {
-        email: 'tester@email.com'
-      }
-    })
-
     await prisma.$disconnect()
   })
 
@@ -42,21 +48,21 @@ describe('List products controller', () => {
     const { body } = await request(app)
       .post('/v1/auth')
       .send({
-        email: 'tester@email.com',
-        password: 'testerpass13!'
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
       })
 
     const tokens: Tokens = body
 
-    await request.agent(app)
-      .post('/v1/product')
+    await request(app)
+      .post('/v1/products')
       .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
       .send({
         name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear',
         price: 29900
       })
 
-    const response = await request(app).get('/v1/product/')
+    const response = await request(app).get('/v1/products')
 
     expect(response.status).toBe(200)
     expect(response.body.length).toBe(1)
@@ -64,5 +70,15 @@ describe('List products controller', () => {
       name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear',
       price: 29900
     }))
+  })
+
+  describe('when there is none product published', () => {
+    it('should return none products', async () => {
+      const response = await request(app).get('/v1/products')
+
+      expect(response.status).toBe(200)
+      expect(response.body.length).toBe(0)
+      expect(response.body).toBeInstanceOf(Array)
+    })
   })
 })

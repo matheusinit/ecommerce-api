@@ -1,9 +1,10 @@
 import { type PublishProduct } from '~/data/protocols/publish-product'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { badRequest, created, httpError, internalServerError, unauthorized } from '~/utils/http'
+import { badRequest, created, httpError, internalServerError, forbidden, unauthorized } from '~/utils/http'
 import { verifyToken } from '~/usecases/verify-token'
 import { env } from '~/config/env'
+import { z } from 'zod'
 
 export class PublishProductController implements Controller {
   constructor (
@@ -16,16 +17,28 @@ export class PublishProductController implements Controller {
 
       const accessToken = request.cookies['access-token']
 
+      if (!accessToken) {
+        return unauthorized(httpError('Not authenticated'))
+      }
+
       const dehashedPayload = await verifyToken(accessToken, env.ACCESS_TOKEN_SECRET)
 
       const userId = dehashedPayload.id
 
       if (!name) {
-        return badRequest('Name is required')
+        return badRequest(httpError('Name is required'))
+      }
+
+      const ProductNameSchema = z.string().min(5)
+
+      const validation = ProductNameSchema.safeParse(name)
+
+      if (!validation.success) {
+        return badRequest(httpError('Name requires at least 5 characters'))
       }
 
       if (!price) {
-        return badRequest('Price is required')
+        return badRequest(httpError('Price is required'))
       }
 
       const product = await this.publishProduct.execute({ name, price, userId })
@@ -33,7 +46,7 @@ export class PublishProductController implements Controller {
       return created(product)
     } catch (error) {
       if (error instanceof Error && error.message === 'User does not have authorization') {
-        return unauthorized(httpError(error.message))
+        return forbidden(httpError(error.message))
       }
 
       return internalServerError(httpError('expected error occured'))

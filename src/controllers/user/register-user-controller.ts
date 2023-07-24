@@ -2,7 +2,7 @@ import { type UserType } from '~/data/dtos/user-type'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type RegisterUser } from '~/usecases/register-user'
-import { badRequest, created, internalServerError } from '~/utils/http'
+import { badRequest, created, httpError, internalServerError } from '~/utils/http'
 
 export class RegisterUserController implements Controller {
   constructor (
@@ -13,22 +13,20 @@ export class RegisterUserController implements Controller {
     try {
       const { name, type, email, password } = request.body
 
+      if (!name?.trim()) {
+        return badRequest(httpError('Name must be a valid value'))
+      }
+
       if (!password || (password && !password.trim())) {
-        throw new Error('Password must be specified')
+        return badRequest(httpError('Password must be specified'))
       }
 
       if (!type || (type && !type.trim())) {
-        throw new Error('User type must be specified')
+        return badRequest(httpError('User type must be specified. Use \'STORE-ADMIN\' or \'CUSTOMER\''))
       }
 
       if (!email || (email && !email.trim())) {
-        throw new Error('Email must be specified')
-      }
-
-      if (!type || (type && !type.trim())) {
-        return badRequest({
-          message: 'Type must be specified'
-        })
+        return badRequest(httpError('Email must be specified'))
       }
 
       const user = await this.registerUser.execute({
@@ -53,10 +51,8 @@ export class RegisterUserController implements Controller {
         })
       }
 
-      if (error.message === 'Password need to be at least 8 characters long and have at least number and one special character') {
-        return badRequest({
-          message: error.message
-        })
+      if (error.message === 'Password need to be at least 8 characters long, has at least one number and one special character') {
+        return badRequest(httpError(error.message))
       }
 
       if (error.message === 'Email is invalid') {
