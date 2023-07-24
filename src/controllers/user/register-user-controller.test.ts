@@ -51,7 +51,7 @@ describe('POST /users', () => {
 
   describe('when adding a invalid body', () => {
     it('when name is not provided, should get bad request', async () => {
-      // @ts-expect-error "Avoid field 'name' to test feature"
+      // @ts-expect-error "Avoid field 'name' to test feature at missing field"
       const user: User = {
         type: 'STORE-ADMIN',
         email: 'matheus.oliveira@email.com',
@@ -68,6 +68,20 @@ describe('POST /users', () => {
       const user: User = {
         name: 'Jo',
         type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
+
+    it('when type is not provided, should get bad request', async () => {
+      // @ts-expect-error "Avoid field 'name' to test feature at missing field"
+      const user: User = {
+        name: 'Matheus Oliveira',
         email: 'matheus.oliveira@email.com',
         password: 'minhasenha1!'
       }
