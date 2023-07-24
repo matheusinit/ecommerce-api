@@ -26,7 +26,7 @@ export class RegisterUserController implements Controller {
       }
 
       if (!email || (email && !email.trim())) {
-        throw new Error('Email must be specified')
+        return badRequest(httpError('Email must be specified'))
       }
 
       const user = await this.registerUser.execute({
