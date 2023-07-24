@@ -83,6 +83,20 @@ describe('POST /users', () => {
       expect(response.body.message).toBeDefined()
     })
 
+    it('when name is contains only spaces, should get bad request', async () => {
+      const user: User = {
+        name: ' '.repeat(10),
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
+
     it('when name has less than 3 characters, should get bad request', async () => {
       const user: User = {
         name: 'Jo',
