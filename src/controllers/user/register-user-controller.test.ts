@@ -106,5 +106,19 @@ describe('POST /users', () => {
       expect(response.status).toBe(400)
       expect(response.body.message).toBeDefined()
     })
+
+    it('when email is not provided, should get bad request', async () => {
+      // @ts-expect-error "Use incorrect type for field 'type' to test feature"
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        password: 'minhasenha1!'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(400)
+      expect(response.body.message).toBeDefined()
+    })
   })
 })
