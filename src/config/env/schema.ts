@@ -7,5 +7,6 @@ export const productionEnvSchema = z.object({
   PORT: z.number(),
   REDIS_PASSWORD: z.string(),
   REDIS_HOST: z.string(),
-  REDIS_PORT: z.string()
+  REDIS_PORT: z.string(),
+  DATABASE_URL: z.string()
 })
