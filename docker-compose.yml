@@ -27,6 +27,12 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
     volumes:
       - /usr/docker/cache/ecommerce/:/data
+  integration_tests:
+    container_name: ecommerce_integration_tests
+    build:
+      context: .
+      target: integration-test
+    env_file: .env.test.local
 volumes:
   cache:
     driver: local
