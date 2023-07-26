@@ -21,4 +21,5 @@ ENV PATH=/app/node_modules/.bin:$PATH
 RUN pnpm i && pnpm store prune
 RUN pnpm eslint .
 RUN pnpm prisma generate
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["pnpm", "integration-test"]
