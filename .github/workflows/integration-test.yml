@@ -11,12 +11,12 @@ jobs:
         with:
           envkey_DEBUG: false
           envkey_SOME_API_KEY: "api_key"
-          DATABASE_URL: postgresql://root:senha123@database/ecommerce_db
-          ACCESS_TOKEN_SECRET: senha
-          REFRESH_TOKEN_SECRET: senha
-          REDIS_PASSWORD: passforredis
-          REDIS_HOST: cache
-          REDIS_PORT: 6379
+          envkey_DATABASE_URL: postgresql://root:senha123@database/ecommerce_db
+          envkey_ACCESS_TOKEN_SECRET: r7hv0yjd9XiqKx47s43ViMoCgSAD1I4z8EupUw/msUPUyvBr56Xhs9NfNU/Nx7Zq
+          envkey_REFRESH_TOKEN_SECRET: senha
+          envkey_REDIS_PASSWORD: passforredis
+          envkey_REDIS_HOST: cache
+          envkey_REDIS_PORT: 6379
           file_name: ".env.test.local"
           fail_on_empty: false
           directory: .
