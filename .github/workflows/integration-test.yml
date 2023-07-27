@@ -28,7 +28,7 @@ jobs:
         with:
           envkey_DEBUG: false
           envkey_SOME_API_KEY: "api_key"
-          envkey_DATABASE_URL: postgresql://root:passwordfordb@database/main
+          envkey_DATABASE_URL: postgresql://root:passwordfordb@0.0.0.0:5432/main
           file_name: ".env"
           fail_on_empty: false
       - name: 'Run services'
