@@ -23,5 +23,7 @@ jobs:
           file_name: ".env.test.local"
           fail_on_empty: false
           directory: .
+      - name: 'cat'
+        run: cat .env.test.local
       - name: 'Run integration tests'
         run: docker compose up integration_tests --exit-code-from integration_tests
