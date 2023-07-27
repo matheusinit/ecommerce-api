@@ -23,6 +23,14 @@ jobs:
           file_name: ".env.test.local"
           fail_on_empty: false
           directory: .
+      - name: Make env file
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_DEBUG: false
+          envkey_SOME_API_KEY: "api_key"
+          envkey_DATABASE_URL: postgresql://root:passwordfordb@database/main
+          file_name: ".env"
+          fail_on_empty: false
       - name: 'Run services'
         run: docker compose --env-file .env.test.local up -d database cache
       - name: Generate lock file
