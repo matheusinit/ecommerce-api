@@ -33,6 +33,9 @@ services:
       context: .
       target: integration-test
     env_file: .env.test.local
+    depends_on:
+      - database
+      - cache
 volumes:
   cache:
     driver: local
