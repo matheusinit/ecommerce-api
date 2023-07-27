@@ -25,5 +25,7 @@ jobs:
           directory: .
       - name: 'Run services'
         run: docker compose --env-file .env.test.local up -d database cache
+      - name: 'Sync database with schema'
+        run: pnpm prisma db push
       - name: 'Run integration tests'
         run: docker compose --env-file .env.test.local up integration_tests --exit-code-from integration_tests
