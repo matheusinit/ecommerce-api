@@ -25,6 +25,8 @@ jobs:
           directory: .
       - name: 'Run services'
         run: docker compose --env-file .env.test.local up -d database cache
+      - name: Generate lock file
+        run: npm i --package-lock-only
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
