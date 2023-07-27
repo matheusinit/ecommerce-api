@@ -14,6 +14,9 @@ jobs:
           envkey_DATABASE_URL: postgresql://root:senha123@database/ecommerce_db
           envkey_ACCESS_TOKEN_SECRET: r7hv0yjd9XiqKx47s43ViMoCgSAD1I4z8EupUw/msUPUyvBr56Xhs9NfNU/Nx7Zq
           envkey_REFRESH_TOKEN_SECRET: senha
+          envkey_POSTGRES_USER: root
+          envkey_POSTGRES_PASSWORD: passwordfordb
+          envkey_POSTGRES_DB: main
           envkey_REDIS_PASSWORD: passforredis
           envkey_REDIS_HOST: cache
           envkey_REDIS_PORT: 6379
