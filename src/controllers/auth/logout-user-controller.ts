@@ -1,7 +1,7 @@
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type LogoutUser } from '~/usecases/logout-user'
-import { httpError, internalServerError, ok, unauthorized } from '~/utils/http'
+import { httpError, ok, unauthorized } from '~/utils/http'
 
 export class LogoutUserController implements Controller {
   constructor (

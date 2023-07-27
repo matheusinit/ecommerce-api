@@ -4,7 +4,7 @@ import { prisma } from '~/infra/db'
 
 export class PrismaUserRepository implements UserRepository {
   async findById (params: FindByIdDtos): Promise<User | null> {
-    return await prisma.user.findUnique({
+    return prisma.user.findUnique({
       where: {
         id: params.id
       }
@@ -14,7 +14,7 @@ export class PrismaUserRepository implements UserRepository {
   async findByEmail (params: FindByEmailParams): Promise<User | null> {
     const { email } = params
 
-    return await prisma.user.findUnique({
+    return prisma.user.findUnique({
       where: {
         email
       }

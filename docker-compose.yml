@@ -1,5 +1,12 @@
 version: '3.7'
 services:
+  api-rest-app:
+    build: .
+    ports:
+      - 8000:8000
+    depends_on:
+      - database
+      - cache
   database:
     container_name: ecommerce_db
     image: postgres:14
@@ -20,6 +27,17 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
     volumes:
       - /usr/docker/cache/ecommerce/:/data
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+  integration_tests:
+    container_name: ecommerce_integration_tests
+    build:
+      context: .
+      target: integration-test
+    env_file: .env.test.local
+    depends_on:
+      - database
+      - cache
 volumes:
   cache:
     driver: local
