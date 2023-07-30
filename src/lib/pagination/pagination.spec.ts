@@ -28,33 +28,35 @@ describe('Pagination', () => {
       })
     })
 
-    it('when only page query param is provided, get default value for per page', async () => {
-      const page = '0'
-      const perPage = undefined
-      const expectedDefault = 10
+    describe('Missing inputs', () => {
+      it('when only page query param is provided, get default value for per page', async () => {
+        const page = '0'
+        const perPage = undefined
+        const expectedDefault = 10
 
-      const queryParams = validatePaginationQueryParams({
-        page, perPage
+        const queryParams = validatePaginationQueryParams({
+          page, perPage
+        })
+
+        expect(queryParams).toMatchObject({
+          page: 0,
+          perPage: expectedDefault
+        })
       })
 
-      expect(queryParams).toMatchObject({
-        page: 0,
-        perPage: expectedDefault
-      })
-    })
+      it('when only per page query param is provided, get default value for page', async () => {
+        const page = undefined
+        const perPage = '10'
+        const expectedDefault = 0
 
-    it('when only per page query param is provided, get default value for page', async () => {
-      const page = undefined
-      const perPage = '10'
-      const expectedDefault = 0
+        const queryParams = validatePaginationQueryParams({
+          page, perPage
+        })
 
-      const queryParams = validatePaginationQueryParams({
-        page, perPage
-      })
-
-      expect(queryParams).toMatchObject({
-        page: expectedDefault,
-        perPage: 10
+        expect(queryParams).toMatchObject({
+          page: expectedDefault,
+          perPage: 10
+        })
       })
     })
   })
