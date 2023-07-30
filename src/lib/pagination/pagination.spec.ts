@@ -60,4 +60,17 @@ describe('Pagination', () => {
       })
     })
   })
+
+  describe('Invalid data', () => {
+    it('when 0 is provided as per page value, should throw an error', async () => {
+      const perPage = '0'
+      const page = '0'
+
+      const sut = () => validatePaginationQueryParams({
+        page, perPage
+      })
+
+      expect(sut).toThrowError()
+    })
+  })
 })
