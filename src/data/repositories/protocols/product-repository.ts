@@ -6,7 +6,12 @@ export interface CreateOperationDtos {
   price: number
 }
 
+export interface ListOperationDtos {
+  skip: number
+  get: number
+}
+
 export abstract class ProductRepository {
   abstract create (data: CreateOperationDtos): Promise<Product>
-  abstract list (): Promise<Product[]>
+  abstract list (options: ListOperationDtos): Promise<Product[]>
 }
