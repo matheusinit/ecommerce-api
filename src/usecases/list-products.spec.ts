@@ -7,7 +7,10 @@ describe('List products', () => {
     const inMemoryProductRepository = new InMemoryProductRepository()
     const sut = new ListProducts(inMemoryProductRepository)
 
-    const output = await sut.execute()
+    const output = await sut.execute({
+      getCount: 5,
+      skipCount: 0
+    })
 
     expect(Array.isArray(output)).toBeTruthy()
   })
