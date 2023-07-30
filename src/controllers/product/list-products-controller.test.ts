@@ -20,23 +20,22 @@ interface Tokens {
 }
 
 describe('GET /products', () => {
+  let user
+
   beforeAll(async () => {
     prisma = new PrismaClient()
 
     await prisma.$connect()
 
-    const user: User = {
+    const userData: User = {
       name: 'Matheus Oliveira',
       type: 'STORE-ADMIN',
       email: 'matheus.oliveira@email.com',
       password: 'minhasenha1!'
     }
 
-    await request(app).post('/v1/users').send(user)
-  })
-
-  afterEach(async () => {
-    await prisma.product.deleteMany()
+    const response = await request(app).post('/v1/users').send(userData)
+    user = response.body
   })
 
   afterAll(async () => {
@@ -46,6 +45,10 @@ describe('GET /products', () => {
   })
 
   describe('Valid products', () => {
+    afterEach(async () => {
+      await prisma.product.deleteMany()
+    })
+
     it('when product is published, get a positive result', async () => {
       const { body } = await request(app)
         .post('/v1/auth')
@@ -67,11 +70,6 @@ describe('GET /products', () => {
       const response = await request(app).get('/v1/products')
 
       expect(response.status).toBe(200)
-      expect(response.body.length).toBe(1)
-      expect(response.body.at(0)).toEqual(expect.objectContaining({
-        name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear',
-        price: 29900
-      }))
     })
 
     it('when products are published, products should return paginated', async () => {
@@ -103,6 +101,41 @@ describe('GET /products', () => {
       expect(response.body.length).toBe(5)
       expect(response.header['pagination-total-count']).toBe('10')
       expect(response.header['pagination-page-count']).toBe('2')
+    })
+
+    it('when products are published, should return an list of object with product data', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const product = {
+        name: falso.randProductName(),
+        price: 29900
+      }
+
+      await request(app)
+        .post('/v1/products')
+        .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+        .send(product)
+
+      const response = await request(app).get('/v1/products?per_page=5&page=0')
+
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(String),
+          name: product.name,
+          price: product.price,
+          userId: user.id,
+          updatedAt: expect.any(String),
+          deletedAt: null
+        })
+      ]))
     })
   })
 
