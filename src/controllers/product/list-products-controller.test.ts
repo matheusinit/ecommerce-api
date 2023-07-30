@@ -41,7 +41,7 @@ describe('GET /products', () => {
   })
 
   describe('Valid products', () => {
-    it('when product is registered, get a positive result', async () => {
+    it('when product is published, get a positive result', async () => {
       interface Tokens {
         accessToken: string
         refreshToken: string
@@ -112,7 +112,7 @@ describe('GET /products', () => {
   })
 
   describe('None product', () => {
-    it('when there isn\'t any product published, should return any products', async () => {
+    it('when there isn\'t any product published, should return none products', async () => {
       const response = await request(app).get('/v1/products')
 
       expect(response.status).toBe(200)
