@@ -38,42 +38,43 @@ describe('GET /products', () => {
   afterAll(async () => {
     await prisma.$disconnect()
   })
+  describe('Valid products', () => {
+    it('when product is registered, get a positive result', async () => {
+      interface Tokens {
+        accessToken: string
+        refreshToken: string
+      }
 
-  it('should return a message on success', async () => {
-    interface Tokens {
-      accessToken: string
-      refreshToken: string
-    }
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
 
-    const { body } = await request(app)
-      .post('/v1/auth')
-      .send({
-        email: 'matheus.oliveira@email.com',
-        password: 'minhasenha1!'
-      })
+      const tokens: Tokens = body
 
-    const tokens: Tokens = body
+      await request(app)
+        .post('/v1/products')
+        .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+        .send({
+          name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear',
+          price: 29900
+        })
 
-    await request(app)
-      .post('/v1/products')
-      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
-      .send({
+      const response = await request(app).get('/v1/products')
+
+      expect(response.status).toBe(200)
+      expect(response.body.length).toBe(1)
+      expect(response.body.at(0)).toEqual(expect.objectContaining({
         name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear',
         price: 29900
-      })
-
-    const response = await request(app).get('/v1/products')
-
-    expect(response.status).toBe(200)
-    expect(response.body.length).toBe(1)
-    expect(response.body.at(0)).toEqual(expect.objectContaining({
-      name: 'Teclado Mecânico com fio Logitech K835 TKL com Estrutura de Alumínio e Switch Red Linear',
-      price: 29900
-    }))
+      }))
+    })
   })
 
-  describe('when there is any roduct published', () => {
-    it('should return any products', async () => {
+  describe('None product', () => {
+    it('when there isn\'t any product published, should return any products', async () => {
       const response = await request(app).get('/v1/products')
 
       expect(response.status).toBe(200)
