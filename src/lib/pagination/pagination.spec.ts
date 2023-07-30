@@ -27,5 +27,20 @@ describe('Pagination', () => {
         perPage: 10
       })
     })
+
+    it('when only page query param is provided, get default value for per page', async () => {
+      const page = '0'
+      const perPage = undefined
+      const expectedDefault = 10
+
+      const queryParams = validatePaginationQueryParams({
+        page, perPage
+      })
+
+      expect(queryParams).toMatchObject({
+        page: 0,
+        perPage: expectedDefault
+      })
+    })
   })
 })
