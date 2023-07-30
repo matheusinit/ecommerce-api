@@ -14,6 +14,11 @@ interface User {
   password: string
 }
 
+interface Tokens {
+  accessToken: string
+  refreshToken: string
+}
+
 describe('GET /products', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
@@ -42,11 +47,6 @@ describe('GET /products', () => {
 
   describe('Valid products', () => {
     it('when product is published, get a positive result', async () => {
-      interface Tokens {
-        accessToken: string
-        refreshToken: string
-      }
-
       const { body } = await request(app)
         .post('/v1/auth')
         .send({
@@ -75,11 +75,6 @@ describe('GET /products', () => {
     })
 
     it('when products are published, products should return paginated', async () => {
-      interface Tokens {
-        accessToken: string
-        refreshToken: string
-      }
-
       const { body } = await request(app)
         .post('/v1/auth')
         .send({
