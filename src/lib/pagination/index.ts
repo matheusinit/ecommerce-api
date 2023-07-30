@@ -1,5 +1,5 @@
 interface ValidatePaginationQueryParamsRequest {
-  perPage: string
+  perPage?: string
   page: string
 }
 
