@@ -148,4 +148,12 @@ describe('GET /products', () => {
       expect(response.body).toBeInstanceOf(Array)
     })
   })
+
+  describe('Pagination', () => {
+    it('when per page query param is 0, should get a bad request', async () => {
+      const response = await request(app).get('/v1/products?per_page=0')
+
+      expect(response.status).toBe(400)
+    })
+  })
 })
