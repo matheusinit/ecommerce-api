@@ -1,6 +1,6 @@
 interface ValidatePaginationQueryParamsRequest {
   perPage?: string
-  page: string
+  page?: string
 }
 
 export const validatePaginationQueryParams = (data: ValidatePaginationQueryParamsRequest) => {
