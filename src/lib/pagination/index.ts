@@ -7,6 +7,10 @@ export const validatePaginationQueryParams = (data: ValidatePaginationQueryParam
   let perPage: number | undefined
   let page: number | undefined
 
+  if (data.perPage === '0') {
+    throw new Error('per_page has to be 1 or greater')
+  }
+
   if (data.perPage) {
     perPage = Number(data.perPage)
   }
