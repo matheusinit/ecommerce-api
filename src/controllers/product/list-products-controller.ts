@@ -2,6 +2,7 @@ import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type ListProducts } from '~/usecases/list-products'
 import { badRequest, httpError, ok } from '~/utils/http'
+import { defineResponseHeader } from '~/utils/response-headers'
 
 interface ValidatePaginationQueryParamsRequest {
   perPage: string
@@ -49,6 +50,11 @@ export class ListProductsController implements Controller {
       getCount
     })
 
-    return ok(products)
+    const response = ok(products)
+
+    return defineResponseHeader(response, {
+      'Pagination-Page-Count': '2',
+      'Pagination-Total-Count': '10'
+    })
   }
 }
