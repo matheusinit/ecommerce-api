@@ -72,8 +72,8 @@ describe('GET /products', () => {
     }))
   })
 
-  describe('when there is none product published', () => {
-    it('should return none products', async () => {
+  describe('when there is any roduct published', () => {
+    it('should return any products', async () => {
       const response = await request(app).get('/v1/products')
 
       expect(response.status).toBe(200)
