@@ -150,6 +150,10 @@ describe('GET /products', () => {
   })
 
   describe('Pagination', () => {
+    afterEach(async () => {
+      await prisma.product.deleteMany()
+    })
+
     it('when per page query param is 0, should get a bad request', async () => {
       const response = await request(app).get('/v1/products?per_page=0')
 
@@ -187,6 +191,37 @@ describe('GET /products', () => {
           total_count: 20
         }
       }))
+    })
+
+    it('when query param include with metadata is not provided, get pagination metadata in response headers', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const productsToInsert = new Array(15).fill({
+        name: falso.randProductName(),
+        price: 29900
+      })
+
+      const productsPromise = productsToInsert.map(async product =>
+        await request(app)
+          .post('/v1/products')
+          .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+          .send(product))
+
+      await Promise.all(productsPromise)
+
+      const response = await request(app).get('/v1/products')
+
+      expect(response.header['pagination-per-page']).toBe('10')
+      expect(response.header['pagination-page']).toBe('0')
+      expect(response.header['pagination-total-count']).toBe('15')
+      expect(response.header['pagination-page-count']).toBe('2')
     })
   })
 })
