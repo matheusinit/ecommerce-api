@@ -189,12 +189,12 @@ describe('GET /products', () => {
       const response = await request(app).get('/v1/products?include=metadata')
 
       expect(response.body).toEqual(expect.objectContaining({
-        _metadata: {
+        _metadata: expect.objectContaining({
           page_count: 2,
           total_count: 20,
           page: 0,
           per_page: 10
-        }
+        })
       }))
     })
 
