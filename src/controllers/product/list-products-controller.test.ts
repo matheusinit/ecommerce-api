@@ -155,5 +155,38 @@ describe('GET /products', () => {
 
       expect(response.status).toBe(400)
     })
+
+    it('when include with metadata query is provided, should get pagination metadata in response body', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const productsToInsert = new Array(20).fill({
+        name: falso.randProductName(),
+        price: 29900
+      })
+
+      const productsPromise = productsToInsert.map(async product =>
+        await request(app)
+          .post('/v1/products')
+          .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+          .send(product))
+
+      await Promise.all(productsPromise)
+
+      const response = await request(app).get('/v1/products?include=metadata')
+
+      expect(response.body).toEqual(expect.objectContaining({
+        _metadata: {
+          page_count: 2,
+          total_count: 20
+        }
+      }))
+    })
   })
 })
