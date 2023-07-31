@@ -14,6 +14,7 @@ export class ListProductsController implements Controller {
     try {
       const perPageQuery = request.query?.per_page
       const pageQuery = request.query?.page
+      const includeQuery = request.query?.include
 
       const { perPage, page } = validatePaginationQueryParams({ perPage: perPageQuery, page: pageQuery })
 
@@ -24,6 +25,16 @@ export class ListProductsController implements Controller {
         skipCount,
         getCount
       })
+
+      if (includeQuery === 'metadata') {
+        return ok({
+          _metadata: {
+            page_count: 2,
+            total_count: 20
+          },
+          data: products
+        })
+      }
 
       const response = ok(products)
 
