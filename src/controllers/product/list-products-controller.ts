@@ -26,17 +26,19 @@ export class ListProductsController implements Controller {
         getCount
       })
 
+      const pageCount = Math.ceil(count / perPage)
+
       if (includeQuery === 'metadata') {
         return ok({
           _metadata: {
-            page_count: 2,
-            total_count: 20
+            page_count: pageCount,
+            total_count: count,
+            page,
+            per_page: perPage
           },
           data: products
         })
       }
-
-      const pageCount = Math.ceil(count / perPage)
 
       const response = ok(products)
 
