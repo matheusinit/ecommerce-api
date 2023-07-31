@@ -34,7 +34,13 @@ export class ListProductsController implements Controller {
             page_count: pageCount,
             total_count: count,
             page,
-            per_page: perPage
+            per_page: perPage,
+            links: [
+              { self: `/products?page=${page}&per_page=${perPage}` },
+              { first: `/products?page=0&per_page=${perPage}` },
+              { next: `/products?page=${page + 1}&per_page=${perPage}` },
+              { last: `/products?page=${pageCount - 1}&per_page=${perPage}` }
+            ]
           },
           data: products
         })
