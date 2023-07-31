@@ -138,6 +138,12 @@ describe('GET /products', () => {
   })
 
   describe('None product', () => {
+    it('when there isn\'t any product published, should get ok', async () => {
+      const response = await request(app).get('/v1/products')
+
+      expect(response.status).toBe(200)
+    })
+
     it('when there isn\'t any product published, should return none products', async () => {
       const response = await request(app).get('/v1/products')
 
