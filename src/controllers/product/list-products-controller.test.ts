@@ -188,7 +188,9 @@ describe('GET /products', () => {
       expect(response.body).toEqual(expect.objectContaining({
         _metadata: {
           page_count: 2,
-          total_count: 20
+          total_count: 20,
+          page: 0,
+          per_page: 10
         }
       }))
     })
