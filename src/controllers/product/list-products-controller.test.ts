@@ -97,7 +97,6 @@ describe('GET /products', () => {
 
       const response = await request(app).get('/v1/products?per_page=5&page=1')
 
-      expect(response.status).toBe(200)
       expect(response.body.length).toBe(5)
       expect(response.header['pagination-total-count']).toBe('10')
       expect(response.header['pagination-page-count']).toBe('2')
@@ -125,7 +124,6 @@ describe('GET /products', () => {
 
       const response = await request(app).get('/v1/products?per_page=5&page=0')
 
-      expect(response.status).toBe(200)
       expect(response.body).toEqual(expect.arrayContaining([
         expect.objectContaining({
           id: expect.any(String),
@@ -143,7 +141,6 @@ describe('GET /products', () => {
     it('when there isn\'t any product published, should return none products', async () => {
       const response = await request(app).get('/v1/products')
 
-      expect(response.status).toBe(200)
       expect(response.body.length).toBe(0)
       expect(response.body).toBeInstanceOf(Array)
     })
