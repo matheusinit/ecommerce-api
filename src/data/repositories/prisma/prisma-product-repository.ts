@@ -4,6 +4,10 @@ import { type ListOperationDtos, type CreateOperationDtos, type ProductRepositor
 import { prisma } from '~/infra/db'
 
 export class PrismaProductRepository implements ProductRepository {
+  async count (): Promise<number> {
+    return await prisma.product.count()
+  }
+
   async list (options: ListOperationDtos): Promise<Product[]> {
     return await prisma.product.findMany({
       where: {

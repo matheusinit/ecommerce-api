@@ -21,7 +21,7 @@ export class ListProductsController implements Controller {
       const skipCount = page * perPage
       const getCount = perPage
 
-      const products = await this.listProducts.execute({
+      const { products, count } = await this.listProducts.execute({
         skipCount,
         getCount
       })
@@ -36,11 +36,15 @@ export class ListProductsController implements Controller {
         })
       }
 
+      const pageCount = Math.ceil(count / perPage)
+
       const response = ok(products)
 
       return defineResponseHeader(response, {
-        'Pagination-Page-Count': '2',
-        'Pagination-Total-Count': '10'
+        'Pagination-Page-Count': String(pageCount),
+        'Pagination-Total-Count': String(count),
+        'Pagination-Page': String(page),
+        'Pagination-Per-Page': String(perPage)
       })
     } catch (err) {
       const error = err as Error

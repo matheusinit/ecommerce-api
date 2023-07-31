@@ -16,6 +16,11 @@ export class ListProducts {
       skip: skipCount
     })
 
-    return products
+    const count = await this.productRepository.count()
+
+    return {
+      products,
+      count
+    }
   }
 }

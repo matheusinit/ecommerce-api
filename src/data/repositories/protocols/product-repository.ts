@@ -14,4 +14,5 @@ export interface ListOperationDtos {
 export abstract class ProductRepository {
   abstract create (data: CreateOperationDtos): Promise<Product>
   abstract list (options: ListOperationDtos): Promise<Product[]>
+  abstract count (): Promise<number>
 }
