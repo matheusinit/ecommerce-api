@@ -252,6 +252,42 @@ describe('GET /products', () => {
 
       await Promise.all(productsPromise)
 
+      const response = await request(app).get('/v1/products?include=metadata&page=2&per_page=5')
+
+      expect(response.body._metadata).toEqual(expect.objectContaining({
+        links: [
+          { self: '/products?page=2&per_page=5' },
+          { first: '/products?page=0&per_page=5' },
+          { prev: '/products?page=1&per_page=5' },
+          { next: '/products?page=3&per_page=5' },
+          { last: '/products?page=3&per_page=5' }
+        ]
+      }))
+    })
+
+    it('when first page is requested with metadata object, shouldn\'t get prev link', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const productsToInsert = new Array(20).fill({
+        name: falso.randProductName(),
+        price: 29900
+      })
+
+      const productsPromise = productsToInsert.map(async product =>
+        await request(app)
+          .post('/v1/products')
+          .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+          .send(product))
+
+      await Promise.all(productsPromise)
+
       const response = await request(app).get('/v1/products?include=metadata')
 
       expect(response.body._metadata).toEqual(expect.objectContaining({
