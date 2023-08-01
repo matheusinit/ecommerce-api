@@ -29,18 +29,35 @@ export class ListProductsController implements Controller {
       const pageCount = Math.ceil(count / perPage)
 
       if (includeQuery === 'metadata') {
+        const linkNames = ['self', 'first', 'prev', 'next', 'last']
+
+        const linkReferences = [
+          `/products?page=${page}&per_page=${perPage}`,
+          `/products?page=0&per_page=${perPage}`,
+          `/products?page=${page - 1}&per_page=${perPage}`,
+          `/products?page=${page + 1}&per_page=${perPage}`,
+          `/products?page=${pageCount - 1}&per_page=${perPage}`
+        ]
+
+        const linksArray: Array<Record<string, string>> = []
+
+        linkNames.forEach((linkName, index) => {
+          if (linkName === 'prev' && page === 0) {
+            return
+          }
+
+          linksArray.push({
+            [linkName]: linkReferences[index]
+          })
+        })
+
         return ok({
           _metadata: {
             page_count: pageCount,
             total_count: count,
             page,
             per_page: perPage,
-            links: [
-              { self: `/products?page=${page}&per_page=${perPage}` },
-              { first: `/products?page=0&per_page=${perPage}` },
-              { next: `/products?page=${page + 1}&per_page=${perPage}` },
-              { last: `/products?page=${pageCount - 1}&per_page=${perPage}` }
-            ]
+            links: linksArray
           },
           data: products
         })
