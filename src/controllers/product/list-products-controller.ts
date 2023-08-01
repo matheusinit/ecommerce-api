@@ -46,6 +46,10 @@ export class ListProductsController implements Controller {
             return
           }
 
+          if (linkName === 'next' && page === pageCount - 1) {
+            return
+          }
+
           linksArray.push({
             [linkName]: linkReferences[index]
           })
