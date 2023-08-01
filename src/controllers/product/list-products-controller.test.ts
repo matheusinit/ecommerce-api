@@ -263,5 +263,40 @@ describe('GET /products', () => {
         ]
       }))
     })
+
+    it('when query param include with metadata is not provided, get links in response header', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const productsToInsert = new Array(20).fill({
+        name: falso.randProductName(),
+        price: 29900
+      })
+
+      const productsPromise = productsToInsert.map(async product =>
+        await request(app)
+          .post('/v1/products')
+          .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+          .send(product))
+
+      await Promise.all(productsPromise)
+
+      const response = await request(app).get('/v1/products')
+
+      const linkReferences = [
+        '</products?page=0&per_page=10>; rel="self"',
+        '</products?page=0&per_page=10>; rel="first"',
+        '</products?page=1&per_page=10>; rel="next"',
+        '</products?page=1&per_page=10>; rel="last"'
+      ]
+
+      expect(response.headers.link).toEqual(linkReferences.join(','))
+    })
   })
 })
