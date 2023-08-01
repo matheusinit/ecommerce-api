@@ -46,13 +46,23 @@ export class ListProductsController implements Controller {
         })
       }
 
+      const linkReferences = [
+        `</products?page=${page}&per_page=${perPage}>; rel="self"`,
+        `</products?page=0&per_page=${perPage}>; rel="first"`,
+        `</products?page=${page + 1}&per_page=${perPage}>; rel="next"`,
+        `</products?page=${pageCount - 1}&per_page=${perPage}>; rel="last"`
+      ]
+
+      const linkHeader = linkReferences.join(',')
+
       const response = ok(products)
 
       return defineResponseHeader(response, {
         'Pagination-Page-Count': String(pageCount),
         'Pagination-Total-Count': String(count),
         'Pagination-Page': String(page),
-        'Pagination-Per-Page': String(perPage)
+        'Pagination-Per-Page': String(perPage),
+        Link: linkHeader
       })
     } catch (err) {
       const error = err as Error
