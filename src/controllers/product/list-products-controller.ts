@@ -2,7 +2,7 @@ import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { validatePaginationQueryParams } from '~/lib/pagination'
 import { type ListProducts } from '~/usecases/list-products'
-import { badRequest, httpError, internalServerError, ok } from '~/utils/http'
+import { badRequest, httpError, internalServerError, notFound, ok } from '~/utils/http'
 import { defineResponseHeader } from '~/utils/response-headers'
 
 export class ListProductsController implements Controller {
@@ -27,6 +27,10 @@ export class ListProductsController implements Controller {
       })
 
       const pageCount = Math.ceil(count / perPage)
+
+      if (page >= pageCount) {
+        return notFound(httpError(`page query param is greater than the number of pages: ${pageCount}`))
+      }
 
       if (includeQuery === 'metadata') {
         const linkNames = ['self', 'first', 'prev', 'next', 'last']
