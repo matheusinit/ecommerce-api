@@ -49,7 +49,7 @@ export class PublishProductController implements Controller {
         return forbidden(httpError(error.message))
       }
 
-      return internalServerError(httpError('expected error occured'))
+      return internalServerError(httpError('unexpected error occured'))
     }
   }
 }
