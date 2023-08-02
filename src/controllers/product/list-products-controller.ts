@@ -32,9 +32,9 @@ export class ListProductsController implements Controller {
         return notFound(httpError(`page query param is greater than the number of pages: ${pageCount}`))
       }
 
-      if (includeQuery === 'metadata') {
-        const linkNames = ['self', 'first', 'prev', 'next', 'last']
+      const linkNames = ['self', 'first', 'prev', 'next', 'last']
 
+      if (includeQuery === 'metadata') {
         const linkReferences = [
           `/products?page=${page}&per_page=${perPage}`,
           `/products?page=0&per_page=${perPage}`,
@@ -74,11 +74,22 @@ export class ListProductsController implements Controller {
       const linkReferences = [
         `</products?page=${page}&per_page=${perPage}>; rel="self"`,
         `</products?page=0&per_page=${perPage}>; rel="first"`,
+        `</products?page=${page - 1}&per_page=${perPage}>; rel="prev"`,
         `</products?page=${page + 1}&per_page=${perPage}>; rel="next"`,
         `</products?page=${pageCount - 1}&per_page=${perPage}>; rel="last"`
       ]
 
-      const linkHeader = linkReferences.join(',')
+      const linksFiltered: string[] = []
+
+      linkNames.forEach((linkName, index) => {
+        if (linkName === 'prev' && page === 0) {
+          return
+        }
+
+        linksFiltered.push(linkReferences[index])
+      })
+
+      const linkHeader = linksFiltered.join(',')
 
       const response = ok(products)
 
