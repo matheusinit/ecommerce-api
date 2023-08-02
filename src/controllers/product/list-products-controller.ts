@@ -28,7 +28,7 @@ export class ListProductsController implements Controller {
 
       const pageCount = Math.ceil(count / perPage)
 
-      if (page >= pageCount) {
+      if (page >= pageCount && page > 0) {
         return notFound(httpError(`page query param is greater than the number of pages: ${pageCount}`))
       }
 
