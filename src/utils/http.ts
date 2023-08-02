@@ -3,6 +3,11 @@ export const badRequest = <T,>(body: T) => ({
   body
 })
 
+export const notFound = <T,>(body: T) => ({
+  statusCode: 404,
+  body
+})
+
 export const created = <T,>(body: T) => ({
   statusCode: 201,
   body
