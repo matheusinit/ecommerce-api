@@ -5,6 +5,27 @@ import { type ListProducts } from '~/usecases/list-products'
 import { badRequest, httpError, internalServerError, notFound, ok } from '~/utils/http'
 import { defineResponseHeader } from '~/utils/response-headers'
 
+interface PageProps {
+  page: number
+  pageCount: number
+}
+
+const filterLinks = (links: string[], linkNames: string[], props: PageProps) => {
+  const { page, pageCount } = props
+
+  return linkNames.map((linkName, index) => {
+    if (linkName === 'prev' && page === 0) {
+      return null
+    }
+
+    if (linkName === 'next' && page === pageCount - 1) {
+      return null
+    }
+
+    return links[index]
+  })
+}
+
 export class ListProductsController implements Controller {
   constructor (
     private readonly listProducts: ListProducts
@@ -45,17 +66,17 @@ export class ListProductsController implements Controller {
 
         const linksArray: Array<Record<string, string>> = []
 
-        linkNames.forEach((linkName, index) => {
-          if (linkName === 'prev' && page === 0) {
-            return
-          }
+        const linksFiltered = filterLinks(linkReferences, linkNames, { page, pageCount })
 
-          if (linkName === 'next' && page === pageCount - 1) {
+        linkNames.forEach((linkName, index) => {
+          const link = linksFiltered[index]
+
+          if (link === null) {
             return
           }
 
           linksArray.push({
-            [linkName]: linkReferences[index]
+            [linkName]: link
           })
         })
 
@@ -79,19 +100,8 @@ export class ListProductsController implements Controller {
         `</products?page=${pageCount - 1}&per_page=${perPage}>; rel="last"`
       ]
 
-      const linksFiltered: string[] = []
-
-      linkNames.forEach((linkName, index) => {
-        if (linkName === 'prev' && page === 0) {
-          return
-        }
-
-        if (linkName === 'next' && page === pageCount - 1) {
-          return
-        }
-
-        linksFiltered.push(linkReferences[index])
-      })
+      const linksFiltered = filterLinks(linkReferences, linkNames, { page, pageCount })
+        .filter(link => link !== null)
 
       const linkHeader = linksFiltered.join(',')
 
