@@ -678,5 +678,36 @@ describe('GET /products', () => {
         }
       ]))
     })
+
+    it('when query param fields is provided id, name and price as value, should return id, name and price fields', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const product = {
+        name: falso.randProductName(),
+        price: 29900
+      }
+
+      const { body: productPublished } = await request(app)
+        .post('/v1/products')
+        .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+        .send(product)
+
+      const response = await request(app).get('/v1/products?fields=id,name,price')
+
+      expect(response.body).toEqual(expect.arrayContaining([
+        {
+          id: productPublished.id,
+          name: product.name,
+          price: 29900
+        }
+      ]))
+    })
   })
 })
