@@ -3,6 +3,7 @@ import { type ProductRepository } from '~/data/repositories/protocols/product-re
 interface ListProductsRequest {
   skipCount: number
   getCount: number
+  selectName?: boolean
 }
 
 export class ListProducts {
@@ -10,10 +11,13 @@ export class ListProducts {
     private readonly productRepository: ProductRepository
   ) {}
 
-  async execute ({ skipCount, getCount }: ListProductsRequest) {
+  async execute ({ skipCount, getCount, selectName }: ListProductsRequest) {
     const products = await this.productRepository.list({
       get: getCount,
-      skip: skipCount
+      skip: skipCount,
+      select: {
+        name: selectName
+      }
     })
 
     const count = await this.productRepository.count()

@@ -36,6 +36,7 @@ export class ListProductsController implements Controller {
       const perPageQuery = request.query?.per_page
       const pageQuery = request.query?.page
       const includeQuery = request.query?.include
+      const fieldsQuery = request.query?.fields
 
       const { perPage, page } = validatePaginationQueryParams({ perPage: perPageQuery, page: pageQuery })
 
@@ -44,7 +45,8 @@ export class ListProductsController implements Controller {
 
       const { products, count } = await this.listProducts.execute({
         skipCount,
-        getCount
+        getCount,
+        selectName: fieldsQuery === 'name' || fieldsQuery?.split(',').includes('name') || undefined
       })
 
       const pageCount = Math.ceil(count / perPage)
