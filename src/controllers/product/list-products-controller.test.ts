@@ -475,7 +475,7 @@ describe('GET /products', () => {
       await prisma.product.deleteMany()
     })
 
-    it('when fields query param is provided with value name, should return only the name field', async () => {
+    it('when query param fields is provided with value name, should return only the name field', async () => {
       const { body } = await request(app)
         .post('/v1/auth')
         .send({
@@ -504,7 +504,7 @@ describe('GET /products', () => {
       ]))
     })
 
-    it('when fields query param is provided with value price, should return only the price field', async () => {
+    it('when query param fields is provided with value price, should return only the price field', async () => {
       const { body } = await request(app)
         .post('/v1/auth')
         .send({
