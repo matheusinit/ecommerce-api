@@ -19,13 +19,13 @@ export class PrismaProductRepository implements ProductRepository {
       skip: options.skip,
       take: options.get,
       select: {
-        id: !options.select.name ?? true,
+        id: (!options.select.name && !options.select.price) ?? true,
         name: options.select.name ?? true,
-        price: !options.select.name ?? true,
-        userId: !options.select.name ?? true,
-        createdAt: !options.select.name ?? true,
-        updatedAt: !options.select.name ?? true,
-        deletedAt: !options.select.name ?? true
+        price: options.select.price ?? true,
+        userId: (!options.select.name && !options.select.price) ?? true,
+        createdAt: (!options.select.name && !options.select.price) ?? true,
+        updatedAt: (!options.select.name && !options.select.price) ?? true,
+        deletedAt: (!options.select.name && !options.select.price) ?? true
       }
     })
   }

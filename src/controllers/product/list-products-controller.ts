@@ -46,7 +46,8 @@ export class ListProductsController implements Controller {
       const { products, count } = await this.listProducts.execute({
         skipCount,
         getCount,
-        selectName: fieldsQuery === 'name' || fieldsQuery?.split(',').includes('name') || undefined
+        selectName: fieldsQuery === 'name' || fieldsQuery?.split(',').includes('name'),
+        selectPrice: fieldsQuery === 'price' || fieldsQuery?.split(',').includes('price')
       })
 
       const pageCount = Math.ceil(count / perPage)

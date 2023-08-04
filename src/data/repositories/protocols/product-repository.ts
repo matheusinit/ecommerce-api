@@ -11,6 +11,7 @@ export interface ListOperationDtos {
   get: number
   select: {
     name?: boolean
+    price?: boolean
   }
 }
 
