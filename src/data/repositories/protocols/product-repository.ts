@@ -14,6 +14,7 @@ export interface ListOperationDtos {
     name?: boolean
     price?: boolean
     userId?: boolean
+    createdAt?: boolean
   }
 }
 

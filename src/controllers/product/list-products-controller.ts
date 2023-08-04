@@ -49,7 +49,8 @@ export class ListProductsController implements Controller {
         selectName: fieldsQuery === 'name' || fieldsQuery?.split(',').includes('name'),
         selectPrice: fieldsQuery === 'price' || fieldsQuery?.split(',').includes('price'),
         selectUserId: fieldsQuery === 'userId' || fieldsQuery?.split(',').includes('userId'),
-        selectId: fieldsQuery === 'id' || fieldsQuery?.split(',').includes('id')
+        selectId: fieldsQuery === 'id' || fieldsQuery?.split(',').includes('id'),
+        selectCreatedAt: fieldsQuery === 'createdAt' || fieldsQuery?.split(',').includes('createdAt')
       })
 
       const pageCount = Math.ceil(count / perPage)
