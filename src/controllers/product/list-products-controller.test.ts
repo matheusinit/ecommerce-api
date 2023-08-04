@@ -130,7 +130,8 @@ describe('GET /products', () => {
           name: product.name,
           price: product.price,
           userId: user.id,
-          updatedAt: expect.any(String),
+          createdAt: expect.any(String),
+          updatedAt: null,
           deletedAt: null
         })
       ]))
@@ -644,7 +645,7 @@ describe('GET /products', () => {
 
       expect(response.body).toEqual(expect.arrayContaining([
         {
-          updatedAt: expect.any(String)
+          updatedAt: null
         }
       ]))
     })
