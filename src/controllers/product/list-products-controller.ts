@@ -26,6 +26,9 @@ const filterLinks = (links: string[], linkNames: string[], props: PageProps) => 
   })
 }
 
+const checkForFieldInQuery = (query: string | undefined, fieldName: string) =>
+  query === fieldName || query?.split(',').includes(fieldName)
+
 export class ListProductsController implements Controller {
   constructor (
     private readonly listProducts: ListProducts
@@ -47,13 +50,13 @@ export class ListProductsController implements Controller {
         skipCount,
         getCount,
         select: {
-          name: fieldsQuery === 'name' || fieldsQuery?.split(',').includes('name'),
-          price: fieldsQuery === 'price' || fieldsQuery?.split(',').includes('price'),
-          userId: fieldsQuery === 'userId' || fieldsQuery?.split(',').includes('userId'),
-          id: fieldsQuery === 'id' || fieldsQuery?.split(',').includes('id'),
-          createdAt: fieldsQuery === 'createdAt' || fieldsQuery?.split(',').includes('createdAt'),
-          updatedAt: fieldsQuery === 'updatedAt' || fieldsQuery?.split(',').includes('updatedAt'),
-          deletedAt: fieldsQuery === 'deletedAt' || fieldsQuery?.split(',').includes('deletedAt')
+          name: checkForFieldInQuery(fieldsQuery, 'name'),
+          price: checkForFieldInQuery(fieldsQuery, 'price'),
+          userId: checkForFieldInQuery(fieldsQuery, 'userId'),
+          id: checkForFieldInQuery(fieldsQuery, 'id'),
+          createdAt: checkForFieldInQuery(fieldsQuery, 'createdAt'),
+          updatedAt: checkForFieldInQuery(fieldsQuery, 'updatedAt'),
+          deletedAt: checkForFieldInQuery(fieldsQuery, 'deletedAt')
         }
       })
 
