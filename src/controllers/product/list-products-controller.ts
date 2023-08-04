@@ -2,7 +2,7 @@ import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { validatePaginationQueryParams } from '~/lib/pagination'
 import { type ListProducts } from '~/usecases/list-products'
-import { badRequest, httpError, internalServerError, notFound, ok } from '~/utils/http'
+import { badRequest, httpError, internalServerError, notFound, ok, partialContent } from '~/utils/http'
 import { defineResponseHeader } from '~/utils/response-headers'
 
 interface PageProps {
@@ -93,7 +93,7 @@ export class ListProductsController implements Controller {
           })
         })
 
-        return ok({
+        const responseBody = {
           _metadata: {
             page_count: pageCount,
             total_count: count,
@@ -102,7 +102,12 @@ export class ListProductsController implements Controller {
             links: linksArray
           },
           data: products
-        })
+
+        }
+
+        return fieldsQuery
+          ? partialContent(responseBody)
+          : ok(responseBody)
       }
 
       const linkReferences = [
@@ -118,7 +123,7 @@ export class ListProductsController implements Controller {
 
       const linkHeader = linksFiltered.join(',')
 
-      const response = ok(products)
+      const response = fieldsQuery ? partialContent(products) : ok(products)
 
       return defineResponseHeader(response, {
         'Pagination-Page-Count': String(pageCount),

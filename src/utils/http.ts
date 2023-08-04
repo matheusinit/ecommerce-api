@@ -23,6 +23,11 @@ export const ok = <T,>(body: T) => ({
   body
 })
 
+export const partialContent = <T,>(body: T) => ({
+  statusCode: 206,
+  body
+})
+
 export const forbidden = <T,>(body: T) => ({
   statusCode: 403,
   body
