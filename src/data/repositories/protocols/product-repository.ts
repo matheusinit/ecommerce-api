@@ -16,6 +16,7 @@ export interface ListOperationDtos {
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }
 }
 

@@ -52,9 +52,9 @@ export class ListProductsController implements Controller {
           userId: fieldsQuery === 'userId' || fieldsQuery?.split(',').includes('userId'),
           id: fieldsQuery === 'id' || fieldsQuery?.split(',').includes('id'),
           createdAt: fieldsQuery === 'createdAt' || fieldsQuery?.split(',').includes('createdAt'),
-          updatedAt: fieldsQuery === 'updatedAt' || fieldsQuery?.split(',').includes('updatedAt')
+          updatedAt: fieldsQuery === 'updatedAt' || fieldsQuery?.split(',').includes('updatedAt'),
+          deletedAt: fieldsQuery === 'deletedAt' || fieldsQuery?.split(',').includes('deletedAt')
         }
-
       })
 
       const pageCount = Math.ceil(count / perPage)

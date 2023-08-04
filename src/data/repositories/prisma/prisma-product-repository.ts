@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/return-await */
 import { type Product } from '@prisma/client'
 import { type ListOperationDtos, type CreateOperationDtos, type ProductRepository, type PartialProduct } from '../protocols/product-repository'
 import { prisma } from '~/infra/db'
@@ -9,14 +8,6 @@ export class PrismaProductRepository implements ProductRepository {
   }
 
   async list (options: ListOperationDtos): Promise<PartialProduct[]> {
-    const omit = (!options.select.name &&
-        !options.select.price &&
-        !options.select.userId &&
-        !options.select.id &&
-        !options.select.createdAt &&
-        !options.select.updatedAt
-    )
-
     return await prisma.product.findMany({
       where: {
         deletedAt: null
@@ -33,7 +24,7 @@ export class PrismaProductRepository implements ProductRepository {
         userId: options.select.userId ?? true,
         createdAt: options.select.createdAt ?? true,
         updatedAt: options.select.updatedAt ?? true,
-        deletedAt: omit ?? true
+        deletedAt: options.select.deletedAt ?? true
       }
     })
   }

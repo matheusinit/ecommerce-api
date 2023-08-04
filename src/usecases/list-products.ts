@@ -10,6 +10,7 @@ interface ListProductsRequest {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }
 }
 
