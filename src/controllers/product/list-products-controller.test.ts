@@ -532,5 +532,34 @@ describe('GET /products', () => {
         }
       ]))
     })
+
+    it('when query param fields is provided with value userId, should return only the userId field', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const product = {
+        name: falso.randProductName(),
+        price: 29900
+      }
+
+      await request(app)
+        .post('/v1/products')
+        .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+        .send(product)
+
+      const response = await request(app).get('/v1/products?fields=userId')
+
+      expect(response.body).toEqual(expect.arrayContaining([
+        {
+          userId: user.id
+        }
+      ]))
+    })
   })
 })
