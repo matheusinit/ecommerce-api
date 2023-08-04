@@ -10,6 +10,7 @@ export interface ListOperationDtos {
   skip: number
   get: number
   select: {
+    id?: boolean
     name?: boolean
     price?: boolean
     userId?: boolean

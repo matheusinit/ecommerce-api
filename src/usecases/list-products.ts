@@ -6,6 +6,7 @@ interface ListProductsRequest {
   selectName?: boolean
   selectPrice?: boolean
   selectUserId?: boolean
+  selectId?: boolean
 }
 
 export class ListProducts {
@@ -13,11 +14,12 @@ export class ListProducts {
     private readonly productRepository: ProductRepository
   ) {}
 
-  async execute ({ skipCount, getCount, selectName, selectPrice, selectUserId }: ListProductsRequest) {
+  async execute ({ skipCount, getCount, selectName, selectPrice, selectUserId, selectId }: ListProductsRequest) {
     const products = await this.productRepository.list({
       get: getCount,
       skip: skipCount,
       select: {
+        id: selectId,
         name: selectName,
         price: selectPrice,
         userId: selectUserId
