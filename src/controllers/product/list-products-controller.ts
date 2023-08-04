@@ -46,11 +46,14 @@ export class ListProductsController implements Controller {
       const { products, count } = await this.listProducts.execute({
         skipCount,
         getCount,
-        selectName: fieldsQuery === 'name' || fieldsQuery?.split(',').includes('name'),
-        selectPrice: fieldsQuery === 'price' || fieldsQuery?.split(',').includes('price'),
-        selectUserId: fieldsQuery === 'userId' || fieldsQuery?.split(',').includes('userId'),
-        selectId: fieldsQuery === 'id' || fieldsQuery?.split(',').includes('id'),
-        selectCreatedAt: fieldsQuery === 'createdAt' || fieldsQuery?.split(',').includes('createdAt')
+        select: {
+          name: fieldsQuery === 'name' || fieldsQuery?.split(',').includes('name'),
+          price: fieldsQuery === 'price' || fieldsQuery?.split(',').includes('price'),
+          userId: fieldsQuery === 'userId' || fieldsQuery?.split(',').includes('userId'),
+          id: fieldsQuery === 'id' || fieldsQuery?.split(',').includes('id'),
+          createdAt: fieldsQuery === 'createdAt' || fieldsQuery?.split(',').includes('createdAt')
+        }
+
       })
 
       const pageCount = Math.ceil(count / perPage)

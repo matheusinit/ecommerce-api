@@ -3,11 +3,14 @@ import { type ProductRepository } from '~/data/repositories/protocols/product-re
 interface ListProductsRequest {
   skipCount: number
   getCount: number
-  selectName?: boolean
-  selectPrice?: boolean
-  selectUserId?: boolean
-  selectId?: boolean
-  selectCreatedAt?: boolean
+  select: {
+    name?: boolean
+    price?: boolean
+    userId?: boolean
+    id?: boolean
+    createdAt?: boolean
+  }
+
 }
 
 export class ListProducts {
@@ -15,17 +18,11 @@ export class ListProducts {
     private readonly productRepository: ProductRepository
   ) {}
 
-  async execute ({ skipCount, getCount, selectName, selectPrice, selectUserId, selectId, selectCreatedAt }: ListProductsRequest) {
+  async execute ({ skipCount, getCount, select }: ListProductsRequest) {
     const products = await this.productRepository.list({
       get: getCount,
       skip: skipCount,
-      select: {
-        id: selectId,
-        name: selectName,
-        price: selectPrice,
-        userId: selectUserId,
-        createdAt: selectCreatedAt
-      }
+      select
     })
 
     const count = await this.productRepository.count()
