@@ -9,7 +9,13 @@ export class PrismaProductRepository implements ProductRepository {
   }
 
   async list (options: ListOperationDtos): Promise<PartialProduct[]> {
-    const omit = (!options.select.name && !options.select.price && !options.select.userId && !options.select.id && !options.select.createdAt)
+    const omit = (!options.select.name &&
+        !options.select.price &&
+        !options.select.userId &&
+        !options.select.id &&
+        !options.select.createdAt &&
+        !options.select.updatedAt
+    )
 
     return await prisma.product.findMany({
       where: {
@@ -26,7 +32,7 @@ export class PrismaProductRepository implements ProductRepository {
         price: options.select.price ?? true,
         userId: options.select.userId ?? true,
         createdAt: options.select.createdAt ?? true,
-        updatedAt: omit ?? true,
+        updatedAt: options.select.updatedAt ?? true,
         deletedAt: omit ?? true
       }
     })

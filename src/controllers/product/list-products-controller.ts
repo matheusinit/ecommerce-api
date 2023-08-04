@@ -51,7 +51,8 @@ export class ListProductsController implements Controller {
           price: fieldsQuery === 'price' || fieldsQuery?.split(',').includes('price'),
           userId: fieldsQuery === 'userId' || fieldsQuery?.split(',').includes('userId'),
           id: fieldsQuery === 'id' || fieldsQuery?.split(',').includes('id'),
-          createdAt: fieldsQuery === 'createdAt' || fieldsQuery?.split(',').includes('createdAt')
+          createdAt: fieldsQuery === 'createdAt' || fieldsQuery?.split(',').includes('createdAt'),
+          updatedAt: fieldsQuery === 'updatedAt' || fieldsQuery?.split(',').includes('updatedAt')
         }
 
       })

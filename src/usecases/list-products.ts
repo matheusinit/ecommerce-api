@@ -9,8 +9,8 @@ interface ListProductsRequest {
     userId?: boolean
     id?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
-
 }
 
 export class ListProducts {
