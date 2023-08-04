@@ -12,6 +12,7 @@ export interface ListOperationDtos {
   select: {
     name?: boolean
     price?: boolean
+    userId?: boolean
   }
 }
 

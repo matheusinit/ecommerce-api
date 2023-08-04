@@ -47,7 +47,8 @@ export class ListProductsController implements Controller {
         skipCount,
         getCount,
         selectName: fieldsQuery === 'name' || fieldsQuery?.split(',').includes('name'),
-        selectPrice: fieldsQuery === 'price' || fieldsQuery?.split(',').includes('price')
+        selectPrice: fieldsQuery === 'price' || fieldsQuery?.split(',').includes('price'),
+        selectUserId: fieldsQuery === 'userId' || fieldsQuery?.split(',').includes('userId')
       })
 
       const pageCount = Math.ceil(count / perPage)
