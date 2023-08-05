@@ -735,4 +735,53 @@ describe('GET /products', () => {
       ]))
     })
   })
+
+  describe('Searching', () => {
+    afterEach(async () => {
+      await prisma.product.deleteMany()
+    })
+
+    it('when query param name with \'a*\', get results with product name that starts with \'a\'', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const products = [
+        {
+          name: 'Awesome Concrete Hat',
+          price: 29900
+        },
+        {
+          name: 'Rustic Concrete Bike',
+          price: 29900
+        },
+        {
+          name: 'Tasty Concrete Chips',
+          price: 29900
+
+        }
+      ]
+
+      const productsPromise = products.map(async product =>
+        await request(app)
+          .post('/v1/products')
+          .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+          .send(product))
+
+      await Promise.all(productsPromise)
+
+      const response = await request(app).get('/v1/products?name=a*')
+
+      expect(response.body).toEqual([
+        expect.objectContaining({
+          name: 'Awesome Concrete Hat'
+        })
+      ])
+    })
+  })
 })
