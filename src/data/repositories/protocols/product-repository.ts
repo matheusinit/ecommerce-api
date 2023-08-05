@@ -18,6 +18,9 @@ export interface ListOperationDtos {
     updatedAt?: boolean
     deletedAt?: boolean
   }
+  search: {
+    name?: string
+  }
 }
 
 type Partial<T> = {

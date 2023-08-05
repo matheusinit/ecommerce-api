@@ -40,6 +40,7 @@ export class ListProductsController implements Controller {
       const pageQuery = request.query?.page
       const includeQuery = request.query?.include
       const fieldsQuery = request.query?.fields
+      const nameQuery = request.query?.name
 
       const { perPage, page } = validatePaginationQueryParams({ perPage: perPageQuery, page: pageQuery })
 
@@ -57,6 +58,9 @@ export class ListProductsController implements Controller {
           createdAt: checkForFieldInQuery(fieldsQuery, 'createdAt'),
           updatedAt: checkForFieldInQuery(fieldsQuery, 'updatedAt'),
           deletedAt: checkForFieldInQuery(fieldsQuery, 'deletedAt')
+        },
+        search: {
+          name: nameQuery?.slice(0, -1)
         }
       })
 

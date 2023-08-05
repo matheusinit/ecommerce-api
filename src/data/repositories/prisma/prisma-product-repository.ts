@@ -10,7 +10,11 @@ export class PrismaProductRepository implements ProductRepository {
   async list (options: ListOperationDtos): Promise<PartialProduct[]> {
     return await prisma.product.findMany({
       where: {
-        deletedAt: null
+        deletedAt: null,
+        name: {
+          startsWith: options.search.name,
+          mode: 'insensitive'
+        }
       },
       orderBy: {
         name: 'asc'

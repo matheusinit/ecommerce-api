@@ -12,6 +12,9 @@ interface ListProductsRequest {
     updatedAt?: boolean
     deletedAt?: boolean
   }
+  search: {
+    name?: string
+  }
 }
 
 export class ListProducts {
@@ -19,11 +22,12 @@ export class ListProducts {
     private readonly productRepository: ProductRepository
   ) {}
 
-  async execute ({ skipCount, getCount, select }: ListProductsRequest) {
+  async execute ({ skipCount, getCount, select, search }: ListProductsRequest) {
     const products = await this.productRepository.list({
       get: getCount,
       skip: skipCount,
-      select
+      select,
+      search
     })
 
     const count = await this.productRepository.count()
