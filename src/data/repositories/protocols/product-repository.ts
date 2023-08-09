@@ -6,6 +6,11 @@ export interface CreateOperationDtos {
   price: number
 }
 
+interface SearchByField {
+  value: string
+  type: 'fuzzy' | 'startsWith' | 'endsWith'
+}
+
 export interface ListOperationDtos {
   skip: number
   get: number
@@ -19,7 +24,7 @@ export interface ListOperationDtos {
     deletedAt?: boolean
   }
   search: {
-    name?: string
+    name?: SearchByField
   }
 }
 

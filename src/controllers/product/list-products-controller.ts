@@ -26,6 +26,11 @@ const filterLinks = (links: string[], linkNames: string[], props: PageProps) => 
   })
 }
 
+interface SearchByField {
+  value: string
+  type: 'fuzzy' | 'startsWith' | 'endsWith'
+}
+
 const checkForFieldInQuery = (query: string | undefined, fieldName: string) =>
   query === fieldName || query?.split(',').includes(fieldName)
 
@@ -47,6 +52,19 @@ export class ListProductsController implements Controller {
       const skipCount = page * perPage
       const getCount = perPage
 
+      const nameSearch: SearchByField = {
+        value: nameQuery ?? '',
+        type: 'fuzzy'
+      }
+
+      if (nameQuery?.at(0) === '*') {
+        nameSearch.type = 'endsWith'
+        nameSearch.value = nameQuery.slice(-1)
+      } else if (nameQuery?.at(nameQuery.length - 1) === '*') {
+        nameSearch.type = 'startsWith'
+        nameSearch.value = nameQuery.slice(0, 1)
+      }
+
       const { products, count } = await this.listProducts.execute({
         skipCount,
         getCount,
@@ -60,7 +78,7 @@ export class ListProductsController implements Controller {
           deletedAt: checkForFieldInQuery(fieldsQuery, 'deletedAt')
         },
         search: {
-          name: nameQuery?.slice(0, -1)
+          name: nameSearch
         }
       })
 

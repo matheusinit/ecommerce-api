@@ -1,5 +1,10 @@
 import { type ProductRepository } from '~/data/repositories/protocols/product-repository'
 
+interface SearchByField {
+  value: string
+  type: 'fuzzy' | 'startsWith' | 'endsWith'
+}
+
 interface ListProductsRequest {
   skipCount: number
   getCount: number
@@ -13,7 +18,7 @@ interface ListProductsRequest {
     deletedAt?: boolean
   }
   search: {
-    name?: string
+    name?: SearchByField
   }
 }
 

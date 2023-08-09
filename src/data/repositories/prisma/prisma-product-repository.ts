@@ -12,8 +12,9 @@ export class PrismaProductRepository implements ProductRepository {
       where: {
         deletedAt: null,
         name: {
-          startsWith: options.search.name,
-          mode: 'insensitive'
+          mode: 'insensitive',
+          endsWith: options.search.name?.type === 'endsWith' ? options.search.name.value : undefined,
+          startsWith: options.search.name?.type === 'startsWith' ? options.search.name.value : undefined
         }
       },
       orderBy: {
