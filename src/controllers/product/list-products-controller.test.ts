@@ -826,5 +826,48 @@ describe('GET /products', () => {
         })
       ])
     })
+
+    it('when query param name with \'Tast\', get results with product name that contains \'Tast\'', async () => {
+      const { body } = await request(app)
+        .post('/v1/auth')
+        .send({
+          email: 'matheus.oliveira@email.com',
+          password: 'minhasenha1!'
+        })
+
+      const tokens: Tokens = body
+
+      const products = [
+        {
+          name: 'Awesome Cotton Pizza',
+          price: 29900
+        },
+        {
+          name: 'Rustic Concrete Bike',
+          price: 29900
+        },
+        {
+          name: 'Tasty Concrete Chips',
+          price: 29900
+
+        }
+      ]
+
+      const productsPromise = products.map(async product =>
+        await request(app)
+          .post('/v1/products')
+          .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+          .send(product))
+
+      await Promise.all(productsPromise)
+
+      const response = await request(app).get('/v1/products?name=Tast')
+
+      expect(response.body).toEqual([
+        expect.objectContaining({
+          name: 'Tasty Concrete Chips'
+        })
+      ])
+    })
   })
 })
