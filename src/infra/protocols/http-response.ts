@@ -10,4 +10,5 @@ export interface HttpResponse {
   statusCode: number
   cookies?: Cookie[]
   cookiesBin?: string[]
+  headers?: Record<string, string>
 }
