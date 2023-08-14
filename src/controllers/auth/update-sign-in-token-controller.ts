@@ -22,7 +22,7 @@ export class UpdateSignInTokenController implements Controller {
     }
 
     if (!refreshToken) {
-      return unauthorized(httpError('unauthenticated'))
+      return unauthorized(httpError('Unauthenticated'))
     }
 
     const token = await this.updateSignInToken.execute({ refreshToken })

@@ -18,11 +18,11 @@ export class AuthenticateUserController implements Controller {
       const { email, password } = request.body
 
       if (!email) {
-        return badRequest(httpError('email is required'))
+        return badRequest(httpError('Email is required'))
       }
 
       if (!password) {
-        return badRequest(httpError('password is required'))
+        return badRequest(httpError('Password is required'))
       }
 
       const emailSchema = z.string().email()
@@ -30,7 +30,7 @@ export class AuthenticateUserController implements Controller {
       const result = emailSchema.safeParse(email)
 
       if (!result.success) {
-        return badRequest(httpError('invalid email'))
+        return badRequest(httpError('Invalid email'))
       }
 
       const { accessToken, refreshToken } = await this.authenticateUser.execute({
@@ -60,15 +60,15 @@ export class AuthenticateUserController implements Controller {
       return defineCookies(response, [accessTokenCookie, refreshTokenCookie])
     } catch (error) {
       if (error instanceof Error && error.message === '\'email\' is not provided') {
-        return internalServerError(httpError('an internal error occured involving the \'email\' field'))
+        return internalServerError(httpError('An internal error occured involving the \'email\' field'))
       }
 
       if (error instanceof Error && error.message === '\'password\' is not provided') {
-        return internalServerError(httpError('an internal error occured involving the \'password\' field'))
+        return internalServerError(httpError('An internal error occured involving the \'password\' field'))
       }
 
       if (error instanceof Error && error.message === 'Email not registered or password is wrong') {
-        return badRequest(httpError('email not registered or password is wrong'))
+        return badRequest(httpError('Email not registered or password is wrong'))
       }
 
       return internalServerError(httpError(error.message))
