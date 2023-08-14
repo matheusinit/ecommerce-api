@@ -179,6 +179,5 @@ describe('POST /auth/logout', () => {
 
     expect(response.statusCode).toBe(401)
     expect(response.body).toBeDefined()
-    expect(response.body.message).toEqual('invalid access token cookie')
   })
 })

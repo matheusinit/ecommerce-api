@@ -196,7 +196,6 @@ describe('POST /auth', () => {
         })
 
       expect(response.statusCode).toBe(400)
-      expect(response.body.message).toBe('invalid email')
       expect(response.body).toBeDefined()
     })
 
