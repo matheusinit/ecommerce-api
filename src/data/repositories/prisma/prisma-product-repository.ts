@@ -4,11 +4,11 @@ import { prisma } from '~/infra/db'
 
 export class PrismaProductRepository implements ProductRepository {
   async count (): Promise<number> {
-    return await prisma.product.count()
+    return prisma.product.count()
   }
 
   async list (options: ListOperationDtos): Promise<PartialProduct[]> {
-    return await prisma.product.findMany({
+    return prisma.product.findMany({
       where: {
         deletedAt: null,
         name: {
@@ -36,7 +36,7 @@ export class PrismaProductRepository implements ProductRepository {
   }
 
   async create (data: CreateOperationDtos): Promise<Product> {
-    return await prisma.product.create({
+    return prisma.product.create({
       data: {
         name: data.name,
         price: data.price,
