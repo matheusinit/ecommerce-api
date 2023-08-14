@@ -1,7 +1,7 @@
 import { type PublishProduct } from '~/data/protocols/publish-product'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { badRequest, created, httpError, internalServerError, forbidden, unauthorized } from '~/utils/http'
+import { badRequest, created, httpError, internalServerError, forbidden } from '~/utils/http'
 import { verifyToken } from '~/usecases/verify-token'
 import { env } from '~/config/env'
 import { z } from 'zod'
