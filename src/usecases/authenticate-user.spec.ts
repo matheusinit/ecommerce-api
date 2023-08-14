@@ -29,7 +29,7 @@ describe('Authenticate User', () => {
     // @ts-expect-error "This should not use email property to test feature in run time instead of compile time"
     const promise = sut.execute(userCredentails)
 
-    void expect(promise).rejects.toThrowError('\'email\' is not provided')
+    void expect(promise).rejects.toThrowError('\'Email\' is not provided')
   })
 
   it('should throw if password is not provided', async () => {
@@ -42,7 +42,7 @@ describe('Authenticate User', () => {
     // @ts-expect-error "This should not use password property to test feature in run time instead of compile time"
     const promise = sut.execute(userCredentails)
 
-    void expect(promise).rejects.toThrowError('\'password\' is not provided')
+    void expect(promise).rejects.toThrowError('\'Password\' is not provided')
   })
 
   it('should throw if the email is not registered', async () => {

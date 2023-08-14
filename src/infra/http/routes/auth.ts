@@ -9,6 +9,7 @@ import { tokenSigner } from '~/utils/jwt-generator'
 import { LogoutUser } from '~/usecases/logout-user'
 import { RedisTokenRepository } from '~/data/repositories/redis/redis-token-repository'
 import { verifyToken } from '~/usecases/verify-token'
+import { isAuthenticated } from '../middlewares/auth'
 
 const makeAuthenticateUserController = () => {
   const userRepository = new PrismaUserRepository()
@@ -37,7 +38,7 @@ const makeLogoutUserController = () => {
 const authRoutes = Router()
 
 authRoutes.post('/', expressRouteAdapt(makeAuthenticateUserController()))
-authRoutes.post('/access-token', expressRouteAdapt(makeSignInTokenController()))
-authRoutes.post('/logout', expressRouteAdapt(makeLogoutUserController()))
+authRoutes.post('/access-token', isAuthenticated, expressRouteAdapt(makeSignInTokenController()))
+authRoutes.post('/logout', isAuthenticated, expressRouteAdapt(makeLogoutUserController()))
 
 export default authRoutes

@@ -85,7 +85,7 @@ export class ListProductsController implements Controller {
       const pageCount = Math.ceil(count / perPage)
 
       if (page >= pageCount && page > 0) {
-        return notFound(httpError(`page query param is greater than the number of pages: ${pageCount}`))
+        return notFound(httpError(`Page query param is greater than the number of pages: ${pageCount}`))
       }
 
       const linkNames = ['self', 'first', 'prev', 'next', 'last']
@@ -161,7 +161,7 @@ export class ListProductsController implements Controller {
         return badRequest(httpError(error.message))
       }
 
-      return internalServerError('unexpect error occured')
+      return internalServerError('Unexpect error occured')
     }
   }
 }

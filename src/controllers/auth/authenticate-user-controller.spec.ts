@@ -40,7 +40,7 @@ describe('Authenticate user controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
 
-    expect(httpResponse.body).toEqual(httpError('email is required'))
+    expect(httpResponse.body).toEqual(httpError('Email is required'))
   })
 
   it('should return a bad request if password is not provided', async () => {
@@ -54,13 +54,13 @@ describe('Authenticate user controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
 
-    expect(httpResponse.body).toEqual(httpError('password is required'))
+    expect(httpResponse.body).toEqual(httpError('Password is required'))
   })
 
   it('should return a internal server error if email could not reach the usecase class', async () => {
     const { sut, authenticateUser } = makeSut()
 
-    vitest.spyOn(authenticateUser, 'execute').mockReturnValueOnce(Promise.reject(new Error('\'email\' is not provided')))
+    vitest.spyOn(authenticateUser, 'execute').mockReturnValueOnce(Promise.reject(new Error('\'Email\' is not provided')))
 
     const httpRequest: HttpRequest = {
       body: {
@@ -71,13 +71,13 @@ describe('Authenticate user controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
 
-    expect(httpResponse.body).toEqual(httpError('an internal error occured involving the \'email\' field'))
+    expect(httpResponse.body).toEqual(httpError('An internal error occured involving the \'email\' field'))
   })
 
   it('should return a internal server error if password could not reach the usecase class', async () => {
     const { sut, authenticateUser } = makeSut()
 
-    vitest.spyOn(authenticateUser, 'execute').mockReturnValueOnce(Promise.reject(new Error('\'password\' is not provided')))
+    vitest.spyOn(authenticateUser, 'execute').mockReturnValueOnce(Promise.reject(new Error('\'Password\' is not provided')))
 
     const httpRequest: HttpRequest = {
       body: {
@@ -88,6 +88,6 @@ describe('Authenticate user controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
 
-    expect(httpResponse.body).toEqual(httpError('an internal error occured involving the \'password\' field'))
+    expect(httpResponse.body).toEqual(httpError('An internal error occured involving the \'password\' field'))
   })
 })

@@ -6,6 +6,7 @@ import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-rep
 import { DbPublishProduct } from '~/usecases/db-publish-product'
 import { ListProducts } from '~/usecases/list-products'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
+import { isAuthenticated } from '../middlewares/auth'
 
 const productRoutes = Router()
 
@@ -25,6 +26,6 @@ const makeListProductsController = () => {
 }
 
 productRoutes.get('/', expressRouteAdapt(makeListProductsController()))
-productRoutes.post('/', expressRouteAdapt(makePublishProductController()))
+productRoutes.post('/', isAuthenticated, expressRouteAdapt(makePublishProductController()))
 
 export default productRoutes

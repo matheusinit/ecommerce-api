@@ -1,7 +1,7 @@
 import { type PublishProduct } from '~/data/protocols/publish-product'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { badRequest, created, httpError, internalServerError, forbidden, unauthorized } from '~/utils/http'
+import { badRequest, created, httpError, internalServerError, forbidden } from '~/utils/http'
 import { verifyToken } from '~/usecases/verify-token'
 import { env } from '~/config/env'
 import { z } from 'zod'
@@ -17,13 +17,7 @@ export class PublishProductController implements Controller {
 
       const accessToken = request.cookies['access-token']
 
-      if (!accessToken) {
-        return unauthorized(httpError('Not authenticated'))
-      }
-
-      const dehashedPayload = await verifyToken(accessToken, env.ACCESS_TOKEN_SECRET)
-
-      const userId = dehashedPayload.id
+      const { id: userId } = await verifyToken(accessToken, env.ACCESS_TOKEN_SECRET)
 
       if (!name) {
         return badRequest(httpError('Name is required'))
@@ -49,7 +43,7 @@ export class PublishProductController implements Controller {
         return forbidden(httpError(error.message))
       }
 
-      return internalServerError(httpError('unexpected error occured'))
+      return internalServerError(httpError('Unexpected error occured'))
     }
   }
 }
