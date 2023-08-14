@@ -26,11 +26,11 @@ export class DbAuthenticateUser implements AuthenticateUser {
     const { email, password } = request
 
     if (!email) {
-      throw Error('\'email\' is not provided')
+      throw Error('\'Email\' is not provided')
     }
 
     if (!password) {
-      throw Error('\'password\' is not provided')
+      throw Error('\'Password\' is not provided')
     }
 
     const isUserRegistered = await this.userRepository.findByEmail({

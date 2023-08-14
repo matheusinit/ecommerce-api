@@ -59,11 +59,11 @@ export class AuthenticateUserController implements Controller {
 
       return defineCookies(response, [accessTokenCookie, refreshTokenCookie])
     } catch (error) {
-      if (error instanceof Error && error.message === '\'email\' is not provided') {
+      if (error instanceof Error && error.message === '\'Email\' is not provided') {
         return internalServerError(httpError('An internal error occured involving the \'email\' field'))
       }
 
-      if (error instanceof Error && error.message === '\'password\' is not provided') {
+      if (error instanceof Error && error.message === '\'Password\' is not provided') {
         return internalServerError(httpError('An internal error occured involving the \'password\' field'))
       }
 
