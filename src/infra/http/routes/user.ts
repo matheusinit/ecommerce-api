@@ -25,6 +25,7 @@ userRoutes.get('/me', isAuthenticated, async (request: Request, response: Respon
 
   return response.status(200).send(payload)
 })
+
 userRoutes.post('/', expressRouteAdapt(makeRegisterUserController()))
 
 export default userRoutes

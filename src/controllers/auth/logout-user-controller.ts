@@ -11,10 +11,6 @@ export class LogoutUserController implements Controller {
   async handle (request: HttpRequest) {
     const accessToken = request.cookies['access-token']
 
-    if (!accessToken) {
-      return unauthorized(httpError('user not authenticated'))
-    }
-
     const result = await this.logoutUser.execute({
       accessToken
     })

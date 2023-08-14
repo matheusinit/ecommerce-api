@@ -17,13 +17,7 @@ export class PublishProductController implements Controller {
 
       const accessToken = request.cookies['access-token']
 
-      if (!accessToken) {
-        return unauthorized(httpError('Not authenticated'))
-      }
-
-      const dehashedPayload = await verifyToken(accessToken, env.ACCESS_TOKEN_SECRET)
-
-      const userId = dehashedPayload.id
+      const { id: userId } = await verifyToken(accessToken, env.ACCESS_TOKEN_SECRET)
 
       if (!name) {
         return badRequest(httpError('Name is required'))
