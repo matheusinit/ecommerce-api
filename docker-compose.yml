@@ -36,7 +36,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       POSTGRES_DB: ${POSTGRES_DB}
-    env_file: .env.test.local
+    env_file: .env.test.ci
     ports:
       - "5440:5432"
   integration_tests:
