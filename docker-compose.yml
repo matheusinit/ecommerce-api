@@ -29,14 +29,24 @@ services:
       - /usr/docker/cache/ecommerce/:/data
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
+  testing-database:
+    container_name: ecommerce_db_testing
+    image: postgres:14
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DB}
+    env_file: .env.test.local
+    ports:
+      - "5440:5432"
   integration_tests:
     container_name: ecommerce_integration_tests
     build:
       context: .
       target: integration-test
-    env_file: .env.test.local
+    env_file: .env.test.ci
     depends_on:
-      - database
+      - testing-database
       - cache
 volumes:
   cache:

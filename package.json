@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch ./src/server.ts",
     "unit-test": "vitest -c ./vitest-unit-test.config.ts",
-    "integration-test": "vitest -c ./vitest-integration-test.config.ts --no-threads",
+    "integration-test": "dotenv -e .env.test.local -- vitest -c ./vitest-integration-test.config.ts --no-threads --watch",
+    "integration-test:ci": "dotenv -e .env.test.ci -- vitest -c ./vitest-integration-test.config.ts --no-threads",
     "db-studio": "prisma studio",
     "typecheck": "tsc --noEmit",
     "build": "tsup ./src/"
@@ -26,6 +27,7 @@
     "@types/ms": "^0.7.31",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "dotenv-cli": "^7.2.1",
     "eslint": "^8.39.0",
     "eslint-config-standard-with-typescript": "^34.0.1",
     "eslint-plugin-import": "^2.25.2",
@@ -37,7 +39,7 @@
     "typescript": "^5.0.4",
     "vite": "^4.3.1",
     "vite-tsconfig-paths": "^4.2.0",
-    "vitest": "^0.30.1"
+    "vitest": "^0.32.0"
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",

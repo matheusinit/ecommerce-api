@@ -22,4 +22,4 @@ RUN pnpm i && pnpm store prune
 RUN pnpm eslint .
 RUN pnpm prisma generate
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["pnpm", "integration-test"]
+CMD ["pnpm", "integration-test:ci"]
