@@ -8,23 +8,23 @@ import { execSync } from 'child_process'
 export const setup = async () => {
   console.log('Starting the global setup...')
 
-  const isDatabaseRunning = await isPortReachable(5440, {
+  const isDbContainerRunning = await isPortReachable(5440, {
     host: '0.0.0.0'
   })
 
   if (!isCI) {
-    if (!isDatabaseRunning) {
+    if (!isDbContainerRunning) {
       await dockerCompose.upOne('testing-database', {
         cwd: path.join(__dirname),
         log: true
       })
     }
 
-    const isInMemoryDatabaseRunning = await isPortReachable(6379, {
+    const isInMemoryDbContainerRunning = await isPortReachable(6379, {
       host: '0.0.0.0'
     })
 
-    if (!isInMemoryDatabaseRunning) {
+    if (!isInMemoryDbContainerRunning) {
       await dockerCompose.upOne('cache', {
         cwd: path.join(__dirname),
         log: true
