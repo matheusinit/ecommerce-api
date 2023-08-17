@@ -23,16 +23,5 @@ jobs:
           file_name: ".env.test.ci"
           fail_on_empty: false
           directory: .
-      - name: 'Run services'
-        run: docker compose --env-file .env.test.ci up -d testing-database cache
-      - name: Generate lock file
-        run: npm i --package-lock-only
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'npm'
-      - name: Install deps
-        run: npm i
       - name: 'Run integration tests'
         run: docker compose --env-file .env.test.ci up integration_tests --exit-code-from integration_tests

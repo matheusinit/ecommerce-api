@@ -1,7 +1,9 @@
-import { execSync } from 'child_process'
-import dockerCompose from 'docker-compose/dist/v2'
+import isCI from 'is-ci'
+import dockerCompose from 'docker-compose'
 import isPortReachable from 'is-port-reachable'
+
 import path from 'path'
+import { execSync } from 'child_process'
 
 export const setup = async () => {
   console.log('Starting the global setup...')
@@ -10,22 +12,24 @@ export const setup = async () => {
     host: '0.0.0.0'
   })
 
-  if (!isDatabaseRunning) {
-    await dockerCompose.upOne('testing-database', {
-      cwd: path.join(__dirname),
-      log: true
-    })
-  }
+  if (!isCI) {
+    if (!isDatabaseRunning) {
+      await dockerCompose.upOne('testing-database', {
+        cwd: path.join(__dirname),
+        log: true
+      })
+    }
 
-  const isInMemoryDatabaseRunning = await isPortReachable(6379, {
-    host: '0.0.0.0'
-  })
-
-  if (!isInMemoryDatabaseRunning) {
-    await dockerCompose.upOne('cache', {
-      cwd: path.join(__dirname),
-      log: true
+    const isInMemoryDatabaseRunning = await isPortReachable(6379, {
+      host: '0.0.0.0'
     })
+
+    if (!isInMemoryDatabaseRunning) {
+      await dockerCompose.upOne('cache', {
+        cwd: path.join(__dirname),
+        log: true
+      })
+    }
   }
 
   execSync('pnpm prisma migrate deploy')
