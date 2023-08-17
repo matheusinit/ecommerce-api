@@ -32,6 +32,7 @@ export const setup = async () => {
     }
   }
 
+  // Run migrations with Prisma ORM
   execSync('pnpm prisma migrate deploy')
 }
 
