@@ -35,7 +35,7 @@ jobs:
           host: ${{ secrets.VIRTUAL_SERVER_HOST }}
           username: ec2-user
           key: ${{ secrets.PRIVATE_KEY }}
-          envs: GITHUB_SHA
+          envs: ${{ github.sha }}
           script: |
             docker login
             docker pull ${{ secrets.DOCKER_USER }}/{{ secrets.REPO }}
