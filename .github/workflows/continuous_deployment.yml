@@ -38,7 +38,7 @@ jobs:
           envs: ${{ github.sha }}
           script: |
             docker login
-            docker pull ${{ secrets.DOCKER_USER }}/{{ secrets.REPO }}
-            docker stop ecommerce-api-server
-            docker rm ecommerce-api-server
-            docker run --detach --name ecommerce-api-server -p 80:8000 ${{ secrets.DOCKER_USER }}/${{ secrets.REPO }}
+            docker pull matheusinit/ecommerce-api:latest
+            docker compose down
+            docker compose up -d api-rest-app
+            rm docker-compose.yml
