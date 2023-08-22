@@ -20,3 +20,16 @@ jobs:
         with:
           push: true
           tags: matheusinit/ecommerce-api:latest
+      - name: Docker Pull & Run in Virtual Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VIRTUAL_SERVER_HOST }}
+          username: ec2-user
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            docker login
+            docker pull ${{ secrets.DOCKER_USER }}/{{ secrets.REPO }}
+            docker stop ecommerce-api-server
+            docker rm ecommerce-api-server
+            docker run --detach --name ecommerce-api-server -p 80:8000 ${{ secrets.DOCKER_USER }}/${{ secrets.REPO }}
