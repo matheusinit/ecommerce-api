@@ -11,6 +11,14 @@ services:
       - ./infra/nginx.conf:/etc/nginx/conf.d/default.conf
   api-rest-app:
     profiles: ['production']
+    image: matheusinit/ecommerce-api
+    ports:
+      - 8000:8000
+    depends_on:
+      - database
+      - cache
+  api-rest-dev:
+    profiles: ['development']
     build: .
     ports:
       - 8000:8000
