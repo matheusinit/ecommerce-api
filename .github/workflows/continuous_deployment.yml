@@ -20,6 +20,15 @@ jobs:
         with:
           push: true
           tags: matheusinit/ecommerce-api:latest
+      - name: Copy Docker Compose file to Virtual Server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.VIRTUAL_SERVER_HOST }}
+          username: ec2-user
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          source: "../../docker-compose.yml"
+          target: "./docker-compose.yml"
       - name: Docker Pull & Run in Virtual Server
         uses: appleboy/ssh-action@master
         with:
