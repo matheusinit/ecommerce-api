@@ -26,7 +26,7 @@ jobs:
           host: ${{ secrets.VIRTUAL_SERVER_HOST }}
           username: ec2-user
           key: ${{ secrets.PRIVATE_KEY }}
-          source: '../../docker-compose.yml'
+          source: './docker-compose.yml'
           target: '.'
       - name: Docker Pull & Run in Virtual Server
         uses: appleboy/ssh-action@master
