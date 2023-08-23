@@ -14,6 +14,7 @@ RUN pnpm i && pnpm store prune
 
 FROM base as source
 COPY --chown=node:node . .
+RUN pnpm build
 
 FROM source as integration-test
 ENV NODE_ENV=test
@@ -23,3 +24,7 @@ RUN pnpm eslint .
 RUN pnpm prisma generate
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["pnpm", "integration-test:ci"]
+
+FROM source as production
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["node", "./dist/server.js"]
