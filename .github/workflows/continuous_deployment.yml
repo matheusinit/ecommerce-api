@@ -78,3 +78,4 @@ jobs:
             docker compose down
             docker compose up -d api-rest-app
             rm docker-compose.yml
+            rm .env
