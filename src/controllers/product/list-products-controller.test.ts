@@ -3,7 +3,7 @@ import request from 'supertest'
 import app from '~/app'
 import { PrismaClient } from '@prisma/client'
 import { type UserType } from '~/data/dtos/user-type'
-import falso from '@ngneat/falso'
+import * as falso from '@ngneat/falso'
 
 let prisma: PrismaClient
 
