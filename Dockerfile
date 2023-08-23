@@ -26,5 +26,9 @@ ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["pnpm", "integration-test:ci"]
 
 FROM source as production
+ENV NODE_ENV=production
+ENV PATH=/app/node_modules/.bin:$PATH
+RUN pnpm i && pnpm store prune
+RUN pnpm prisma generate
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["node", "./dist/server.js"]
