@@ -20,6 +20,7 @@ jobs:
         with:
           push: true
           tags: matheusinit/ecommerce-api:latest
+          target: production
       - name: Copy Docker Compose file to Virtual Server
         uses: appleboy/scp-action@v0.1.4
         with:
