@@ -87,4 +87,3 @@ jobs:
             cat .env
             rm docker-compose.yml
             rm .env
-            rm nginx.conf
