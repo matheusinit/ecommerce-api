@@ -63,6 +63,15 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           source: './.env'
           target: '.'
+      - name: Copy nginx.conf file to Virtual Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.VIRTUAL_SERVER_HOST }}
+          username: ec2-user
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: './infra/nginx.conf'
+          target: '.'
       - name: Docker Pull & Run in Virtual Server
         uses: appleboy/ssh-action@master
         with:
@@ -74,6 +83,8 @@ jobs:
             docker login
             docker pull matheusinit/ecommerce-api:latest
             docker compose down
-            docker compose up -d api-rest-app
+            docker compose up -d proxy-reverse
+            cat .env
             rm docker-compose.yml
             rm .env
+            rm nginx.conf
