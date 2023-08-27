@@ -14,7 +14,6 @@ RUN pnpm i && pnpm store prune
 
 FROM base as source
 COPY --chown=node:node . .
-RUN pnpm build
 
 FROM source as integration-test
 ENV NODE_ENV=test
@@ -26,6 +25,7 @@ ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["pnpm", "integration-test:ci"]
 
 FROM source as production
+RUN pnpm build
 ENV NODE_ENV=production
 ENV PATH=/app/node_modules/.bin:$PATH
 RUN pnpm i && pnpm store prune
