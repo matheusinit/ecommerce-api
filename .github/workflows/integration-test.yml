@@ -18,8 +18,7 @@ jobs:
           envkey_POSTGRES_DB: main
           envkey_DATABASE_URL: "postgresql://root:eY8nPg78828BNTSY@testing-database/main?schema=public"
           envkey_REDIS_PASSWORD: C7YY3nxBYHek2g5s
-          envkey_REDIS_HOST: cache
-          envkey_REDIS_PORT: 6379
+          envkey_REDIS_URL: "redis://:C7YY3nxBYHek2g5s@cache"
           file_name: ".env.test.ci"
           fail_on_empty: false
           directory: .
