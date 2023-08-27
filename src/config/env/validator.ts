@@ -28,7 +28,7 @@ if (isProduction) {
 
 export const env = envSchema.parse({
   ...process.env,
-  PORT: Number(process.env.PORT),
+  PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
   production: isProduction,
   development: isDevelopment,
   test: isTest
