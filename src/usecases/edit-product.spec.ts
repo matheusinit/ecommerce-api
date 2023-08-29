@@ -166,7 +166,7 @@ describe('Edit product', () => {
     void expect(promise).rejects.toThrow('stock must be a 0 or positive number')
   })
 
-  it('when a empty string is passed as name, then should throw an error', async () => {
+  it('when an empty string is passed as name, then should throw an error', async () => {
     // Arrange
     const sut = new EditProduct()
 
