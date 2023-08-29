@@ -218,4 +218,29 @@ describe('Edit product', () => {
     // Assert
     void expect(promise).rejects.toThrow('product not passed to edit')
   })
+
+  it('when multiple values for change are passed, then should change multiple values of product', async () => {
+    // Arrange
+    const sut = new EditProduct()
+
+    const productToEdit = makeProduct()
+
+    const randProductName = falso.randProductName()
+    const randStock = falso.randNumber({ min: 0 })
+    const randPrice = falso.randNumber({ min: 0 })
+
+    // Act
+    const product = await sut.execute(productToEdit, {
+      name: randProductName,
+      stock: randStock,
+      price: randPrice
+    })
+
+    // Assert
+    expect(product).toEqual(expect.objectContaining({
+      name: randProductName,
+      stock: randStock,
+      price: randPrice
+    }))
+  })
 })
