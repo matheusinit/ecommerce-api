@@ -15,4 +15,19 @@ describe('Edit product', () => {
     // Assert
     expect(product.price).toBe(10000)
   })
+
+  it('when a name is provided, then should change the name of a product', async () => {
+    // Arrange
+    const sut = new EditProduct()
+
+    const uuid = falso.randUuid()
+
+    const randProductName = falso.randProductName()
+
+    // Act
+    const product = await sut.execute(undefined, randProductName, uuid)
+
+    // Assert
+    expect(product.name).toBe(randProductName)
+  })
 })
