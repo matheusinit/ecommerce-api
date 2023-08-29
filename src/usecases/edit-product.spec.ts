@@ -192,7 +192,7 @@ describe('Edit product', () => {
     void expect(promise).rejects.toThrow('name must be at least 3 characters long')
   })
 
-  it('when any value for edit is passed, then should throw an error', async () => {
+  it('when no value for edit is passed, then should throw an error', async () => {
     // Arrange
     const sut = new EditProduct()
 
@@ -203,5 +203,19 @@ describe('Edit product', () => {
 
     // Assert
     void expect(promise).rejects.toThrow('must pass a value for fields to edit a product: name, price or stock')
+  })
+
+  it('when no product is passed, then should throw an error', async () => {
+    // Arrange
+    const sut = new EditProduct()
+
+    const randProductName = falso.randProductName()
+
+    // Act
+    // @ts-expect-error "Pass undefined to test input edge case"
+    const promise = sut.execute(undefined, { name: randProductName })
+
+    // Assert
+    void expect(promise).rejects.toThrow('product not passed to edit')
   })
 })
