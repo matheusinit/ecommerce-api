@@ -111,4 +111,37 @@ describe('Edit product', () => {
       deletedAt: productToEdit.deletedAt
     })
   })
+
+  it('when a stock is provided, then should change only the stock of the product', async () => {
+    // Arrange
+    const sut = new EditProduct()
+
+    const productToEdit = {
+      id: falso.randUuid(),
+      name: falso.randProductName(),
+      price: falso.randNumber({ min: 1, max: 99999 }),
+      stock: falso.randNumber({ min: 0, max: 100 }),
+      userId: falso.randUuid(),
+      createdAt: falso.randPastDate(),
+      updatedAt: null,
+      deletedAt: null
+    }
+
+    const randStock = falso.randNumber()
+
+    // Act
+    const product = await sut.execute(productToEdit, { stock: randStock })
+
+    // Assert
+    expect(product).toEqual({
+      id: productToEdit.id,
+      name: productToEdit.name,
+      price: productToEdit.price,
+      stock: randStock,
+      userId: productToEdit.userId,
+      createdAt: productToEdit.createdAt,
+      updatedAt: productToEdit.updatedAt,
+      deletedAt: productToEdit.deletedAt
+    })
+  })
 })
