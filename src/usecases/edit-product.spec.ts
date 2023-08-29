@@ -150,4 +150,19 @@ describe('Edit product', () => {
     // Assert
     void expect(promise).rejects.toThrow('price must be a 0 or positive number')
   })
+
+  it('when negative number is given as stock, then should throw an error', async () => {
+    // Arrange
+    const sut = new EditProduct()
+
+    const productToEdit = makeProduct()
+
+    const randStock = falso.randNumber({ min: -99999, max: 0 })
+
+    // Act
+    const promise = sut.execute(productToEdit, { stock: randStock })
+
+    // Assert
+    void expect(promise).rejects.toThrow('stock must be a 0 or positive number')
+  })
 })
