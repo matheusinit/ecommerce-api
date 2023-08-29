@@ -1,7 +1,8 @@
 export class EditProduct {
-  async execute (price: number, userId: string) {
+  async execute (price?: number, name?: string, userId: string) {
     return {
-      price
+      price,
+      name
     }
   }
 }
