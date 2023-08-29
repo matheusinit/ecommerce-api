@@ -7,10 +7,21 @@ describe('Edit product', () => {
     // Arrange
     const sut = new EditProduct()
 
-    const uuid = falso.randUuid()
+    const productToEdit = {
+      id: falso.randUuid(),
+      name: falso.randProductName(),
+      price: falso.randNumber({ min: 1, max: 99999 }),
+      stock: falso.randNumber({ min: 0, max: 100 }),
+      userId: falso.randUuid(),
+      createdAt: falso.randPastDate(),
+      updatedAt: null,
+      deletedAt: null
+    }
 
     // Act
-    const product = await sut.execute(10000, uuid)
+    const product = await sut.execute(productToEdit, {
+      price: 10000
+    })
 
     // Assert
     expect(product.price).toBe(10000)
@@ -20,12 +31,23 @@ describe('Edit product', () => {
     // Arrange
     const sut = new EditProduct()
 
-    const uuid = falso.randUuid()
+    const productToEdit = {
+      id: falso.randUuid(),
+      name: falso.randProductName(),
+      price: falso.randNumber({ min: 1, max: 99999 }),
+      stock: falso.randNumber({ min: 0, max: 100 }),
+      userId: falso.randUuid(),
+      createdAt: falso.randPastDate(),
+      updatedAt: null,
+      deletedAt: null
+    }
 
     const randProductName = falso.randProductName()
 
     // Act
-    const product = await sut.execute(undefined, randProductName, uuid)
+    const product = await sut.execute(productToEdit, {
+      name: randProductName
+    })
 
     // Assert
     expect(product.name).toBe(randProductName)
@@ -35,12 +57,23 @@ describe('Edit product', () => {
     // Arrange
     const sut = new EditProduct()
 
-    const uuid = falso.randUuid()
+    const productToEdit = {
+      id: falso.randUuid(),
+      name: falso.randProductName(),
+      price: falso.randNumber({ min: 1, max: 99999 }),
+      stock: falso.randNumber({ min: 0, max: 100 }),
+      userId: falso.randUuid(),
+      createdAt: falso.randPastDate(),
+      updatedAt: null,
+      deletedAt: null
+    }
 
     const randStock = falso.randNumber()
 
     // Act
-    const product = await sut.execute(undefined, undefined, randStock, uuid)
+    const product = await sut.execute(productToEdit, {
+      stock: randStock
+    })
 
     // Assert
     expect(product.stock).toBe(randStock)
