@@ -14,6 +14,14 @@ export class EditProduct {
       changesWithoutUndefined.name = changes?.name
     }
 
+    if (changes?.price) {
+      changesWithoutUndefined.price = changes.price
+    }
+
+    if (changes.stock) {
+      changesWithoutUndefined.stock = changes.stock
+    }
+
     return {
       ...product,
       ...changesWithoutUndefined
