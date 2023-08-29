@@ -30,4 +30,19 @@ describe('Edit product', () => {
     // Assert
     expect(product.name).toBe(randProductName)
   })
+
+  it('when a stock is provided, then should change the stock of a product', async () => {
+    // Arrange
+    const sut = new EditProduct()
+
+    const uuid = falso.randUuid()
+
+    const randStock = falso.randNumber()
+
+    // Act
+    const product = await sut.execute(undefined, undefined, randStock, uuid)
+
+    // Assert
+    expect(product.stock).toBe(randStock)
+  })
 })
