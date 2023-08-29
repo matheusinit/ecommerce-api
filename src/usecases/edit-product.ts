@@ -18,6 +18,10 @@ export class EditProduct {
       throw new Error('stock must be a 0 or positive number')
     }
 
+    if (changes.name === '') {
+      throw new Error('name cannot be a empty string')
+    }
+
     if (changes?.name) {
       changesWithoutUndefined.name = changes?.name
     }
