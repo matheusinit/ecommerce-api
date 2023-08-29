@@ -11,7 +11,7 @@ export class EditProduct {
     const changesWithoutUndefined: Omit<typeof changes, 'createdAt' | 'updatedAt' | 'deletedAt'> = {}
 
     if (!!changes.price && changes.price < 0) {
-      throw new Error('price must be a 0 or positivie number')
+      throw new Error('price must be a 0 or positive number')
     }
 
     if (changes?.name) {

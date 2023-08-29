@@ -148,6 +148,6 @@ describe('Edit product', () => {
     const promise = sut.execute(productToEdit, { price: randPrice })
 
     // Assert
-    void expect(promise).rejects.toThrow('price must be a 0 or positivie number')
+    void expect(promise).rejects.toThrow('price must be a 0 or positive number')
   })
 })
