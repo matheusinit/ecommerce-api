@@ -45,4 +45,34 @@ describe('Edit product', () => {
     // Assert
     expect(product.stock).toBe(randStock)
   })
+
+  it('when a name is provided, then should change only the name of the product', async () => {
+    const sut = new EditProduct()
+
+    const productToEdit = {
+      id: falso.randUuid(),
+      name: falso.randProductName(),
+      price: falso.randNumber({ min: 1, max: 99999 }),
+      stock: falso.randNumber({ min: 0, max: 100 }),
+      userId: falso.randUuid(),
+      createdAt: falso.randPastDate(),
+      updatedAt: null,
+      deletedAt: null
+    }
+
+    const randProductName = falso.randProductName()
+
+    const product = await sut.execute(productToEdit, { name: randProductName })
+
+    expect(product).toEqual({
+      id: productToEdit.id,
+      name: randProductName,
+      price: productToEdit.price,
+      stock: productToEdit.stock,
+      userId: productToEdit.userId,
+      createdAt: productToEdit.createdAt,
+      updatedAt: productToEdit.updatedAt,
+      deletedAt: productToEdit.deletedAt
+    })
+  })
 })
