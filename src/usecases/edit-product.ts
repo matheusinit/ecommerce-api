@@ -10,6 +10,10 @@ export class EditProduct {
   async execute (product: Product, changes: ProductOptional) {
     const changesWithoutUndefined: Omit<typeof changes, 'createdAt' | 'updatedAt' | 'deletedAt'> = {}
 
+    if (!product) {
+      throw new Error('product not passed to edit')
+    }
+
     if (!!changes.price && changes.price < 0) {
       throw new Error('price must be a 0 or positive number')
     }
