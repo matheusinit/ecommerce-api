@@ -2,21 +2,24 @@ import { describe, it, expect } from 'vitest'
 import { EditProduct } from './edit-product'
 import falso from '@ngneat/falso'
 
+const makeProduct = () => ({
+  id: falso.randUuid(),
+  name: falso.randProductName(),
+  price: falso.randNumber({ min: 1, max: 99999 }),
+  stock: falso.randNumber({ min: 0, max: 100 }),
+  userId: falso.randUuid(),
+  createdAt: falso.randPastDate(),
+  updatedAt: null,
+  deletedAt: null
+
+})
+
 describe('Edit product', () => {
   it('when a price is provided, then should change the price of a product', async () => {
     // Arrange
     const sut = new EditProduct()
 
-    const productToEdit = {
-      id: falso.randUuid(),
-      name: falso.randProductName(),
-      price: falso.randNumber({ min: 1, max: 99999 }),
-      stock: falso.randNumber({ min: 0, max: 100 }),
-      userId: falso.randUuid(),
-      createdAt: falso.randPastDate(),
-      updatedAt: null,
-      deletedAt: null
-    }
+    const productToEdit = makeProduct()
 
     // Act
     const product = await sut.execute(productToEdit, {
@@ -31,16 +34,7 @@ describe('Edit product', () => {
     // Arrange
     const sut = new EditProduct()
 
-    const productToEdit = {
-      id: falso.randUuid(),
-      name: falso.randProductName(),
-      price: falso.randNumber({ min: 1, max: 99999 }),
-      stock: falso.randNumber({ min: 0, max: 100 }),
-      userId: falso.randUuid(),
-      createdAt: falso.randPastDate(),
-      updatedAt: null,
-      deletedAt: null
-    }
+    const productToEdit = makeProduct()
 
     const randProductName = falso.randProductName()
 
@@ -57,16 +51,7 @@ describe('Edit product', () => {
     // Arrange
     const sut = new EditProduct()
 
-    const productToEdit = {
-      id: falso.randUuid(),
-      name: falso.randProductName(),
-      price: falso.randNumber({ min: 1, max: 99999 }),
-      stock: falso.randNumber({ min: 0, max: 100 }),
-      userId: falso.randUuid(),
-      createdAt: falso.randPastDate(),
-      updatedAt: null,
-      deletedAt: null
-    }
+    const productToEdit = makeProduct()
 
     const randStock = falso.randNumber()
 
@@ -83,16 +68,7 @@ describe('Edit product', () => {
     // Arrange
     const sut = new EditProduct()
 
-    const productToEdit = {
-      id: falso.randUuid(),
-      name: falso.randProductName(),
-      price: falso.randNumber({ min: 1, max: 99999 }),
-      stock: falso.randNumber({ min: 0, max: 100 }),
-      userId: falso.randUuid(),
-      createdAt: falso.randPastDate(),
-      updatedAt: null,
-      deletedAt: null
-    }
+    const productToEdit = makeProduct()
 
     const randProductName = falso.randProductName()
 
@@ -116,16 +92,7 @@ describe('Edit product', () => {
     // Arrange
     const sut = new EditProduct()
 
-    const productToEdit = {
-      id: falso.randUuid(),
-      name: falso.randProductName(),
-      price: falso.randNumber({ min: 1, max: 99999 }),
-      stock: falso.randNumber({ min: 0, max: 100 }),
-      userId: falso.randUuid(),
-      createdAt: falso.randPastDate(),
-      updatedAt: null,
-      deletedAt: null
-    }
+    const productToEdit = makeProduct()
 
     const randStock = falso.randNumber()
 
@@ -149,16 +116,7 @@ describe('Edit product', () => {
     // Arrange
     const sut = new EditProduct()
 
-    const productToEdit = {
-      id: falso.randUuid(),
-      name: falso.randProductName(),
-      price: falso.randNumber({ min: 1, max: 99999 }),
-      stock: falso.randNumber({ min: 0, max: 100 }),
-      userId: falso.randUuid(),
-      createdAt: falso.randPastDate(),
-      updatedAt: null,
-      deletedAt: null
-    }
+    const productToEdit = makeProduct()
 
     const randPrice = falso.randNumber()
 
