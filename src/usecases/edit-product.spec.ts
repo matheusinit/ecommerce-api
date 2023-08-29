@@ -135,4 +135,19 @@ describe('Edit product', () => {
       deletedAt: productToEdit.deletedAt
     })
   })
+
+  it('when negative number is given as price, then should throw an error', async () => {
+    // Arrange
+    const sut = new EditProduct()
+
+    const productToEdit = makeProduct()
+
+    const randPrice = falso.randNumber({ min: -99999, max: 0 })
+
+    // Act
+    const promise = sut.execute(productToEdit, { price: randPrice })
+
+    // Assert
+    void expect(promise).rejects.toThrow('price must be a 0 or positivie number')
+  })
 })
