@@ -1,5 +1,5 @@
 export class EditProduct {
-  async execute (price: number) {
+  async execute (price: number, userId: string) {
     return {
       price
     }
