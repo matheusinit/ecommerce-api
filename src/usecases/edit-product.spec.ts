@@ -191,4 +191,17 @@ describe('Edit product', () => {
     // Assert
     void expect(promise).rejects.toThrow('name must be at least 3 characters long')
   })
+
+  it('when any value for edit is passed, then should throw an error', async () => {
+    // Arrange
+    const sut = new EditProduct()
+
+    const productToEdit = makeProduct()
+
+    // Act
+    const promise = sut.execute(productToEdit, { })
+
+    // Assert
+    void expect(promise).rejects.toThrow('must pass a value for fields to edit a product: name, price or stock')
+  })
 })
