@@ -14,6 +14,10 @@ export class EditProduct {
       throw new Error('price must be a 0 or positive number')
     }
 
+    if (!!changes.stock && changes.stock < 0) {
+      throw new Error('stock must be a 0 or positive number')
+    }
+
     if (changes?.name) {
       changesWithoutUndefined.name = changes?.name
     }
