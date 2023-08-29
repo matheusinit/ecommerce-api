@@ -80,6 +80,7 @@ describe('Edit product', () => {
   })
 
   it('when a name is provided, then should change only the name of the product', async () => {
+    // Arrange
     const sut = new EditProduct()
 
     const productToEdit = {
@@ -95,8 +96,10 @@ describe('Edit product', () => {
 
     const randProductName = falso.randProductName()
 
+    // Act
     const product = await sut.execute(productToEdit, { name: randProductName })
 
+    // Arrange
     expect(product).toEqual({
       id: productToEdit.id,
       name: randProductName,
