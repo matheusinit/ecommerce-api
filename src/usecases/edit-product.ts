@@ -22,6 +22,10 @@ export class EditProduct {
       throw new Error('name cannot be a empty string')
     }
 
+    if (changes.name && changes.name.length < 3) {
+      throw new Error('name must be at least 3 characters long')
+    }
+
     if (changes?.name) {
       changesWithoutUndefined.name = changes?.name
     }
