@@ -178,4 +178,17 @@ describe('Edit product', () => {
     // Assert
     void expect(promise).rejects.toThrow('name cannot be a empty string')
   })
+
+  it('when a name with less than 3 characters is passed, then should throw an error', async () => {
+    // Arrange
+    const sut = new EditProduct()
+
+    const productToEdit = makeProduct()
+
+    // Act
+    const promise = sut.execute(productToEdit, { name: 'Ab' })
+
+    // Assert
+    void expect(promise).rejects.toThrow('name must be at least 3 characters long')
+  })
 })
