@@ -14,7 +14,7 @@ export class EditProductFields {
       throw new Error('product not passed to edit')
     }
 
-    if (!!changes.price && changes.price < 0) {
+    if (!!changes?.price && changes.price < 0) {
       throw new Error('price must be a 0 or positive number')
     }
 

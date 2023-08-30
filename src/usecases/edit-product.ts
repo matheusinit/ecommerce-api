@@ -1,4 +1,5 @@
 import { type ProductRepository } from '~/data/repositories/protocols/product-repository'
+import { EditProductFields } from './edit-product-fields'
 
 interface ChangesRequest {
   name?: string
@@ -22,7 +23,11 @@ export class EditProduct {
       throw new Error('product with given id does not exists')
     }
 
-    const productUpdated = await this.productRepository.update(id, changes)
+    const editFields = new EditProductFields()
+
+    const productUpdated = await editFields.execute(product, changes)
+
+    await this.productRepository.save(productUpdated)
 
     return productUpdated
   }
