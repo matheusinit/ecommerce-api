@@ -10,6 +10,10 @@ export class EditProduct {
       throw new Error('product id is required')
     }
 
-    await this.productRepository.findById(id)
+    const product = await this.productRepository.findById(id)
+
+    if (!product) {
+      throw new Error('product with given id does not exists')
+    }
   }
 }
