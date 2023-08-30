@@ -1,5 +1,5 @@
 import { type Product } from '@prisma/client'
-import { type Changes, type CreateOperationDtos, type ProductRepository } from '../protocols/product-repository'
+import { type CreateOperationDtos, type ProductRepository } from '../protocols/product-repository'
 import crypto from 'crypto'
 
 export class InMemoryProductRepository implements ProductRepository {
