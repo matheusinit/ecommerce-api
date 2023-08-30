@@ -40,7 +40,7 @@ describe('Edit product', () => {
     const repositorySpy = vitest.spyOn(inMemoryProductRepository, 'findById')
 
     // Act
-    await sut.execute(product.id)
+    await sut.execute(product.id, { name: falso.randProductName() })
 
     // Assert
     expect(repositorySpy).toHaveBeenCalledOnce()
@@ -85,5 +85,28 @@ describe('Edit product', () => {
       stock: randStock,
       price: randPrice
     }))
+  })
+
+  it('when invalid data changes are provided, should throw an error', async () => {
+    // Arrange
+    const inMemoryProductRepository = new InMemoryProductRepository()
+    const sut = new EditProduct(inMemoryProductRepository)
+
+    const product = makeProduct()
+    const randProductName = 'ab'
+    const randPrice = falso.randNumber({ min: -99999, max: -1 })
+    const randStock = falso.randNumber({ min: -99999, max: -1 })
+
+    await inMemoryProductRepository.create(product, product.id)
+
+    // Act
+    const promise = sut.execute(product.id, {
+      name: randProductName,
+      stock: randStock,
+      price: randPrice
+    })
+
+    // Assert
+    void expect(promise).rejects.toThrowError()
   })
 })

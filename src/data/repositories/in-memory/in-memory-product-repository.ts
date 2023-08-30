@@ -5,12 +5,12 @@ import crypto from 'crypto'
 export class InMemoryProductRepository implements ProductRepository {
   private readonly products: Product[] = []
 
-  async update (id: string, changes: Changes): Promise<Product | null> {
-    const product = this.products.find((p) => p.id === id)
+  async save (product: Product): Promise<Product | null> {
+    const productFound = this.products.find((p) => p.id === product.id)
 
-    if (!product) { return null }
+    if (!productFound) { return null }
 
-    return Object.assign(product, changes)
+    return Object.assign(productFound, product)
   }
 
   async findById (id: string): Promise<Product | null> {
