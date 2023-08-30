@@ -59,4 +59,31 @@ describe('Edit product', () => {
     // Assert
     void expect(promise).rejects.toThrow('product with given id does not exists')
   })
+
+  it('when a product exists, then should update the product', async () => {
+    // Arrange
+    const inMemoryProductRepository = new InMemoryProductRepository()
+    const sut = new EditProduct(inMemoryProductRepository)
+
+    const product = makeProduct()
+    const randProductName = falso.randProductName()
+    const randPrice = falso.randNumber({ min: 0, max: 99999 })
+    const randStock = falso.randNumber({ min: 0, max: 99999 })
+
+    await inMemoryProductRepository.create(product, product.id)
+
+    // Act
+    const productUpdated = await sut.execute(product.id, {
+      name: randProductName,
+      stock: randStock,
+      price: randPrice
+    })
+
+    // Assert
+    expect(productUpdated).toEqual(expect.objectContaining({
+      name: randProductName,
+      stock: randStock,
+      price: randPrice
+    }))
+  })
 })

@@ -1,9 +1,17 @@
 import { type Product } from '@prisma/client'
-import { type CreateOperationDtos, type ProductRepository } from '../protocols/product-repository'
+import { type Changes, type CreateOperationDtos, type ProductRepository } from '../protocols/product-repository'
 import crypto from 'crypto'
 
 export class InMemoryProductRepository implements ProductRepository {
   private readonly products: Product[] = []
+
+  async update (id: string, changes: Changes): Promise<Product | null> {
+    const product = this.products.find((p) => p.id === id)
+
+    if (!product) { return null }
+
+    return Object.assign(product, changes)
+  }
 
   async findById (id: string): Promise<Product | null> {
     return this.products.find((product) => product.id === id) ?? null
