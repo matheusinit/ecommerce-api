@@ -38,4 +38,5 @@ export abstract class ProductRepository {
   abstract create (data: CreateOperationDtos): Promise<Product>
   abstract list (options: ListOperationDtos): Promise<PartialProduct[]>
   abstract count (): Promise<number>
+  abstract findById (id: string): Promise<Product | null>
 }
