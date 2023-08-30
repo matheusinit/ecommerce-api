@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { EditProduct } from './edit-product'
+import { EditProductFields } from './edit-product-fields'
 import falso from '@ngneat/falso'
 
 const makeProduct = () => ({
@@ -14,10 +14,10 @@ const makeProduct = () => ({
 
 })
 
-describe('Edit product', () => {
+describe('Edit product fields', () => {
   it('when a price is provided, then should change the price of a product', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -32,7 +32,7 @@ describe('Edit product', () => {
 
   it('when a name is provided, then should change the name of a product', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -49,7 +49,7 @@ describe('Edit product', () => {
 
   it('when a stock is provided, then should change the stock of a product', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -66,7 +66,7 @@ describe('Edit product', () => {
 
   it('when a name is provided, then should change only the name of the product', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -90,7 +90,7 @@ describe('Edit product', () => {
 
   it('when a stock is provided, then should change only the stock of the product', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -114,7 +114,7 @@ describe('Edit product', () => {
 
   it('when a price is provided, then should change only the price of the product', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -138,7 +138,7 @@ describe('Edit product', () => {
 
   it('when negative number is given as price, then should throw an error', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -153,7 +153,7 @@ describe('Edit product', () => {
 
   it('when negative number is given as stock, then should throw an error', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -168,7 +168,7 @@ describe('Edit product', () => {
 
   it('when an empty string is passed as name, then should throw an error', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -181,7 +181,7 @@ describe('Edit product', () => {
 
   it('when a name with less than 3 characters is passed, then should throw an error', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -194,7 +194,7 @@ describe('Edit product', () => {
 
   it('when no value for edit is passed, then should throw an error', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 
@@ -207,7 +207,7 @@ describe('Edit product', () => {
 
   it('when no product is passed, then should throw an error', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const randProductName = falso.randProductName()
 
@@ -221,7 +221,7 @@ describe('Edit product', () => {
 
   it('when multiple values for change are passed, then should change multiple values of product', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const sut = new EditProductFields()
 
     const productToEdit = makeProduct()
 

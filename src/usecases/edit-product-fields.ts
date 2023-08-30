@@ -6,7 +6,7 @@ type ProductDomain = Product & {
 
 type ProductOptional = Partial<Omit<ProductDomain, 'id'>>
 
-export class EditProduct {
+export class EditProductFields {
   async execute (product: Product, changes: ProductOptional) {
     const changesWithoutUndefined: Omit<typeof changes, 'createdAt' | 'updatedAt' | 'deletedAt'> = {}
 
