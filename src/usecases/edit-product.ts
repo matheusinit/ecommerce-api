@@ -23,6 +23,10 @@ export class EditProduct {
       throw new Error('product with given id does not exists')
     }
 
+    if (!changes) {
+      throw new Error('must pass a value for fields to edit a product: name, price or stock')
+    }
+
     const editFields = new EditProductFields()
 
     const productUpdated = await editFields.execute(product, changes)
