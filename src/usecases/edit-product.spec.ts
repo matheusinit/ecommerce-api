@@ -126,4 +126,20 @@ describe('Edit product', () => {
     // Assert
     void expect(promise).rejects.toThrow('must pass a value for fields to edit a product: name, price or stock')
   })
+
+  it('when any field is not provided, then should throw an error', async () => {
+    // Arrange
+    const inMemoryProductRepository = new InMemoryProductRepository()
+    const sut = new EditProduct(inMemoryProductRepository)
+
+    const product = makeProduct()
+
+    await inMemoryProductRepository.create(product, product.id)
+
+    // Act
+    const promise = sut.execute(product.id, {})
+
+    // Assert
+    void expect(promise).rejects.toThrow('must pass a value for fields to edit a product: name, price or stock')
+  })
 })
