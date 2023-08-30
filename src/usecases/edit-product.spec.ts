@@ -120,6 +120,7 @@ describe('Edit product', () => {
     await inMemoryProductRepository.create(product, product.id)
 
     // Act
+    // @ts-expect-error "Pass undefined to changes to test it"
     const promise = sut.execute(product.id)
 
     // Assert
