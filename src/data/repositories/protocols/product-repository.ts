@@ -34,9 +34,12 @@ type Partial<T> = {
 
 export type PartialProduct = Partial<Product>
 
+export type Changes = Omit<PartialProduct, 'createdAt' | 'updatedAt' | 'deletedAt' | 'id' | 'userId'> & { stock?: number }
+
 export abstract class ProductRepository {
   abstract create (data: CreateOperationDtos): Promise<Product>
   abstract list (options: ListOperationDtos): Promise<PartialProduct[]>
   abstract count (): Promise<number>
   abstract findById (id: string): Promise<Product | null>
+  abstract update (id: string, changes: Changes): Promise<Product | null>
 }
