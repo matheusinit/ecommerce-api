@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeAll } from 'vitest'
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import request from 'supertest'
 import falso from '@ngneat/falso'
 import app from '~/app'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, type Product } from '@prisma/client'
 import { type UserType } from '~/data/dtos/user-type'
 
 interface Tokens {
@@ -17,9 +17,11 @@ interface User {
   password: string
 }
 
+let prisma: PrismaClient
+
 describe('PUT /products/:id', () => {
   beforeAll(async () => {
-    const prisma = new PrismaClient()
+    prisma = new PrismaClient()
 
     await prisma.$connect()
 
@@ -31,6 +33,11 @@ describe('PUT /products/:id', () => {
     }
 
     await request(app).post('/v1/users').send(user)
+  })
+
+  afterAll(async () => {
+    await prisma.user.deleteMany()
+    await prisma.$disconnect()
   })
 
   it('when changes to data is not provided, then should get bad request', async () => {
@@ -47,13 +54,15 @@ describe('PUT /products/:id', () => {
 
     const tokens: Tokens = body
 
-    const { body: product } = await request(app)
+    const { body: productBody } = await request(app)
       .post('/v1/products')
       .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
       .send({
         name: randProductName,
         price: randPrice
       })
+
+    const product = productBody as Product
 
     // Act
     const response = await request(app).put(`/v1/products/${product.id}`).send({})
