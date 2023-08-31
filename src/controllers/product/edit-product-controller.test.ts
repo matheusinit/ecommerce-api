@@ -128,4 +128,40 @@ describe('PUT /products/:id', () => {
       message: 'Name cannot be a empty string'
     })
   })
+
+  it('when price provided is a negative number, should get bad request', async () => {
+    // Arrange
+    const randProductName = falso.randProductName()
+    const randPrice = falso.randNumber({ min: 0 })
+
+    const { body } = await request(app)
+      .post('/v1/auth')
+      .send({
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      })
+
+    const tokens: Tokens = body
+
+    const { body: productBody } = await request(app)
+      .post('/v1/products')
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({
+        name: randProductName,
+        price: randPrice
+      })
+
+    const product = productBody as Product
+
+    // Act
+    const response = await request(app).put(`/v1/products/${product.id}`).send({
+      price: falso.randNumber({ min: -99999, max: -1 })
+    })
+
+    // Assert
+    expect(response.status).toBe(400)
+    expect(response.body).toEqual({
+      message: 'Price cannot be a negative number'
+    })
+  })
 })
