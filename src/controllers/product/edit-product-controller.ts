@@ -22,6 +22,10 @@ export class EditProductController {
       return badRequest(httpError('Price cannot be a negative number'))
     }
 
+    if (request.body.stock < 0) {
+      return badRequest(httpError('Stock cannot be a negative number'))
+    }
+
     return badRequest(httpError('Must pass a value for fields to edit a product: name, price or stock'))
   }
 }
