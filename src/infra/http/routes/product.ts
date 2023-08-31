@@ -7,6 +7,7 @@ import { DbPublishProduct } from '~/usecases/db-publish-product'
 import { ListProducts } from '~/usecases/list-products'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { isAuthenticated } from '../middlewares/auth'
+import { EditProductController } from '~/controllers/product/edit-product-controller'
 
 const productRoutes = Router()
 
@@ -25,7 +26,12 @@ const makeListProductsController = () => {
   return new ListProductsController(listProducts)
 }
 
+const makeEditProductController = () => {
+  return new EditProductController()
+}
+
 productRoutes.get('/', expressRouteAdapt(makeListProductsController()))
 productRoutes.post('/', isAuthenticated, expressRouteAdapt(makePublishProductController()))
+productRoutes.put('/:id', expressRouteAdapt(makeEditProductController()))
 
 export default productRoutes
