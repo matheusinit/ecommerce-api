@@ -78,4 +78,18 @@ describe('PUT /products/:id', () => {
     // Assert
     expect(response.status).toBe(404)
   })
+
+  it('when a product id is an integer, then should get bad request', async () => {
+    // Arrange
+    const id = falso.randNumber({ min: 0 })
+
+    // Act
+    const response = await request(app).put(`/v1/products/${id}`).send()
+
+    // Assert
+    expect(response.status).toBe(400)
+    expect(response.body).toEqual({
+      message: 'Product id must be a cuid'
+    })
+  })
 })
