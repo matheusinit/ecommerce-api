@@ -70,4 +70,12 @@ describe('PUT /products/:id', () => {
     // Assert
     expect(response.status).toBe(400)
   })
+
+  it('when product id is not provided, then should get not found', async () => {
+    // Act
+    const response = await request(app).put('/v1/products/').send()
+
+    // Assert
+    expect(response.status).toBe(404)
+  })
 })
