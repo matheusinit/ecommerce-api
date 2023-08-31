@@ -19,6 +19,11 @@ interface User {
 
 let prisma: PrismaClient
 
+const makeProductInput = () => ({
+  name: falso.randProductName(),
+  price: falso.randNumber({ min: 0 })
+})
+
 describe('PUT /products/:id', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
@@ -42,8 +47,6 @@ describe('PUT /products/:id', () => {
 
   it('when changes to data is not provided, then should get bad request', async () => {
     // Arrange
-    const randProductName = falso.randProductName()
-    const randPrice = falso.randNumber({ min: 0 })
 
     const { body } = await request(app)
       .post('/v1/auth')
@@ -57,10 +60,7 @@ describe('PUT /products/:id', () => {
     const { body: productBody } = await request(app)
       .post('/v1/products')
       .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
-      .send({
-        name: randProductName,
-        price: randPrice
-      })
+      .send(makeProductInput())
 
     const product = productBody as Product
 
@@ -95,8 +95,6 @@ describe('PUT /products/:id', () => {
 
   it('when name provided is an empty string, then should get bad request', async () => {
     // Arrange
-    const randProductName = falso.randProductName()
-    const randPrice = falso.randNumber({ min: 0 })
 
     const { body } = await request(app)
       .post('/v1/auth')
@@ -110,10 +108,7 @@ describe('PUT /products/:id', () => {
     const { body: productBody } = await request(app)
       .post('/v1/products')
       .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
-      .send({
-        name: randProductName,
-        price: randPrice
-      })
+      .send(makeProductInput())
 
     const product = productBody as Product
 
@@ -131,8 +126,6 @@ describe('PUT /products/:id', () => {
 
   it('when price provided is a negative number, should get bad request', async () => {
     // Arrange
-    const randProductName = falso.randProductName()
-    const randPrice = falso.randNumber({ min: 0 })
 
     const { body } = await request(app)
       .post('/v1/auth')
@@ -146,10 +139,7 @@ describe('PUT /products/:id', () => {
     const { body: productBody } = await request(app)
       .post('/v1/products')
       .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
-      .send({
-        name: randProductName,
-        price: randPrice
-      })
+      .send(makeProductInput())
 
     const product = productBody as Product
 
@@ -167,8 +157,6 @@ describe('PUT /products/:id', () => {
 
   it('when stock provided is a negative number, should get bad request', async () => {
     // Arrange
-    const randProductName = falso.randProductName()
-    const randPrice = falso.randNumber({ min: 0 })
 
     const { body } = await request(app)
       .post('/v1/auth')
@@ -182,10 +170,7 @@ describe('PUT /products/:id', () => {
     const { body: productBody } = await request(app)
       .post('/v1/products')
       .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
-      .send({
-        name: randProductName,
-        price: randPrice
-      })
+      .send(makeProductInput())
 
     const product = productBody as Product
 
