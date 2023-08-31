@@ -18,6 +18,10 @@ export class EditProductController {
       return badRequest(httpError('Name cannot be a empty string'))
     }
 
+    if (request.body.price < 0) {
+      return badRequest(httpError('Price cannot be a negative number'))
+    }
+
     return badRequest(httpError('Must pass a value for fields to edit a product: name, price or stock'))
   }
 }
