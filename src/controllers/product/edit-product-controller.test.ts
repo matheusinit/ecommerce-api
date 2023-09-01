@@ -4,11 +4,7 @@ import falso from '@ngneat/falso'
 import app from '~/app'
 import { PrismaClient, type Product } from '@prisma/client'
 import { type User } from '~/data/dtos/user'
-
-interface Tokens {
-  accessToken: string
-  refreshToken: string
-}
+import { type Tokens } from '~/data/dtos/auth-tokens'
 
 let prisma: PrismaClient
 

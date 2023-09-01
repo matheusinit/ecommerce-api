@@ -4,13 +4,9 @@ import app from '~/app'
 import { PrismaClient } from '@prisma/client'
 import * as falso from '@ngneat/falso'
 import { type User } from '~/data/dtos/user'
+import { type Tokens } from '~/data/dtos/auth-tokens'
 
 let prisma: PrismaClient
-
-interface Tokens {
-  accessToken: string
-  refreshToken: string
-}
 
 describe('GET /products', () => {
   let user
