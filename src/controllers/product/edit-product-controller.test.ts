@@ -3,18 +3,11 @@ import request from 'supertest'
 import falso from '@ngneat/falso'
 import app from '~/app'
 import { PrismaClient, type Product } from '@prisma/client'
-import { type UserType } from '~/data/dtos/user-type'
+import { type User } from '~/data/dtos/user'
 
 interface Tokens {
   accessToken: string
   refreshToken: string
-}
-
-interface User {
-  name: string
-  type: UserType
-  email: string
-  password: string
 }
 
 let prisma: PrismaClient
