@@ -32,6 +32,6 @@ const makeEditProductController = () => {
 
 productRoutes.get('/', expressRouteAdapt(makeListProductsController()))
 productRoutes.post('/', isAuthenticated, expressRouteAdapt(makePublishProductController()))
-productRoutes.put('/:id', expressRouteAdapt(makeEditProductController()))
+productRoutes.put('/:id', isAuthenticated, expressRouteAdapt(makeEditProductController()))
 
 export default productRoutes
