@@ -1,5 +1,5 @@
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { badRequest, httpError } from '~/utils/http'
+import { badRequest, httpError, ok } from '~/utils/http'
 import z from 'zod'
 
 export class EditProductController {
@@ -30,6 +30,10 @@ export class EditProductController {
       return badRequest(httpError('Name must be at least 3 characters long'))
     }
 
-    return badRequest(httpError('Must pass a value for fields to edit a product: name, price or stock'))
+    if (!request.body.name && !request.body.price && !request.body.stock) {
+      return badRequest(httpError('Must pass a value for fields to edit a product: name, price or stock'))
+    }
+
+    return ok({})
   }
 }
