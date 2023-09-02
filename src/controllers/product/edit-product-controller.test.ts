@@ -54,15 +54,31 @@ describe('PUT /products/:id', () => {
     const product = productBody as Product
 
     // Act
-    const response = await request(app).put(`/v1/products/${product.id}`).send({})
+    const response = await request(app)
+      .put(`/v1/products/${product.id}`)
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({})
 
     // Assert
     expect(response.status).toBe(400)
   })
 
   it('when product id is not provided, then should get not found', async () => {
+    // Arrange
+    const { body } = await request(app)
+      .post('/v1/auth')
+      .send({
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      })
+
+    const tokens: Tokens = body
+
     // Act
-    const response = await request(app).put('/v1/products/').send()
+    const response = await request(app)
+      .put('/v1/products/')
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send()
 
     // Assert
     expect(response.status).toBe(404)
@@ -71,9 +87,20 @@ describe('PUT /products/:id', () => {
   it('when a product id is an integer, then should get bad request', async () => {
     // Arrange
     const id = falso.randNumber({ min: 0 })
+    const { body } = await request(app)
+      .post('/v1/auth')
+      .send({
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      })
+
+    const tokens: Tokens = body
 
     // Act
-    const response = await request(app).put(`/v1/products/${id}`).send()
+    const response = await request(app)
+      .put(`/v1/products/${id}`)
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send()
 
     // Assert
     expect(response.status).toBe(400)
@@ -102,9 +129,12 @@ describe('PUT /products/:id', () => {
     const product = productBody as Product
 
     // Act
-    const response = await request(app).put(`/v1/products/${product.id}`).send({
-      name: ''
-    })
+    const response = await request(app)
+      .put(`/v1/products/${product.id}`)
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({
+        name: ''
+      })
 
     // Assert
     expect(response.status).toBe(400)
@@ -133,9 +163,12 @@ describe('PUT /products/:id', () => {
     const product = productBody as Product
 
     // Act
-    const response = await request(app).put(`/v1/products/${product.id}`).send({
-      price: falso.randNumber({ min: -99999, max: -1 })
-    })
+    const response = await request(app)
+      .put(`/v1/products/${product.id}`)
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({
+        price: falso.randNumber({ min: -99999, max: -1 })
+      })
 
     // Assert
     expect(response.status).toBe(400)
@@ -164,9 +197,12 @@ describe('PUT /products/:id', () => {
     const product = productBody as Product
 
     // Act
-    const response = await request(app).put(`/v1/products/${product.id}`).send({
-      stock: falso.randNumber({ min: -99999, max: -1 })
-    })
+    const response = await request(app)
+      .put(`/v1/products/${product.id}`)
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({
+        stock: falso.randNumber({ min: -99999, max: -1 })
+      })
 
     // Assert
     expect(response.status).toBe(400)
@@ -194,14 +230,46 @@ describe('PUT /products/:id', () => {
     const product = productBody as Product
 
     // Act
-    const response = await request(app).put(`/v1/products/${product.id}`).send({
-      name: 'Ab'
-    })
+    const response = await request(app)
+      .put(`/v1/products/${product.id}`)
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({
+        name: 'Ab'
+      })
 
     // Assert
     expect(response.status).toBe(400)
     expect(response.body).toEqual({
       message: 'Name must be at least 3 characters long'
     })
+  })
+
+  it('when user is not authenticated, then should get unauthorized', async () => {
+    // Arrange
+    const { body } = await request(app)
+      .post('/v1/auth')
+      .send({
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      })
+
+    const tokens: Tokens = body
+
+    const { body: productBody } = await request(app)
+      .post('/v1/products')
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send(makeProductInput())
+
+    const product = productBody as Product
+
+    // Act
+    const response = await request(app)
+      .put(`/v1/products/${product.id}`)
+      .send({
+        name: 'Frozen'
+      })
+
+    // Assert
+    expect(response.status).toBe(401)
   })
 })
