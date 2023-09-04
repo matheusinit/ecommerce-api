@@ -302,4 +302,43 @@ describe('PUT /products/:id', () => {
     // Assert
     expect(response.status).toBe(200)
   })
+
+  it('when valid data is provided, then should get the product data created', async () => {
+    // Arrange
+    const { body } = await request(app)
+      .post('/v1/auth')
+      .send({
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      })
+
+    const tokens: Tokens = body
+
+    const { body: productBody } = await request(app)
+      .post('/v1/products')
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send(makeProductInput())
+
+    const product = productBody as Product
+
+    // Act
+    const response = await request(app)
+      .put(`/v1/products/${product.id}`)
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({
+        name: 'Frozen'
+      })
+
+    // Assert
+    expect(response.body).toEqual({
+      id: product.id,
+      name: 'Frozen',
+      price: product.price,
+      stock: product.stock,
+      userId: product.userId,
+      createdAt: product.createdAt,
+      updatedAt: expect.any(String),
+      deletedAt: null
+    })
+  })
 })
