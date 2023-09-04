@@ -8,6 +8,7 @@ import { ListProducts } from '~/usecases/list-products'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { isAuthenticated } from '../middlewares/auth'
 import { EditProductController } from '~/controllers/product/edit-product-controller'
+import { EditProduct } from '~/usecases/edit-product'
 
 const productRoutes = Router()
 
@@ -27,7 +28,9 @@ const makeListProductsController = () => {
 }
 
 const makeEditProductController = () => {
-  return new EditProductController()
+  const productRepository = new PrismaProductRepository()
+  const editProduct = new EditProduct(productRepository)
+  return new EditProductController(editProduct)
 }
 
 productRoutes.get('/', expressRouteAdapt(makeListProductsController()))

@@ -1,8 +1,13 @@
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { badRequest, httpError, ok } from '~/utils/http'
 import z from 'zod'
+import { type EditProduct } from '~/usecases/edit-product'
 
 export class EditProductController {
+  constructor (
+    private readonly editProduct: EditProduct
+  ) {}
+
   async handle (request: HttpRequest) {
     const { id } = request.params
 
@@ -34,6 +39,8 @@ export class EditProductController {
       return badRequest(httpError('Must pass a value for fields to edit a product: name, price or stock'))
     }
 
-    return ok({})
+    const product = await this.editProduct.execute(id, request.body)
+
+    return ok(product)
   }
 }

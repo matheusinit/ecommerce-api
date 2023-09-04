@@ -48,7 +48,8 @@ export class EditProductFields {
 
     return {
       ...product,
-      ...changesWithoutUndefined
+      ...changesWithoutUndefined,
+      updatedAt: new Date()
     }
   }
 }

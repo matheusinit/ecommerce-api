@@ -7,6 +7,27 @@ export class PrismaProductRepository implements ProductRepository {
     return prisma.product.count()
   }
 
+  async findById (id: string): Promise<Product | null> {
+    return prisma.product.findUnique({
+      where: {
+        id
+      }
+    })
+  }
+
+  async save (product: Product): Promise<Product | null> {
+    const { id, ...update } = product
+
+    return await prisma.product.update({
+      where: {
+        id
+      },
+      data: {
+        ...update
+      }
+    })
+  }
+
   async list (options: ListOperationDtos): Promise<PartialProduct[]> {
     return prisma.product.findMany({
       where: {
