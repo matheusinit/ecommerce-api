@@ -11,7 +11,7 @@
 
 ## 💻 Description
 
-A ecommerce API to practice server scaling. I want to simulate a usecase that an app 
+A ecommerce API to practice back-end skills. I want to simulate a usecase that an app 
 would be used to thousands of users, and this project is a solution to this usecase in specific.
 
 ## 🗒️ To do
@@ -21,7 +21,7 @@ would be used to thousands of users, and this project is a solution to this usec
    - [x] User can login and logout
    - [x] Publish a product
    - [x] List products 
-   - [ ] Edit product price, name and stock
+   - [x] Edit product price, name and stock
    - [ ] Archive product
    - [ ] Buy a product using a credit card 
    - [ ] Send email when the payment is confirmed
