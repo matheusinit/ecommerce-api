@@ -14,6 +14,9 @@
 A ecommerce API to practice back-end skills. I want to simulate a usecase that an app 
 would be used to thousands of users, and this project is a solution to this usecase in specific.
 
+This project brought ideas to the following blog posts:
+ - [(AWS) Utilizando EC2 para Deployment](https://matheusinit.vercel.app/blog/utilizando_aws_ec2_para_deployment)
+
 ## 🗒️ To do
 
  - [ ] Develop main functionalities 
