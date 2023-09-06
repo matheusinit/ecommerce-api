@@ -61,6 +61,4 @@ Example: `[#01] Add feature Archive product`
 
 This project is under license [MIT](./LICENSE).
 
-![built-with-love](https://forthebadge.com/images/badges/built-with-love.svg)
-
-
+Make with :heart: for matheusinit
