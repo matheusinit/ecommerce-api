@@ -11,8 +11,8 @@
 
 ## 💻 Description
 
-A ecommerce API to practice back-end skills. I want to simulate a usecase that an app 
-would be used to thousands of users, and this project is a solution to this usecase in specific.
+An ecommerce API to practice TDD, CI, AWS and software architecture. I want to simulate a usecase that an app 
+would be used for thousands of users, and this project is a solution to this usecase in specific.
 
 This project brought ideas to the following blog posts:
  - [(AWS) Utilizando EC2 para Deployment](https://matheusinit.vercel.app/blog/utilizando_aws_ec2_para_deployment)
