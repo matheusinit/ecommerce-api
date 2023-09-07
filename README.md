@@ -11,8 +11,11 @@
 
 ## 💻 Description
 
-A ecommerce API to practice server scaling. I want to simulate a usecase that an app 
-would be used to thousands of users, and this project is a solution to this usecase in specific.
+An ecommerce API to practice TDD, CI, AWS and software architecture. I want to simulate a usecase that an app 
+would be used for thousands of users, and this project is a solution to this usecase in specific.
+
+This project brought ideas to the following blog posts:
+ - [(AWS) Utilizando EC2 para Deployment](https://matheusinit.vercel.app/blog/utilizando_aws_ec2_para_deployment)
 
 ## 🗒️ To do
 
@@ -21,7 +24,7 @@ would be used to thousands of users, and this project is a solution to this usec
    - [x] User can login and logout
    - [x] Publish a product
    - [x] List products 
-   - [ ] Edit product price, name and stock
+   - [x] Edit product price, name and stock
    - [ ] Archive product
    - [ ] Buy a product using a credit card 
    - [ ] Send email when the payment is confirmed
@@ -58,6 +61,4 @@ Example: `[#01] Add feature Archive product`
 
 This project is under license [MIT](./LICENSE).
 
-![built-with-love](https://forthebadge.com/images/badges/built-with-love.svg)
-
-
+Make with :heart: for matheusinit

@@ -5,6 +5,18 @@ import crypto from 'crypto'
 export class InMemoryProductRepository implements ProductRepository {
   private readonly products: Product[] = []
 
+  async save (product: Product): Promise<Product | null> {
+    const productFound = this.products.find((p) => p.id === product.id)
+
+    if (!productFound) { return null }
+
+    return Object.assign(productFound, product)
+  }
+
+  async findById (id: string): Promise<Product | null> {
+    return this.products.find((product) => product.id === id) ?? null
+  }
+
   async count (): Promise<number> {
     return this.products.length
   }

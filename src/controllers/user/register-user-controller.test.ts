@@ -2,16 +2,9 @@ import { PrismaClient } from '@prisma/client'
 import { afterAll, afterEach, beforeAll, describe, it, expect } from 'vitest'
 import request from 'supertest'
 import app from '~/app'
-import { type UserType } from '~/data/dtos/user-type'
+import { type User } from '~/data/dtos/user'
 
 let prisma: PrismaClient
-
-interface User {
-  name: string
-  type: UserType
-  email: string
-  password: string
-}
 
 describe('POST /users', () => {
   beforeAll(async () => {

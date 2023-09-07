@@ -7,6 +7,8 @@ import { DbPublishProduct } from '~/usecases/db-publish-product'
 import { ListProducts } from '~/usecases/list-products'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { isAuthenticated } from '../middlewares/auth'
+import { EditProductController } from '~/controllers/product/edit-product-controller'
+import { EditProduct } from '~/usecases/edit-product'
 
 const productRoutes = Router()
 
@@ -25,7 +27,14 @@ const makeListProductsController = () => {
   return new ListProductsController(listProducts)
 }
 
+const makeEditProductController = () => {
+  const productRepository = new PrismaProductRepository()
+  const editProduct = new EditProduct(productRepository)
+  return new EditProductController(editProduct)
+}
+
 productRoutes.get('/', expressRouteAdapt(makeListProductsController()))
 productRoutes.post('/', isAuthenticated, expressRouteAdapt(makePublishProductController()))
+productRoutes.put('/:id', isAuthenticated, expressRouteAdapt(makeEditProductController()))
 
 export default productRoutes
