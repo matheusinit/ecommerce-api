@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import request from 'supertest'
-import falso from '@ngneat/falso'
+import * as falso from '@ngneat/falso'
 import app from '~/app'
 import { PrismaClient, type Product } from '@prisma/client'
 import { type User } from '~/data/dtos/user'

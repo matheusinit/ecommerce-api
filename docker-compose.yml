@@ -27,9 +27,17 @@ services:
       - cache
   api-rest-dev:
     profiles: ['development']
-    build: .
+    build:
+      context: .
+      target: production
     ports:
       - 8000:8000
+    environment:
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      PORT: ${PORT}
+      REDIS_URL: ${REDIS_URL}
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - database
       - cache
