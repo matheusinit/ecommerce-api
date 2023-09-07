@@ -10,7 +10,7 @@
     "integration-test:ci": "dotenv -e .env.test.ci -- vitest -c ./vitest-integration-test.config.ts --no-threads",
     "db-studio": "prisma studio",
     "typecheck": "tsc --noEmit",
-    "build": "tsup ./src/"
+    "build": "tsup"
   },
   "keywords": [
     "NodeJS",
