@@ -11,7 +11,6 @@ const makeProduct = () => ({
   createdAt: falso.randPastDate(),
   updatedAt: null,
   deletedAt: null
-
 })
 
 describe('Edit product fields', () => {
@@ -83,7 +82,7 @@ describe('Edit product fields', () => {
       stock: productToEdit.stock,
       userId: productToEdit.userId,
       createdAt: productToEdit.createdAt,
-      updatedAt: productToEdit.updatedAt,
+      updatedAt: expect.any(Date),
       deletedAt: productToEdit.deletedAt
     })
   })
@@ -107,7 +106,7 @@ describe('Edit product fields', () => {
       stock: randStock,
       userId: productToEdit.userId,
       createdAt: productToEdit.createdAt,
-      updatedAt: productToEdit.updatedAt,
+      updatedAt: expect.any(Date),
       deletedAt: productToEdit.deletedAt
     })
   })
@@ -131,7 +130,7 @@ describe('Edit product fields', () => {
       stock: productToEdit.stock,
       userId: productToEdit.userId,
       createdAt: productToEdit.createdAt,
-      updatedAt: productToEdit.updatedAt,
+      updatedAt: expect.any(Date),
       deletedAt: productToEdit.deletedAt
     })
   })
