@@ -9,16 +9,5 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Create .env file
-        run: |
-          touch .env.test.ci
-          echo "DATABASE_URL=postgresql://root:eY8nPg78828BNTSY@database/main?schema=public" | tr " " "\n" >> .env.test.ci
-          echo "ACCESS_TOKEN_SECRET=r7hv0yjd9XiqKx47s43ViMoCgSAD1I4z8EupUw/msUPUyvBr56Xhs9NfNU/Nx7Zq" | tr " " "\n" >> .env.test.ci
-          echo "REFRESH_TOKEN_SECRET=senha" | tr " " "\n" >> .env.test.ci
-          echo "REDIS_PASSWORD=C7YY3nxBYHek2g5s" | tr " " "\n" >> .env.test.ci
-          echo "REDIS_URL=redis://:C7YY3nxBYHek2g5s@cache" | tr " " "\n" >> .env.test.ci
-          echo "POSTGRES_USER=root" | tr " " "\n" >> .env.test.ci
-          echo "POSTGRES_PASSWORD=eY8nPg78828BNTSY" | tr " " "\n" >> .env.test.ci
-          echo "POSTGRES_DB=main" | tr " " "\n" >> .env.test.ci
       - name: 'Run build'
-        run: docker compose --env-file .env.test.ci up api-rest-dev --build --exit-code-from api-rest-dev
+        run: docker build --target production .
