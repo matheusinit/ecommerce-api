@@ -17,6 +17,13 @@ would be used for thousands of users, and this project is a solution to this use
 This project brought ideas to the following blog posts:
  - [(AWS) Utilizando EC2 para Deployment](https://matheusinit.vercel.app/blog/utilizando_aws_ec2_para_deployment)
 
+## How to run application
+
+- Set up environment
+  - Rename `.example.env` to `.env`
+  - Change values in `.env`
+  - Run `docker-compose up -d api-rest-dev`
+
 ## 🗒️ To do
 
  - [ ] Develop main functionalities 
