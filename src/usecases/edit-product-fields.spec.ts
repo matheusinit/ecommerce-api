@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { EditProductFields } from './edit-product-fields'
-import falso from '@ngneat/falso'
+import * as falso from '@ngneat/falso'
 
 const makeProduct = () => ({
   id: falso.randUuid(),
