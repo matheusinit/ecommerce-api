@@ -10,4 +10,12 @@ describe('Send confirmation email', () => {
 
     void expect(promise).rejects.toThrowError('Email is required')
   })
+
+  it('when an invalid email is provided, then should get an error', async () => {
+    const sut = new ConfirmationEmail()
+
+    const promise = sut.send('invalid-email')
+
+    void expect(promise).rejects.toThrowError('Invalid email was provided does not has the format: john.doe@email.com')
+  })
 })
