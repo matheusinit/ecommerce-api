@@ -1,7 +1,7 @@
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { badRequest, httpError, ok } from '~/utils/http'
 import z from 'zod'
-import { type EditProduct } from '~/usecases/edit-product'
+import { type EditProduct } from '~/usecases/product/edit-product'
 
 export class EditProductController {
   constructor (

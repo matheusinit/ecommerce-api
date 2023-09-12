@@ -3,12 +3,12 @@ import { Router } from 'express'
 import { PublishProductController, ListProductsController } from '~/controllers/product'
 import { PrismaProductRepository } from '~/data/repositories/prisma/prisma-product-repository'
 import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
-import { DbPublishProduct } from '~/usecases/db-publish-product'
-import { ListProducts } from '~/usecases/list-products'
+import { DbPublishProduct } from '~/usecases/product/db-publish-product'
+import { ListProducts } from '~/usecases/product/list-products'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { isAuthenticated } from '../middlewares/auth'
 import { EditProductController } from '~/controllers/product/edit-product-controller'
-import { EditProduct } from '~/usecases/edit-product'
+import { EditProduct } from '~/usecases/product/edit-product'
 
 const productRoutes = Router()
 

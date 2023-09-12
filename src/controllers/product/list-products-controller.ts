@@ -1,7 +1,7 @@
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { validatePaginationQueryParams } from '~/lib/pagination'
-import { type ListProducts } from '~/usecases/list-products'
+import { type ListProducts } from '~/usecases/product/list-products'
 import { badRequest, httpError, internalServerError, notFound, ok, partialContent } from '~/utils/http'
 import { defineResponseHeader } from '~/utils/response-headers'
 

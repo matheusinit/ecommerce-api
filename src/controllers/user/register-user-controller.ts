@@ -1,7 +1,7 @@
 import { type UserType } from '~/data/dtos/user-type'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { type RegisterUser } from '~/usecases/register-user'
+import { type RegisterUser } from '~/usecases/user/register-user'
 import { badRequest, created, httpError, internalServerError } from '~/utils/http'
 
 export class RegisterUserController implements Controller {

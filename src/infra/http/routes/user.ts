@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { RegisterUser } from '../../../usecases/register-user'
+import { RegisterUser } from '~/usecases/user/register-user'
 import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
 import { RegisterUserController } from '~/controllers/user'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { Router, type Request, type Response } from 'express'
 import { isAuthenticated } from '../middlewares/auth'
-import { verifyToken } from '~/usecases/verify-token'
+import { verifyToken } from '~/usecases/auth/verify-token'
 import { env } from '~/config/env'
 
 const makeRegisterUserController = () => {

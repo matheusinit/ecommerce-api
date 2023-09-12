@@ -2,13 +2,13 @@
 import { Router } from 'express'
 import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
 import { AuthenticateUserController, UpdateSignInTokenController, LogoutUserController } from '~/controllers/auth'
-import { DbAuthenticateUser } from '~/usecases/authenticate-user'
+import { DbAuthenticateUser } from '~/usecases/auth/authenticate-user'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
-import { UpdateSignInToken } from '~/usecases/update-sign-in-token'
+import { UpdateSignInToken } from '~/usecases/auth/update-sign-in-token'
 import { tokenSigner } from '~/utils/jwt-generator'
-import { LogoutUser } from '~/usecases/logout-user'
+import { LogoutUser } from '~/usecases/auth/logout-user'
 import { RedisTokenRepository } from '~/data/repositories/redis/redis-token-repository'
-import { verifyToken } from '~/usecases/verify-token'
+import { verifyToken } from '~/usecases/auth/verify-token'
 import { isAuthenticated } from '../middlewares/auth'
 
 const makeAuthenticateUserController = () => {
