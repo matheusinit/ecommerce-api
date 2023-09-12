@@ -29,7 +29,7 @@ describe('Send confirmation email', () => {
     void expect(promise).rejects.toThrowError('Invalid email was provided does not has the format: john.doe@email.com')
   })
 
-  it('when a user is not found with given email, then should get an error', async () => {
+  it('when an user is not found with given email, then should get an error', async () => {
     const { sut } = makeSut()
 
     const promise = sut.send('matheus@email.com')
