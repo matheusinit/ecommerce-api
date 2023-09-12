@@ -1,13 +1,17 @@
-import { it, describe, expect } from 'vitest'
+import { it, describe, expect, vitest } from 'vitest'
 import { ConfirmationEmail } from './confirmation-email'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
+import { InMemoryUserMessageQueueRepository } from '~/data/repositories/in-memory/in-memory-user-message-queue-repository'
 
 const makeSut = () => {
+  const userMessageQueue = new InMemoryUserMessageQueueRepository()
   const userRepository = new InMemoryUserRepository()
-  const sut = new ConfirmationEmail(userRepository)
+  const sut = new ConfirmationEmail(userRepository, userMessageQueue)
 
   return {
-    sut, userRepository
+    sut,
+    userRepository,
+    userMessageQueue
   }
 }
 
@@ -35,5 +39,20 @@ describe('Send confirmation email', () => {
     const promise = sut.send('matheus@email.com')
 
     void expect(promise).rejects.toThrowError('User not found with given email')
+  })
+
+  it('when a valid email is provided, then should send a confirmation email', async () => {
+    const { sut, userMessageQueue, userRepository } = makeSut()
+    await userRepository.store({
+      name: 'Matheus',
+      email: 'matheus@email.com',
+      type: 'STORE-ADMIN',
+      password: 'some-random-password1.'
+    })
+    const addEmailTaskToQueueSpy = vitest.spyOn(userMessageQueue, 'addEmailTaskToQueue')
+
+    await sut.send('matheus@email.com')
+
+    expect(addEmailTaskToQueueSpy).toBeCalledTimes(1)
   })
 })
