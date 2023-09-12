@@ -1,9 +1,11 @@
 import z from 'zod'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
+import { type UserMessageQueueRepository } from '~/data/repositories/protocols/user-repository-mq'
 
 export class ConfirmationEmail {
   constructor (
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
+    private readonly userMessageQueueRepository: UserMessageQueueRepository
   ) {}
 
   async send (email: string) {
@@ -26,5 +28,7 @@ export class ConfirmationEmail {
     if (!user) {
       throw new Error('User not found with given email')
     }
+
+    await this.userMessageQueueRepository.addEmailTaskToQueue(email)
   }
 }
