@@ -2,10 +2,18 @@ import { it, describe, expect } from 'vitest'
 import { ConfirmationEmail } from './confirmation-email'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 
+const makeSut = () => {
+  const userRepository = new InMemoryUserRepository()
+  const sut = new ConfirmationEmail(userRepository)
+
+  return {
+    sut, userRepository
+  }
+}
+
 describe('Send confirmation email', () => {
   it('when email is not provided, then should get an error', async () => {
-    const userRepository = new InMemoryUserRepository()
-    const sut = new ConfirmationEmail(userRepository)
+    const { sut } = makeSut()
 
     // @ts-expect-error "Pass email as undefined to test case"
     const promise = sut.send()
@@ -14,8 +22,7 @@ describe('Send confirmation email', () => {
   })
 
   it('when an invalid email is provided, then should get an error', async () => {
-    const userRepository = new InMemoryUserRepository()
-    const sut = new ConfirmationEmail(userRepository)
+    const { sut } = makeSut()
 
     const promise = sut.send('invalid-email')
 
@@ -23,8 +30,7 @@ describe('Send confirmation email', () => {
   })
 
   it('when a user is not found with given email, then should get an error', async () => {
-    const userRepository = new InMemoryUserRepository()
-    const sut = new ConfirmationEmail(userRepository)
+    const { sut } = makeSut()
 
     const promise = sut.send('matheus@email.com')
 
