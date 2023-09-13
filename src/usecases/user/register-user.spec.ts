@@ -1,15 +1,23 @@
 // 1. Ensure a user logged in cannot create an account
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vitest } from 'vitest'
 import { RegisterUser } from './register-user'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 
 const makeSut = () => {
+  class FakeConfirmationEmail {
+    async send (email: string) {
+      return null
+    }
+  }
+
   const userRepository = new InMemoryUserRepository()
-  const sut = new RegisterUser(userRepository)
+  const confirmationEmailService = new FakeConfirmationEmail()
+  const sut = new RegisterUser(userRepository, confirmationEmailService)
 
   return {
     userRepository,
+    confirmationEmailService,
     sut
   }
 }
@@ -178,5 +186,20 @@ describe('Register user usecase', () => {
     const promise = sut.execute(userData)
 
     void expect(promise).rejects.toThrowError()
+  })
+
+  it('when valid input is provided, then should call service that sends confirmation email', async () => {
+    const { sut, confirmationEmailService } = makeSut()
+    const userData = {
+      name: 'Matheus Oliveira',
+      email: 'matheus@email.com',
+      password: 'some-random-password1.',
+      type: 'CUSTOMER' as const
+    }
+    const sendConfirmationEmailSpy = vitest.spyOn(confirmationEmailService, 'send')
+
+    await sut.execute(userData)
+
+    expect(sendConfirmationEmailSpy).toHaveBeenCalled()
   })
 })
