@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 import { hash } from '~/utils/hashing'
 import { type UserType } from '~/data/dtos/user-type'
-import { type ConfirmationEmail } from './confirmation-email'
+import { type ConfirmationEmail } from '../procotols/confirmation-email'
 
 interface Request {
   name: string

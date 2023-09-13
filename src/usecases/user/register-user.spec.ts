@@ -4,15 +4,17 @@ import { describe, it, expect, vitest } from 'vitest'
 import { RegisterUser } from './register-user'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 
-const makeSut = () => {
+const makeFakeConfirmationEmail = () => {
   class FakeConfirmationEmail {
-    async send (email: string) {
-      return null
-    }
+    async send (email: string) {}
   }
 
+  return new FakeConfirmationEmail()
+}
+
+const makeSut = () => {
   const userRepository = new InMemoryUserRepository()
-  const confirmationEmailService = new FakeConfirmationEmail()
+  const confirmationEmailService = makeFakeConfirmationEmail()
   const sut = new RegisterUser(userRepository, confirmationEmailService)
 
   return {
