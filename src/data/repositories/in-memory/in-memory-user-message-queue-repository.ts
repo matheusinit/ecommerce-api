@@ -6,4 +6,8 @@ export class InMemoryUserMessageQueueRepository implements UserMessageQueueRepos
   async addEmailTaskToQueue (payload: EmailPayload): Promise<void> {
     this.queue.push(payload)
   }
+
+  async listen (): Promise<void> {
+
+  }
 }
