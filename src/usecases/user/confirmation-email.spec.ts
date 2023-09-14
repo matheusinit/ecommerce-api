@@ -6,10 +6,13 @@ import { InMemoryUserMessageQueueRepository } from '~/data/repositories/in-memor
 const makeSut = () => {
   const userMessageQueue = new InMemoryUserMessageQueueRepository()
   const userRepository = new InMemoryUserRepository()
-  const sut = new ConfirmationEmail(userRepository, userMessageQueue)
+  // const hash = async (value: string) => 'value_hashed'
+  const hash = vitest.fn().mockImplementationOnce(async (value: string) => 'value_hashed')
+  const sut = new ConfirmationEmail(userRepository, userMessageQueue, hash)
 
   return {
     sut,
+    hash,
     userRepository,
     userMessageQueue
   }
@@ -54,5 +57,19 @@ describe('Send confirmation email', () => {
     await sut.send('matheus@email.com')
 
     expect(addEmailTaskToQueueSpy).toBeCalledTimes(1)
+  })
+
+  it('when a valid email is provided, then should call function to create hash from email', async () => {
+    const { sut, userRepository, hash } = makeSut()
+    await userRepository.store({
+      name: 'Matheus',
+      email: 'matheus@email.com',
+      type: 'STORE-ADMIN',
+      password: 'some-random-password1.'
+    })
+
+    await sut.send('matheus@email.com')
+
+    expect(hash).toHaveBeenCalledWith('matheus@email.com')
   })
 })
