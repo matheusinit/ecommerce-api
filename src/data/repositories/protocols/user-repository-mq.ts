@@ -5,4 +5,5 @@ export interface EmailPayload {
 
 export abstract class UserMessageQueueRepository {
   abstract addEmailTaskToQueue (payload: EmailPayload): Promise<void>
+  abstract listen (): Promise<void>
 }
