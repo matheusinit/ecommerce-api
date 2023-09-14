@@ -1,9 +1,9 @@
-import { type UserMessageQueueRepository } from '../protocols/user-repository-mq'
+import { type EmailPayload, type UserMessageQueueRepository } from '../protocols/user-repository-mq'
 
 export class InMemoryUserMessageQueueRepository implements UserMessageQueueRepository {
-  private readonly queue: string[] = []
+  private readonly queue: EmailPayload[] = []
 
-  async addEmailTaskToQueue (email: string): Promise<void> {
-    this.queue.push(email)
+  async addEmailTaskToQueue (payload: EmailPayload): Promise<void> {
+    this.queue.push(payload)
   }
 }

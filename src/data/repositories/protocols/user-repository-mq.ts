@@ -1,3 +1,8 @@
+export interface EmailPayload {
+  to: string
+  hash: string
+}
+
 export abstract class UserMessageQueueRepository {
-  abstract addEmailTaskToQueue (email: string): Promise<void>
+  abstract addEmailTaskToQueue (payload: EmailPayload): Promise<void>
 }
