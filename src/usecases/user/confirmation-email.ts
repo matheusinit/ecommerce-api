@@ -32,10 +32,13 @@ export class ConfirmationEmail {
       throw new Error('User not found with given email')
     }
 
-    await this.hash(email)
+    const hash = await this.hash(email)
     // Use the hash to append to a link to confirm account
     // Send the email content with link to message queue (MQ)
 
-    await this.userMessageQueueRepository.addEmailTaskToQueue(email)
+    await this.userMessageQueueRepository.addEmailTaskToQueue({
+      to: email,
+      hash
+    })
   }
 }
