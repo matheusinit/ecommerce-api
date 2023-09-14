@@ -59,6 +59,25 @@ describe('Send confirmation email', () => {
     expect(addEmailTaskToQueueSpy).toBeCalledTimes(1)
   })
 
+  it('when a valid email is provided, then should call Message Queue to send email async', async () => {
+    const { sut, userMessageQueue, userRepository } = makeSut()
+    await userRepository.store({
+      name: 'Matheus',
+      email: 'matheus@email.com',
+      type: 'STORE-ADMIN',
+      password: 'some-random-password1.'
+    })
+    const addEmailTaskToQueueSpy = vitest.spyOn(userMessageQueue, 'addEmailTaskToQueue')
+    const emailPayload = {
+      to: 'matheus@email.com',
+      hash: 'value_hashed'
+    }
+
+    await sut.send('matheus@email.com')
+
+    expect(addEmailTaskToQueueSpy).toBeCalledWith(emailPayload)
+  })
+
   it('when a valid email is provided, then should call function to create hash from email', async () => {
     const { sut, userRepository, hash } = makeSut()
     await userRepository.store({
