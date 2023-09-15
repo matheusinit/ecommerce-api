@@ -6,5 +6,6 @@ export const productionEnvSchema = z.object({
   REFRESH_TOKEN_SECRET: z.string(),
   PORT: z.number().optional(),
   REDIS_URL: z.string(),
-  DATABASE_URL: z.string()
+  DATABASE_URL: z.string(),
+  MQ_URL: z.string().default('amqp://localhost')
 })

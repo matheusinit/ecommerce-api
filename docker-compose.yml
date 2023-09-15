@@ -65,6 +65,12 @@ services:
       - /usr/docker/cache/ecommerce/:/data
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
+  message-queue:
+    profiles: ['production']
+    image: rabbitmq:3-management
+    ports:
+      - 8080:15672
+      - 5672:5672
   testing-database:
     profiles: ['testing']
     container_name: ecommerce_db_testing

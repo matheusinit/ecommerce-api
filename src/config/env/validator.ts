@@ -23,7 +23,7 @@ let envSchema
 if (isProduction) {
   envSchema = baseSchema.merge(productionEnvSchema)
 } else {
-  envSchema = baseSchema.merge(productionEnvSchema.partial())
+  envSchema = baseSchema.merge(productionEnvSchema)
 }
 
 export const env = envSchema.parse({
