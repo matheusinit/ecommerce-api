@@ -7,7 +7,10 @@ export class InMemoryUserMessageQueueRepository implements UserMessageQueueRepos
     this.queue.push(payload)
   }
 
-  async listen (): Promise<void> {
-
+  async listen (): Promise<EmailPayload | null> {
+    return {
+      to: 'email@email.com',
+      hash: 'valid_hash'
+    }
   }
 }
