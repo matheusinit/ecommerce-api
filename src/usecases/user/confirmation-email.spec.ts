@@ -6,7 +6,6 @@ import { InMemoryUserMessageQueueRepository } from '~/data/repositories/in-memor
 const makeSut = () => {
   const userMessageQueue = new InMemoryUserMessageQueueRepository()
   const userRepository = new InMemoryUserRepository()
-  // const hash = async (value: string) => 'value_hashed'
   const hash = vitest.fn().mockImplementationOnce(async (value: string) => 'value_hashed')
   const sut = new ConfirmationEmailImpl(userRepository, userMessageQueue, hash)
 
