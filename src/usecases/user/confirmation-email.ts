@@ -3,8 +3,6 @@ import { type UserRepository } from '~/data/repositories/protocols/user-reposito
 import { type UserMessageQueueRepository } from '~/data/repositories/protocols/user-repository-mq'
 import { type ConfirmationEmail } from '../procotols/confirmation-email'
 
-// type Hash = (value: string) => Promise<string>
-
 export class ConfirmationEmailImpl implements ConfirmationEmail {
   constructor (
     private readonly userRepository: UserRepository,
@@ -31,10 +29,6 @@ export class ConfirmationEmailImpl implements ConfirmationEmail {
     if (!user) {
       throw new Error('User not found with given email')
     }
-
-    // const hash = await this.hash(email)
-    // Use the hash to append to a link to confirm account
-    // Send the email content with link to message queue (MQ)
 
     const result = await this.userMessageQueueRepository.addEmailTaskToQueue(email)
 
