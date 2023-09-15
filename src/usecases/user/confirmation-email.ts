@@ -1,10 +1,11 @@
 import z from 'zod'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 import { type UserMessageQueueRepository } from '~/data/repositories/protocols/user-repository-mq'
+import { type ConfirmationEmail } from '../procotols/confirmation-email'
 
 type Hash = (value: string) => Promise<string>
 
-export class ConfirmationEmail {
+export class ConfirmationEmailImpl implements ConfirmationEmail {
   constructor (
     private readonly userRepository: UserRepository,
     private readonly userMessageQueueRepository: UserMessageQueueRepository,

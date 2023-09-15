@@ -1,5 +1,5 @@
 import { it, describe, expect, vitest } from 'vitest'
-import { ConfirmationEmail } from './confirmation-email'
+import { ConfirmationEmailImpl } from './confirmation-email'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 import { InMemoryUserMessageQueueRepository } from '~/data/repositories/in-memory/in-memory-user-message-queue-repository'
 
@@ -8,7 +8,7 @@ const makeSut = () => {
   const userRepository = new InMemoryUserRepository()
   // const hash = async (value: string) => 'value_hashed'
   const hash = vitest.fn().mockImplementationOnce(async (value: string) => 'value_hashed')
-  const sut = new ConfirmationEmail(userRepository, userMessageQueue, hash)
+  const sut = new ConfirmationEmailImpl(userRepository, userMessageQueue, hash)
 
   return {
     sut,

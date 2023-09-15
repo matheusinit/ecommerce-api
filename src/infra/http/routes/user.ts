@@ -8,13 +8,13 @@ import { isAuthenticated } from '../middlewares/auth'
 import { verifyToken } from '~/usecases/auth/verify-token'
 import { env } from '~/config/env'
 import { RabbitMqUserMessageQueueRepository } from '~/data/repositories/rabbitmq/user-message-queue-repository'
-import { ConfirmationEmail } from '~/usecases/user/confirmation-email'
+import { ConfirmationEmailImpl } from '~/usecases/user/confirmation-email'
 import { hash } from '~/utils/hashing'
 
 const makeRegisterUserController = () => {
   const userRepository = new PrismaUserRepository()
   const userMessageQueueRepository = new RabbitMqUserMessageQueueRepository()
-  const confirmationEmail = new ConfirmationEmail(userRepository, userMessageQueueRepository, hash)
+  const confirmationEmail = new ConfirmationEmailImpl(userRepository, userMessageQueueRepository, hash)
   const registerUser = new RegisterUser(userRepository, confirmationEmail)
   const registerUserController = new RegisterUserController(registerUser)
 
