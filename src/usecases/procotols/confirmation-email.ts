@@ -1,3 +1,3 @@
 export abstract class ConfirmationEmail {
-  abstract send (email: string): Promise<void>
+  abstract enqueue (email: string): Promise<void>
 }

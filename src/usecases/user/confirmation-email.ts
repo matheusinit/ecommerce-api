@@ -3,16 +3,15 @@ import { type UserRepository } from '~/data/repositories/protocols/user-reposito
 import { type UserMessageQueueRepository } from '~/data/repositories/protocols/user-repository-mq'
 import { type ConfirmationEmail } from '../procotols/confirmation-email'
 
-type Hash = (value: string) => Promise<string>
+// type Hash = (value: string) => Promise<string>
 
 export class ConfirmationEmailImpl implements ConfirmationEmail {
   constructor (
     private readonly userRepository: UserRepository,
-    private readonly userMessageQueueRepository: UserMessageQueueRepository,
-    private readonly hash: Hash
+    private readonly userMessageQueueRepository: UserMessageQueueRepository
   ) {}
 
-  async send (email: string) {
+  async enqueue (email: string) {
     if (!email) {
       throw new Error('Email is required')
     }
@@ -33,13 +32,10 @@ export class ConfirmationEmailImpl implements ConfirmationEmail {
       throw new Error('User not found with given email')
     }
 
-    const hash = await this.hash(email)
+    // const hash = await this.hash(email)
     // Use the hash to append to a link to confirm account
     // Send the email content with link to message queue (MQ)
 
-    await this.userMessageQueueRepository.addEmailTaskToQueue({
-      to: email,
-      hash
-    })
+    await this.userMessageQueueRepository.addEmailTaskToQueue(email)
   }
 }

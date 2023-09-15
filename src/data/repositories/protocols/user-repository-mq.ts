@@ -11,6 +11,6 @@ export type MessageQueueResult = {
 }
 
 export abstract class UserMessageQueueRepository {
-  abstract addEmailTaskToQueue (payload: EmailPayload): Promise<void>
+  abstract addEmailTaskToQueue (email: string): Promise<MessageQueueResult>
   abstract listen (): Promise<EmailPayload | null>
 }

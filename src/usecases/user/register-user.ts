@@ -62,7 +62,7 @@ export class RegisterUser {
 
     const user = await this.userRepository.store({ name, type, email, password: hashedPassword })
 
-    await this.confirmationEmail.send(email)
+    await this.confirmationEmail.enqueue(email)
 
     return user
   }
