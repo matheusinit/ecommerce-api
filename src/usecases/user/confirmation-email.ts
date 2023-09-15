@@ -36,6 +36,14 @@ export class ConfirmationEmailImpl implements ConfirmationEmail {
     // Use the hash to append to a link to confirm account
     // Send the email content with link to message queue (MQ)
 
-    await this.userMessageQueueRepository.addEmailTaskToQueue(email)
+    const result = await this.userMessageQueueRepository.addEmailTaskToQueue(email)
+
+    if (result.error) {
+      throw new Error(result.message)
+    }
+
+    return {
+      message: result.message
+    }
   }
 }

@@ -3,10 +3,8 @@ export interface EmailPayload {
   hash: string
 }
 
-export type MessageQueueResult = {
-  error: true
-  message: string
-} | {
+export interface MessageQueueResult {
+  error: boolean
   message: string
 }
 

@@ -18,11 +18,13 @@ export class RabbitMqUserMessageQueueRepository implements UserMessageQueueRepos
       }
 
       return {
+        error: false,
         message: 'Message queue acked'
       }
     })
 
     return {
+      error: false,
       message: 'Message queue acked'
     }
   }
