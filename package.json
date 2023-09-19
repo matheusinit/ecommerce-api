@@ -8,6 +8,7 @@
     "unit-test": "vitest -c ./vitest-unit-test.config.ts",
     "integration-test": "dotenv -e .env.test.local -- vitest -c ./vitest-integration-test.config.ts --no-threads --watch",
     "integration-test:ci": "dotenv -e .env.test.ci -- vitest -c ./vitest-integration-test.config.ts --no-threads",
+    "e2e-test": "dotenv -e .env.test.e2e -- vitest -c ./vitest-e2e-test.config.ts --no-threads",
     "db-studio": "prisma studio",
     "typecheck": "tsc --noEmit",
     "build": "tsup"
@@ -30,6 +31,7 @@
     "@types/ms": "^0.7.31",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "axios": "^1.5.0",
     "docker-compose": "^0.24.2",
     "dotenv-cli": "^7.2.1",
     "eslint": "^8.39.0",
