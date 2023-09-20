@@ -16,11 +16,6 @@ export class EmailConsumer {
   async consume () {
     const email = await this.repository.listen()
 
-    // Get the email
-    // Create a hash from email and current datetime
-    // Generate a link to confirm account
-    // Send a message to the email with the
-
     if (!email) {
       return null
     }
