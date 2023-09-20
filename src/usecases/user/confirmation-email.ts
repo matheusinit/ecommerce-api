@@ -1,9 +1,9 @@
 import z from 'zod'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 import { type UserMessageQueueRepository } from '~/data/repositories/protocols/user-repository-mq'
-import { type ConfirmationEmail } from '../procotols/confirmation-email'
+import { type EmailQueue } from '../procotols/confirmation-email'
 
-export class ConfirmationEmailImpl implements ConfirmationEmail {
+export class EmailQueueImpl implements EmailQueue {
   constructor (
     private readonly userRepository: UserRepository,
     private readonly userMessageQueueRepository: UserMessageQueueRepository
