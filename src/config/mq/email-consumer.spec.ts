@@ -4,7 +4,7 @@ import { EmailConsumer } from './email-consumer'
 
 const makeSut = () => {
   const inMemoryMQUserRepository = new InMemoryUserMessageQueueRepository()
-  const hash = vitest.fn().mockImplementationOnce(async (value: string) => 'hashedValue')
+  const hash = vitest.fn().mockImplementationOnce(async (value: string) => 'salt:hashedValue')
   const sut = new EmailConsumer(inMemoryMQUserRepository, hash)
 
   return {
