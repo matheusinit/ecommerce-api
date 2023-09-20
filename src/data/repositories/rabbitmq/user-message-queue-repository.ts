@@ -1,5 +1,5 @@
 import { env } from '~/config/env'
-import { type MessageQueueResult, type EmailPayload, type UserMessageQueueRepository } from '../protocols/user-repository-mq'
+import { type MessageQueueResult, type UserMessageQueueRepository } from '../protocols/user-repository-mq'
 import amqp from 'amqplib'
 
 export class RabbitMqUserMessageQueueRepository implements UserMessageQueueRepository {
@@ -29,7 +29,7 @@ export class RabbitMqUserMessageQueueRepository implements UserMessageQueueRepos
     }
   }
 
-  async listen (): Promise<EmailPayload | null> {
+  async listen (): Promise<string | null> {
     const connection = await amqp.connect(env.MQ_URL)
 
     const channel = await connection.createChannel()
@@ -40,9 +40,9 @@ export class RabbitMqUserMessageQueueRepository implements UserMessageQueueRepos
         return null
       }
 
-      const payload = JSON.parse(message.content.toString())
+      const email = JSON.parse(message.content.toString()) as string
 
-      return payload
+      return email
     })
 
     return null
