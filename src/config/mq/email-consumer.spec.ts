@@ -12,4 +12,14 @@ describe('Email consumer', () => {
 
     expect(repositoryMQListenSpy).toHaveBeenCalledOnce()
   })
+
+  it('when payload is null, then should return null', async () => {
+    const inMemoryMQUserRepository = new InMemoryUserMessageQueueRepository()
+    const sut = new EmailConsumer(inMemoryMQUserRepository)
+    vitest.spyOn(inMemoryMQUserRepository, 'listen').mockImplementationOnce(async () => null)
+
+    const result = await sut.consume()
+
+    expect(result).toEqual(null)
+  })
 })
