@@ -1,4 +1,4 @@
-import { type MessageQueueResult, type EmailPayload, type UserMessageQueueRepository } from '../protocols/user-repository-mq'
+import { type MessageQueueResult, type UserMessageQueueRepository } from '../protocols/user-repository-mq'
 
 export class InMemoryUserMessageQueueRepository implements UserMessageQueueRepository {
   private readonly queue: string[] = []
@@ -12,10 +12,7 @@ export class InMemoryUserMessageQueueRepository implements UserMessageQueueRepos
     }
   }
 
-  async listen (): Promise<EmailPayload | null> {
-    return {
-      to: 'email@email.com',
-      hash: 'valid_hash'
-    }
+  async listen (): Promise<string | null> {
+    return 'valid-email@email.com'
   }
 }
