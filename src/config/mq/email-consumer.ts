@@ -20,8 +20,11 @@ export class EmailConsumer {
     // Create a hash from email and current datetime
     // Generate a link to confirm account
     // Send a message to the email with the
-    //
-    //
+
+    if (!email) {
+      return null
+    }
+
     const buffer = Buffer.from(JSON.stringify({
       email,
       datetime: new Date().toISOString()
