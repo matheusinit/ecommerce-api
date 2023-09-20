@@ -6,6 +6,8 @@ export class EmailConsumer {
   ) {}
 
   async consume () {
-    await this.repository.listen()
+    const payload = await this.repository.listen()
+
+    return payload
   }
 }
