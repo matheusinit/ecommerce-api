@@ -6,7 +6,11 @@ import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-
 
 const makeFakeConfirmationEmail = () => {
   class FakeConfirmationEmail {
-    async send (email: string) {}
+    async enqueue (email: string) {
+      return {
+        message: 'Message acked'
+      }
+    }
   }
 
   return new FakeConfirmationEmail()
@@ -198,7 +202,7 @@ describe('Register user usecase', () => {
       password: 'some-random-password1.',
       type: 'CUSTOMER' as const
     }
-    const sendConfirmationEmailSpy = vitest.spyOn(confirmationEmailService, 'send')
+    const sendConfirmationEmailSpy = vitest.spyOn(confirmationEmailService, 'enqueue')
 
     await sut.execute(userData)
 
