@@ -39,6 +39,15 @@ describe('Email consumer', () => {
     expect(result).toEqual(null)
   })
 
+  it('when message is null, then should not hash the message', async () => {
+    const { sut, hash, inMemoryMQUserRepository } = makeSut()
+    vitest.spyOn(inMemoryMQUserRepository, 'listen').mockImplementationOnce(async () => null)
+
+    await sut.consume()
+
+    expect(hash).not.toHaveBeenCalled()
+  })
+
   it('when message is valid, then should create a hash with email and current datetime', async () => {
     const { sut, hash } = makeSut()
 
