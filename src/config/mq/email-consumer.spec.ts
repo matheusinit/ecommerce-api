@@ -30,7 +30,7 @@ describe('Email consumer', () => {
     expect(repositoryMQListenSpy).toHaveBeenCalledOnce()
   })
 
-  it('when payload is null, then should return null', async () => {
+  it('when message is null, then should return null', async () => {
     const { sut, inMemoryMQUserRepository } = makeSut()
     vitest.spyOn(inMemoryMQUserRepository, 'listen').mockImplementationOnce(async () => null)
 
