@@ -1,10 +1,30 @@
 import { PrismaClient } from '@prisma/client'
-import { afterAll, afterEach, beforeAll, describe, it, expect } from 'vitest'
+import { afterAll, afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
 import request from 'supertest'
 import app from '~/app'
 import { type User } from '~/data/dtos/user'
+import { type EmailPayload, type MessageQueueResult, type UserMessageQueueRepository } from '~/data/repositories/protocols/user-repository-mq'
 
 let prisma: PrismaClient
+
+vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository.ts', () => {
+  class FakeUserMessageQueueRepository implements UserMessageQueueRepository {
+    async addEmailTaskToQueue (email: string): Promise<MessageQueueResult> {
+      return {
+        error: false,
+        message: 'Message acked'
+      }
+    }
+
+    async listen (): Promise<EmailPayload | null> {
+      throw new Error('Method not implemented.')
+    }
+  }
+
+  return {
+    RabbitMqUserMessageQueueRepository: FakeUserMessageQueueRepository
+  }
+})
 
 describe('POST /users', () => {
   beforeAll(async () => {
