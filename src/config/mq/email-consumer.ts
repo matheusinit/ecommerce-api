@@ -9,7 +9,7 @@ export class EmailConsumer {
   ) {}
 
   async consume () {
-    const payload = await this.repository.listen()
+    const email = await this.repository.listen()
 
     // Get the email
     // Create a hash from email and current datetime
@@ -18,12 +18,12 @@ export class EmailConsumer {
     //
     //
     const buffer = Buffer.from(JSON.stringify({
-      email: payload,
+      email,
       datetime: new Date().toISOString()
     }))
 
     await this.hash(buffer.toString())
 
-    return payload
+    return email
   }
 }
