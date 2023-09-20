@@ -2,10 +2,15 @@ import { type UserMessageQueueRepository } from '~/data/repositories/protocols/u
 
 type Hash = (value: string) => Promise<string>
 
+abstract class EmailSender {
+  abstract sendConfirmationEmail (email: string, confirmationLink: string): Promise<void>
+}
+
 export class EmailConsumer {
   constructor (
     private readonly repository: UserMessageQueueRepository,
-    private readonly hash: Hash
+    private readonly hash: Hash,
+    private readonly emailSender: EmailSender
   ) {}
 
   async consume () {
@@ -22,7 +27,14 @@ export class EmailConsumer {
       datetime: new Date().toISOString()
     }))
 
-    await this.hash(buffer.toString())
+    const hash = await this.hash(buffer.toString())
+
+    const link = `/confirmation?link=${hash.split(':')[1]}`
+
+    await this.emailSender.sendConfirmationEmail(
+      email ?? '',
+      link
+    )
 
     return email
   }

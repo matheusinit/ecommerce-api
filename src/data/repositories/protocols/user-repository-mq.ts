@@ -10,5 +10,5 @@ export interface MessageQueueResult {
 
 export abstract class UserMessageQueueRepository {
   abstract addEmailTaskToQueue (email: string): Promise<MessageQueueResult>
-  abstract listen (): Promise<EmailPayload | null>
+  abstract listen (): Promise<string | null>
 }
