@@ -4,8 +4,8 @@ import { describe, it, expect, vitest } from 'vitest'
 import { RegisterUser } from './register-user'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 
-const makeFakeConfirmationEmail = () => {
-  class FakeConfirmationEmail {
+const makeFakeEmailQueue = () => {
+  class FakeEmailQueue {
     async enqueue (email: string) {
       return {
         message: 'Message acked'
@@ -13,17 +13,17 @@ const makeFakeConfirmationEmail = () => {
     }
   }
 
-  return new FakeConfirmationEmail()
+  return new FakeEmailQueue()
 }
 
 const makeSut = () => {
   const userRepository = new InMemoryUserRepository()
-  const confirmationEmailService = makeFakeConfirmationEmail()
-  const sut = new RegisterUser(userRepository, confirmationEmailService)
+  const emailQueue = makeFakeEmailQueue()
+  const sut = new RegisterUser(userRepository, emailQueue)
 
   return {
     userRepository,
-    confirmationEmailService,
+    emailQueue,
     sut
   }
 }
@@ -195,14 +195,14 @@ describe('Register user usecase', () => {
   })
 
   it('when valid input is provided, then should call service that sends confirmation email', async () => {
-    const { sut, confirmationEmailService } = makeSut()
+    const { sut, emailQueue } = makeSut()
     const userData = {
       name: 'Matheus Oliveira',
       email: 'matheus@email.com',
       password: 'some-random-password1.',
       type: 'CUSTOMER' as const
     }
-    const sendConfirmationEmailSpy = vitest.spyOn(confirmationEmailService, 'enqueue')
+    const sendConfirmationEmailSpy = vitest.spyOn(emailQueue, 'enqueue')
 
     await sut.execute(userData)
 
