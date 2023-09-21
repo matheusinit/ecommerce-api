@@ -1,10 +1,7 @@
 import { type UserMessageQueueRepository } from '~/data/repositories/protocols/user-repository-mq'
+import { type EmailSender } from '~/infra/email/email-sender'
 
 type Hash = (value: string) => Promise<string>
-
-abstract class EmailSender {
-  abstract sendConfirmationEmail (email: string, confirmationLink: string): Promise<void>
-}
 
 export class EmailConsumer {
   constructor (

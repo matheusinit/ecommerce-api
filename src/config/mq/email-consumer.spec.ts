@@ -1,8 +1,9 @@
 import { describe, it, expect, vitest } from 'vitest'
 import { InMemoryUserMessageQueueRepository } from '~/data/repositories/in-memory/in-memory-user-message-queue-repository'
 import { EmailConsumer } from './email-consumer'
+import { type EmailSender } from '~/infra/email/email-sender'
 
-class FakeEmailSender {
+class FakeEmailSender implements EmailSender {
   async sendConfirmationEmail (email: string, confirmationLink: string) {}
 }
 
