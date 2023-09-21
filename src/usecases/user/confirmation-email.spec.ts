@@ -15,7 +15,7 @@ const makeSut = () => {
   }
 }
 
-describe('Send confirmation email', () => {
+describe('Enqueue confirmation email', () => {
   it('when email is not provided, then should get an error', async () => {
     const { sut } = makeSut()
 
