@@ -4,6 +4,7 @@ import { execSync } from 'child_process'
 import { describe, it, expect, afterAll } from 'vitest'
 import axios from 'axios'
 import dockerCompose from 'docker-compose'
+import amqp from 'amqplib'
 
 describe('Register user flow', () => {
   it('should register an user with success', async () => {
@@ -21,6 +22,11 @@ describe('Register user flow', () => {
     execSync('docker exec api-rest npx prisma migrate deploy')
     execSync('docker exec api-rest npx prisma migrate reset --force')
 
+    const connection = await amqp.connect('amqp://0.0.0.0:5672')
+
+    const channel = await connection.createChannel()
+    const queue = await channel.assertQueue('confirmation-email')
+
     const response = await axios.post('http://localhost/v1/users', {
       name: 'Matheus Oliveira',
       email: 'matheus13@email.com',
@@ -29,6 +35,7 @@ describe('Register user flow', () => {
     })
 
     expect(response.status).toBe(201)
+    expect(queue.consumerCount).toBe(1)
   }, 50000)
 
   afterAll(async () => {
