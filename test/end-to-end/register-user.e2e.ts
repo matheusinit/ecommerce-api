@@ -24,7 +24,8 @@ describe('Register user flow', () => {
   }, 50000)
 
   it('should register an user with success', async () => {
-    const connection = await amqp.connect('amqp://0.0.0.0:5672')
+    const messageQueueAddress = 'amqp://0.0.0.0:5672'
+    const connection = await amqp.connect(messageQueueAddress)
     const channel = await connection.createChannel()
     const queue = await channel.assertQueue('confirmation-email')
 
