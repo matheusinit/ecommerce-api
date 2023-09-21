@@ -29,10 +29,7 @@ export class EmailConsumer {
 
     const link = `/confirmation?link=${hash.split(':')[1]}`
 
-    await this.emailSender.sendConfirmationEmail(
-      email ?? '',
-      link
-    )
+    await this.emailSender.sendConfirmationEmail(email, link)
 
     return email
   }
