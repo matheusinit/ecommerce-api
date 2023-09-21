@@ -1,13 +1,13 @@
 import path from 'path'
 import { execSync } from 'child_process'
 
-import { describe, it, expect, afterAll } from 'vitest'
+import { describe, it, expect, afterAll, beforeAll } from 'vitest'
 import axios from 'axios'
 import dockerCompose from 'docker-compose'
 import amqp from 'amqplib'
 
 describe('Register user flow', () => {
-  it('should register an user with success', async () => {
+  beforeAll(async () => {
     await dockerCompose.upMany([
       'proxy-reverse-e2e',
       'api-rest-dev',
@@ -21,9 +21,10 @@ describe('Register user flow', () => {
 
     execSync('docker exec api-rest npx prisma migrate deploy')
     execSync('docker exec api-rest npx prisma migrate reset --force')
+  }, 50000)
 
+  it('should register an user with success', async () => {
     const connection = await amqp.connect('amqp://0.0.0.0:5672')
-
     const channel = await connection.createChannel()
     const queue = await channel.assertQueue('confirmation-email')
 
@@ -36,7 +37,7 @@ describe('Register user flow', () => {
 
     expect(response.status).toBe(201)
     expect(queue.consumerCount).toBe(1)
-  }, 50000)
+  })
 
   afterAll(async () => {
     await dockerCompose.down({
