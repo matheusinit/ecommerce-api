@@ -67,6 +67,12 @@ export class RegisterUserController implements Controller {
         })
       }
 
+      if (error.message === 'Message nacked') {
+        return internalServerError({
+          message: 'The user was created, but for an internal error the confirmation email could not be sent. Please send a request to send the confirmation email again soon.'
+        })
+      }
+
       return internalServerError({
         message: 'A internal error happened in our server'
       })
