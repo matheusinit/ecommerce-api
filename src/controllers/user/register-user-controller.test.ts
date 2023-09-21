@@ -242,12 +242,10 @@ describe('POST /users', () => {
   describe('When confirmation email message could not be sent due to an error', () => {
     it('then should get internal server errror', async () => {
       const fakeUserMessageQueueRepository = await import('~/data/repositories/rabbitmq/user-message-queue-repository')
-      fakeUserMessageQueueRepository.RabbitMqUserMessageQueueRepository.prototype.addEmailTaskToQueue = vi.fn().mockImplementation(async () => {
-        return {
-          error: true,
-          message: 'Message nacked'
-        }
-      })
+      fakeUserMessageQueueRepository.RabbitMqUserMessageQueueRepository.prototype.addEmailTaskToQueue = vi.fn().mockImplementation(async () => ({
+        error: true,
+        message: 'Message nacked'
+      }))
 
       const user: User = {
         name: 'Matheus Oliveira',
