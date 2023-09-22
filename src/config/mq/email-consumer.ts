@@ -11,23 +11,20 @@ export class EmailConsumer {
   ) {}
 
   async consume () {
-    const email = await this.repository.listen()
+    await this.repository.listen(async (email: string) => {
+      console.log('[AMQP] Consumer is running...')
+      console.log('[AMQP] Awaiting for messages...')
 
-    if (!email) {
-      return null
-    }
+      const buffer = Buffer.from(JSON.stringify({
+        email,
+        datetime: new Date().toISOString()
+      }))
 
-    const buffer = Buffer.from(JSON.stringify({
-      email,
-      datetime: new Date().toISOString()
-    }))
+      const hash = await this.hash(buffer.toString())
 
-    const hash = await this.hash(buffer.toString())
+      const link = `/confirmation?link=${hash.split(':')[1]}`
 
-    const link = `/confirmation?link=${hash.split(':')[1]}`
-
-    await this.emailSender.sendConfirmationEmail(email, link)
-
-    return email
+      await this.emailSender.sendConfirmationEmail(email, link)
+    })
   }
 }

@@ -29,7 +29,7 @@ export class RabbitMqUserMessageQueueRepository implements UserMessageQueueRepos
     }
   }
 
-  async listen (): Promise<string | null> {
+  async listen (process: (email: string) => Promise<void>): Promise<void> {
     const connection = await amqp.connect(env.MQ_URL)
 
     const channel = await connection.createChannel()
@@ -41,10 +41,9 @@ export class RabbitMqUserMessageQueueRepository implements UserMessageQueueRepos
       }
 
       const email = JSON.parse(message.content.toString()) as string
+      channel.ack(message)
 
-      return email
+      process(email).then().catch(() => {})
     })
-
-    return null
   }
 }
