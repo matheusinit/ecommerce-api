@@ -10,21 +10,35 @@ export class EmailConsumer {
     private readonly emailSender: EmailSender
   ) {}
 
+  private getHashKey (hash: string) {
+    return hash.split(':')[1]
+  }
+
+  private createBuffer (email: string, datetime: string) {
+    return Buffer.from(JSON.stringify({
+      email,
+      datetime
+    }))
+  }
+
+  private async runAsyncJob (email: string) {
+    console.log('[AMQP] Consumer is running...')
+    console.log('[AMQP] Awaiting for messages...')
+
+    const buffer = this.createBuffer(email, new Date().toISOString())
+
+    const bufferInString = buffer.toString()
+
+    const hash = await this.hash(bufferInString)
+
+    const hashKey = this.getHashKey(hash)
+
+    const link = `/confirmation?link=${hashKey}`
+
+    await this.emailSender.sendConfirmationEmail(email, link)
+  }
+
   async consume () {
-    await this.repository.listen(async (email: string) => {
-      console.log('[AMQP] Consumer is running...')
-      console.log('[AMQP] Awaiting for messages...')
-
-      const buffer = Buffer.from(JSON.stringify({
-        email,
-        datetime: new Date().toISOString()
-      }))
-
-      const hash = await this.hash(buffer.toString())
-
-      const link = `/confirmation?link=${hash.split(':')[1]}`
-
-      await this.emailSender.sendConfirmationEmail(email, link)
-    })
+    await this.repository.listen(this.runAsyncJob)
   }
 }
