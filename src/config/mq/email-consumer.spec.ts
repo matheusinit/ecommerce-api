@@ -3,8 +3,15 @@ import { InMemoryUserMessageQueueRepository } from '~/data/repositories/in-memor
 import { EmailConsumer } from './email-consumer'
 import { type EmailSender } from '~/infra/email/email-sender'
 
+interface ConfirmationEmailPayload {
+  to: string
+  confirmationLink: string
+  subject: string
+  from: string
+}
+
 class FakeEmailSender implements EmailSender {
-  async sendConfirmationEmail (email: string, confirmationLink: string) {}
+  async sendConfirmationEmail (payload: ConfirmationEmailPayload) {}
 }
 
 const makeSut = () => {
@@ -34,7 +41,7 @@ describe('Email consumer', () => {
   it('when message is valid, then should create a hash with email and current datetime', async () => {
     const { sut, hash } = makeSut()
 
-    await sut.consume()
+    await sut.runAsyncJob('matheus@email.com')
 
     expect(hash).toHaveBeenCalledWith(expect.any(String))
   })
@@ -43,11 +50,12 @@ describe('Email consumer', () => {
     const { sut, emailSender } = makeSut()
     const spy = vitest.spyOn(emailSender, 'sendConfirmationEmail')
 
-    await sut.consume()
+    await sut.runAsyncJob('matheus@email.com')
 
     expect(spy).toHaveBeenCalledWith(
-      'valid-email@email.com',
-      expect.stringMatching(/\/confirmation\?link=[a-z0-9]{128}/gm)
+      expect.objectContaining({
+        confirmationLink: expect.stringMatching(/\/confirmation\?link=[a-z0-9]{128}/gm)
+      })
     )
   })
 })
