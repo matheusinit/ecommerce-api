@@ -16,7 +16,7 @@ vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository.ts', () => {
       }
     }
 
-    async listen (): Promise<string | null> {
+    async listen (): Promise<void> {
       throw new Error('Method not implemented.')
     }
   }
