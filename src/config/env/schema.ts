@@ -7,5 +7,9 @@ export const productionEnvSchema = z.object({
   PORT: z.number().optional(),
   REDIS_URL: z.string(),
   DATABASE_URL: z.string(),
-  MQ_URL: z.string().default('amqp://localhost')
+  MQ_URL: z.string().default('amqp://localhost'),
+  SMTP_PROVIDER: z.string(),
+  SMTP_PORT: z.number(),
+  SMTP_USER: z.string(),
+  SMTP_PASSWORD: z.string()
 })

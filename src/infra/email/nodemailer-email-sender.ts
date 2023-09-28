@@ -1,3 +1,4 @@
+import { env } from '~/config/env'
 import { type EmailSender } from './email-sender'
 import nodemailer from 'nodemailer'
 
@@ -15,12 +16,21 @@ export class NodeMailerEmailSender implements EmailSender {
     subject,
     to
   }: ConfirmationEmailPayload): Promise<void> {
+    // const mailClient = nodemailer.createTransport({
+    //   host: 'smtp.ethereal.email',
+    //   port: 587,
+    //   auth: {
+    //     user: 'johathan.miller77@ethereal.email',
+    //     pass: 'EUKwwjbS5Qax2ZJDBt'
+    //   }
+    // })
+
     const mailClient = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
+      host: env.SMTP_PROVIDER,
+      port: env.SMTP_PORT,
       auth: {
-        user: 'johathan.miller77@ethereal.email',
-        pass: 'EUKwwjbS5Qax2ZJDBt'
+        user: env.SMTP_USER,
+        pass: env.SMTP_PASSWORD
       }
     })
 
