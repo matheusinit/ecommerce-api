@@ -7,7 +7,8 @@ import { type User } from '~/data/dtos/user'
 let prisma: PrismaClient
 
 vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository.ts', async () => ({
-  RabbitMqUserMessageQueueRepository: (await import('test/fakes/fake-user-message-queue-repository')).FakeUserMessageQueueRepository
+  RabbitMqUserMessageQueueRepository: (await import('test/fakes/fake-user-message-queue-repository'))
+    .FakeUserMessageQueueRepository
 }))
 
 describe('POST /users', () => {
