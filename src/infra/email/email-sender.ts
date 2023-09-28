@@ -1,3 +1,10 @@
+export interface ConfirmationEmailPayload {
+  to: string
+  confirmationLink: string
+  subject: string
+  from: string
+}
+
 export abstract class EmailSender {
-  abstract sendConfirmationEmail (email: string, confirmationLink: string): Promise<void>
+  abstract sendConfirmationEmail (payload: ConfirmationEmailPayload): Promise<void>
 }

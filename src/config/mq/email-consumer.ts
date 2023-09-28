@@ -21,7 +21,7 @@ export class EmailConsumer {
     }))
   }
 
-  private async runAsyncJob (email: string) {
+  public async runAsyncJob (email: string) {
     console.log('[AMQP] Consumer is running...')
     console.log('[AMQP] Awaiting for messages...')
 
@@ -35,7 +35,12 @@ export class EmailConsumer {
 
     const confirmationLink = `/confirmation?link=${hashKey}`
 
-    await this.emailSender.sendConfirmationEmail(email, confirmationLink)
+    await this.emailSender.sendConfirmationEmail({
+      to: email,
+      confirmationLink,
+      from: 'Ecommerce <johathan.miller77@ethereal.email>',
+      subject: 'Confirmation email - Ecommerce'
+    })
   }
 
   async consume () {
