@@ -5,7 +5,7 @@ import { describe, it, expect, afterAll, beforeAll } from 'vitest'
 import axios from 'axios'
 import dockerCompose from 'docker-compose'
 import amqp from 'amqplib'
-import { ImapFlow } from 'imapflow'
+import { ImapFlow, type MailboxObject } from 'imapflow'
 
 describe('Register user flow', () => {
   beforeAll(async () => {
@@ -56,7 +56,15 @@ describe('Register user flow', () => {
 
     const lock = await smtpClient.getMailboxLock('INBOX')
 
-    const message = await smtpClient.fetchOne(smtpClient.mailbox.exists, { source: true })
+    /**
+     * "as MailboxObject" is a work around because lib return this type or boolean
+        what makes TypeScript confused, even though I'm following the docs of ImapFlow
+        Reference: https://imapflow.com
+     */
+    const message = await smtpClient.fetchOne(
+      (smtpClient.mailbox as MailboxObject).exists as unknown as string,
+      { source: true }
+    )
 
     const emailContent = message.source.toString()
 

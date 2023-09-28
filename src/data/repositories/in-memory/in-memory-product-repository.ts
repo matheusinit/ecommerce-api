@@ -37,6 +37,7 @@ export class InMemoryProductRepository implements ProductRepository {
       name,
       price,
       userId,
+      stock: 0,
       createdAt: new Date(),
       updatedAt: null,
       deletedAt: null

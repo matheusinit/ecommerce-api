@@ -12,7 +12,5 @@ export class InMemoryUserMessageQueueRepository implements UserMessageQueueRepos
     }
   }
 
-  async listen (): Promise<string | null> {
-    return 'valid-email@email.com'
-  }
+  async listen (): Promise<void> { }
 }

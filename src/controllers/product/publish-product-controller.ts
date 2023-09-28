@@ -15,7 +15,11 @@ export class PublishProductController implements Controller {
     try {
       const { name, price } = request.body
 
-      const accessToken = request.cookies['access-token']
+      const cookies = request.cookies
+
+      if (!cookies) throw Error('Cookies not defined')
+
+      const accessToken = cookies['access-token']
 
       const { id: userId } = await verifyToken(accessToken, env.ACCESS_TOKEN_SECRET)
 

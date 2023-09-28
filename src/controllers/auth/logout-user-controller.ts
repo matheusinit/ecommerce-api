@@ -9,7 +9,11 @@ export class LogoutUserController implements Controller {
   ) {}
 
   async handle (request: HttpRequest) {
-    const accessToken = request.cookies['access-token']
+    const cookies = request.cookies
+
+    if (!cookies) { throw Error('Cookies not defined') }
+
+    const accessToken = cookies['access-token']
 
     const result = await this.logoutUser.execute({
       accessToken

@@ -58,7 +58,9 @@ export class AuthenticateUserController implements Controller {
       })
 
       return defineCookies(response, [accessTokenCookie, refreshTokenCookie])
-    } catch (error) {
+    } catch (err) {
+      const error = err as Error
+
       if (error instanceof Error && error.message === '\'Email\' is not provided') {
         return internalServerError(httpError('An internal error occured involving the \'email\' field'))
       }

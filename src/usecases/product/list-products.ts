@@ -8,7 +8,7 @@ interface SearchByField {
 interface ListProductsRequest {
   skipCount: number
   getCount: number
-  select: {
+  select?: {
     name?: boolean
     price?: boolean
     userId?: boolean
@@ -17,7 +17,7 @@ interface ListProductsRequest {
     updatedAt?: boolean
     deletedAt?: boolean
   }
-  search: {
+  search?: {
     name?: SearchByField
   }
 }
@@ -27,7 +27,7 @@ export class ListProducts {
     private readonly productRepository: ProductRepository
   ) {}
 
-  async execute ({ skipCount, getCount, select, search }: ListProductsRequest) {
+  async execute ({ skipCount, getCount, select = {}, search = {} }: ListProductsRequest) {
     const products = await this.productRepository.list({
       get: getCount,
       skip: skipCount,

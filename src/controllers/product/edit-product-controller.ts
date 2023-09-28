@@ -1,5 +1,5 @@
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { badRequest, httpError, ok } from '~/utils/http'
+import { badRequest, httpError, internalServerError, ok } from '~/utils/http'
 import z from 'zod'
 import { type EditProduct } from '~/usecases/product/edit-product'
 
@@ -10,7 +10,8 @@ export class EditProductController {
 
   async handle (request: HttpRequest) {
     try {
-      const { id } = request.params
+      // Should not use "as string", write an integration test to check if id is null
+      const id = request.params?.id as string
 
       const idValidation = z.string().cuid()
 
@@ -45,6 +46,8 @@ export class EditProductController {
       if (error.message === 'must pass a value for fields to edit a product: name, price or stock') {
         return badRequest(httpError('Must pass a value for fields to edit a product: name, price or stock'))
       }
+
+      return internalServerError(httpError('Unexpected error occured'))
     }
   }
 }
