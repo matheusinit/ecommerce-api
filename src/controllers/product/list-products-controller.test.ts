@@ -5,12 +5,11 @@ import { PrismaClient, type User as UserRaw } from '@prisma/client'
 import * as falso from '@ngneat/falso'
 import { type User } from '~/data/dtos/user'
 import { type Tokens } from '~/data/dtos/auth-tokens'
-import { FakeUserMessageQueueRepository } from 'test/fakes/fake-user-message-queue-repository'
 
 let prisma: PrismaClient
 
-vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository.ts', () => ({
-  RabbitMqUserMessageQueueRepository: FakeUserMessageQueueRepository
+vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository.ts', async () => ({
+  RabbitMqUserMessageQueueRepository: (await import('test/fakes/fake-user-message-queue-repository')).FakeUserMessageQueueRepository
 }))
 
 describe('GET /products', () => {
