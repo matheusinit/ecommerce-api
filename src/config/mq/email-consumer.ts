@@ -33,9 +33,9 @@ export class EmailConsumer {
 
     const hashKey = this.getHashKey(hash)
 
-    const link = `/confirmation?link=${hashKey}`
+    const confirmationLink = `/confirmation?link=${hashKey}`
 
-    await this.emailSender.sendConfirmationEmail(email, link)
+    await this.emailSender.sendConfirmationEmail(email, confirmationLink)
   }
 
   async consume () {
