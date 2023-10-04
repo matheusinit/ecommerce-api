@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 import { hash } from '~/utils/hashing'
 import { type UserType } from '~/data/dtos/user-type'
-import { type EmailQueue } from '../procotols/confirmation-email'
+import { type ConfirmationEmailQueue } from '../procotols/confirmation-email-queue'
 
 interface Request {
   name: string
@@ -14,7 +14,7 @@ interface Request {
 export class RegisterUser {
   constructor (
     private readonly userRepository: UserRepository,
-    private readonly emailQueue: EmailQueue
+    private readonly emailQueue: ConfirmationEmailQueue
   ) {}
 
   async execute (request: Request) {

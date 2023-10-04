@@ -1,12 +1,12 @@
 import { it, describe, expect, vitest } from 'vitest'
-import { EmailQueueImpl } from './confirmation-email'
+import { ConfirmationEmailQueueImpl } from './confirmation-email-queue'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 import { InMemoryUserMessageQueueRepository } from '~/data/repositories/in-memory/in-memory-user-message-queue-repository'
 
 const makeSut = () => {
   const userMessageQueue = new InMemoryUserMessageQueueRepository()
   const userRepository = new InMemoryUserRepository()
-  const sut = new EmailQueueImpl(userRepository, userMessageQueue)
+  const sut = new ConfirmationEmailQueueImpl(userRepository, userMessageQueue)
 
   return {
     sut,
