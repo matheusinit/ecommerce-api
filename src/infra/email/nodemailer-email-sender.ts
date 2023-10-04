@@ -18,7 +18,7 @@ export class NodeMailerEmailSender implements EmailSender {
   }: ConfirmationEmailPayload): Promise<void> {
     const mailClient = nodemailer.createTransport({
       host: env.SMTP_PROVIDER ?? 'smtp.ethereal.email',
-      port: env.SMTP_PORT ?? 587,
+      port: Number(env.SMTP_PORT) ?? 587,
       auth: {
         user: env.SMTP_USER ?? 'johathan.miller77@ethereal.email',
         pass: env.SMTP_PASSWORD ?? 'EUKwwjbS5Qax2ZJDBt'
