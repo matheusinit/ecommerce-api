@@ -1,10 +1,12 @@
+import { type ConfirmationEmailTokenRepository } from '~/data/repositories/protocols/ConfirmationEmailToken'
 import { type ConfirmationEmailLink } from '../procotols/confirmation-email-link'
 
 type Hash = (value: string) => Promise<string>
 
 export class ConfirmationEmailLinkImpl implements ConfirmationEmailLink {
   constructor (
-    private readonly hash: Hash
+    private readonly hash: Hash,
+    private readonly confirmationEmailTokenRepository: ConfirmationEmailTokenRepository
   ) {}
 
   private getHashKey (hash: string) {
@@ -26,6 +28,8 @@ export class ConfirmationEmailLinkImpl implements ConfirmationEmailLink {
     const hash = await this.hash(bufferInString)
 
     const hashKey = this.getHashKey(hash)
+
+    await this.confirmationEmailTokenRepository.storeToken(email, hashKey)
 
     const confirmationLink = `/confirmation?link=${hashKey}`
 

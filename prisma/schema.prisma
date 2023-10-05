@@ -21,6 +21,16 @@ model User {
   deletedAt DateTime?
 
   Product   Product[]
+  ConfirmationLinks ConfirmationLink[]
+}
+
+model ConfirmationLink {
+  userId String
+  token  String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, token])
 }
 
 model Product {
