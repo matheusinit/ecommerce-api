@@ -23,14 +23,12 @@ const makeSut = () => {
   }
 
   const inMemoryMQUserRepository = new InMemoryUserMessageQueueRepository()
-  const hash = vitest.fn().mockImplementationOnce(async (value: string) => 'salt:faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26')
   const emailSender = new FakeEmailSender()
   const confirmationEmailLink = new FakeConfirmationEmailLink()
   const sut = new EmailConsumer(inMemoryMQUserRepository, confirmationEmailLink, emailSender)
 
   return {
     inMemoryMQUserRepository,
-    hash,
     emailSender,
     sut
   }
