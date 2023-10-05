@@ -70,18 +70,4 @@ describe('Enqueue confirmation email', () => {
 
     expect(addEmailTaskToQueueSpy).toBeCalledWith('matheus@email.com')
   })
-
-  // it('when a valid email is provided, then should call function to create hash from email', async () => {
-  //   const { sut, userRepository, hash } = makeSut()
-  //   await userRepository.store({
-  //     name: 'Matheus',
-  //     email: 'matheus@email.com',
-  //     type: 'STORE-ADMIN',
-  //     password: 'some-random-password1.'
-  //   })
-
-  //   await sut.enqueue('matheus@email.com')
-
-  //   expect(hash).toHaveBeenCalledWith('matheus@email.com')
-  // })
 })

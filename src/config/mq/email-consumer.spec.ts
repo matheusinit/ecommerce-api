@@ -44,14 +44,6 @@ describe('Email consumer', () => {
     expect(repositoryMQListenSpy).toHaveBeenCalledOnce()
   })
 
-  // it('when message is valid, then should create a hash with email and current datetime', async () => {
-  //   const { sut, hash } = makeSut()
-  //
-  //   await sut.runAsyncJob('matheus@email.com')
-  //
-  //   expect(hash).toHaveBeenCalledWith(expect.any(String))
-  // })
-
   it('when message is valid, then should send email confirmation link', async () => {
     const { sut, emailSender } = makeSut()
     const spy = vitest.spyOn(emailSender, 'sendConfirmationEmail')
