@@ -19,4 +19,12 @@ describe('Confirmation Email Link', () => {
 
     expect(hash).toHaveBeenCalledWith(expect.any(String))
   })
+
+  it('when email is provided, then should return confirmation link with hash', async () => {
+    const { sut } = makeSut()
+
+    const link = await sut.create('matheus@email.com')
+
+    expect(link).toMatch(/\/confirmation\?link=[a-z0-9]{128}/gm)
+  })
 })
