@@ -15,13 +15,13 @@ class FakeEmailSender implements EmailSender {
   async sendConfirmationEmail (payload: ConfirmationEmailPayload) {}
 }
 
-const makeSut = () => {
-  class FakeConfirmationEmailLink implements ConfirmationEmailLink {
-    async create (email: string) {
-      return '/confirmation?link=faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26'
-    }
+class FakeConfirmationEmailLink implements ConfirmationEmailLink {
+  async create (email: string) {
+    return '/confirmation?link=faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26'
   }
+}
 
+const makeSut = () => {
   const inMemoryMQUserRepository = new InMemoryUserMessageQueueRepository()
   const emailSender = new FakeEmailSender()
   const confirmationEmailLink = new FakeConfirmationEmailLink()
