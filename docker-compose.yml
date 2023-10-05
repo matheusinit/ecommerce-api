@@ -12,7 +12,7 @@ services:
     depends_on:
       - api-rest-app
   proxy-reverse-e2e:
-    profiles: ['production', 'development']
+    profiles: ['testing', 'development']
     container_name: ecommerce_proxy_reverse
     image: nginx
     ports:
