@@ -30,7 +30,7 @@ export class InMemoryUserRepository implements UserRepository {
     }
   }
 
-  async findByEmail (params: FindByEmailParams): Promise<User | null> {
+  async findByEmail (params: FindByEmailParams): Promise<User & { verified: boolean } | null> {
     const { email } = params
 
     const userEntity = this.users.find(user => user.email === email)
@@ -44,6 +44,7 @@ export class InMemoryUserRepository implements UserRepository {
       name: userEntity.name ?? null,
       email: userEntity.email,
       type: userEntity.type,
+      verified: userEntity.verified,
       password: userEntity.password,
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt ?? null,
