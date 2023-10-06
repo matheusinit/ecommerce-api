@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { Email } from './email'
+import { InMemoryConfirmationEmailTokenRepository } from '~/data/repositories/in-memory/in-memory-confirmation-email-token-repository'
 
 describe('Email', () => {
   it('when invalid token is provided, then should throw an error', () => {
@@ -8,5 +9,15 @@ describe('Email', () => {
     const promise = sut.confirm('invalid-token')
 
     void expect(promise).rejects.toThrowError('Invalid token')
+  })
+
+  it('when valid token provided is not stored in database, then should throw an error', () => {
+    const confirmationEmailTokenRepository = new InMemoryConfirmationEmailTokenRepository()
+    const sut = new Email(confirmationEmailTokenRepository)
+    const validToken = 'faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26'
+
+    const promise = sut.confirm(validToken)
+
+    void expect(promise).rejects.toThrowError('Token not found')
   })
 })
