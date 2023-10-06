@@ -1,6 +1,7 @@
 import { env } from '~/config/env'
 import { type EmailSender } from './email-sender'
 import nodemailer from 'nodemailer'
+import Email from 'email-templates'
 
 interface ConfirmationEmailPayload {
   to: string
@@ -25,13 +26,25 @@ export class NodeMailerEmailSender implements EmailSender {
       }
     })
 
-    await mailClient.sendMail({
-      from,
-      to,
-      subject,
-      html: `
-        ${confirmationLink}
-      `
+    const email = new Email({
+      message: {
+        from
+      },
+      send: true,
+      transport: mailClient
+    })
+
+    await email.send({
+      template: 'confirmation-email',
+      message: {
+        to,
+        subject
+      },
+      locals: {
+        name: 'Matheus Oliveira',
+        confirmationLink,
+        email: to
+      }
     })
 
     mailClient.close()
