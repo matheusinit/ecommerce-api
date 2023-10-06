@@ -9,6 +9,7 @@ import { verifyToken } from '~/usecases/auth/verify-token'
 import { env } from '~/config/env'
 import { RabbitMqUserMessageQueueRepository } from '~/data/repositories/rabbitmq/user-message-queue-repository'
 import { ConfirmationEmailQueueImpl } from '~/usecases/user/confirmation-email-queue'
+import { ConfirmEmailController } from '~/controllers/user/confirm-email-controller'
 
 const makeRegisterUserController = () => {
   const userRepository = new PrismaUserRepository()
@@ -31,5 +32,6 @@ userRoutes.get('/me', isAuthenticated, async (request: Request, response: Respon
 })
 
 userRoutes.post('/', expressRouteAdapt(makeRegisterUserController()))
+userRoutes.post('/email-confirmation', expressRouteAdapt(new ConfirmEmailController()))
 
 export default userRoutes
