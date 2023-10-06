@@ -1,4 +1,3 @@
-import { NodeMailerEmailSender } from '~/infra/email/nodemailer-email-sender'
 import { type ConfirmationEmailLink } from '../procotols/confirmation-email-link'
 import { type ConfirmationEmail } from '../procotols/confirmation-email'
 import { type EmailSender } from '~/infra/email/email-sender'
