@@ -1,17 +1,16 @@
 import { NodeMailerEmailSender } from '~/infra/email/nodemailer-email-sender'
-import { ConfirmationEmailLinkImpl } from '~/usecases/user/confirmation-email-link'
-import { hash } from '~/utils/hashing'
-import { PrismaConfirmationEmailTokenRepository } from '~/data/repositories/prisma/prisma-confirmation-email-token-repository'
+import { type ConfirmationEmailLink } from '../procotols/confirmation-email-link'
 
 export class ConfirmationEmail {
-  async send (email: string) {
-    const confirmationEmailTokenRepository = new PrismaConfirmationEmailTokenRepository()
-    const confirmationEmailLink = new ConfirmationEmailLinkImpl(hash, confirmationEmailTokenRepository)
+  constructor (
+    private readonly confirmationEmailLink: ConfirmationEmailLink
+  ) {}
 
+  async send (email: string) {
     const emailSender = new NodeMailerEmailSender()
 
     // TODO: Route that confirms email with hash passed as link
-    const confirmationLink = await confirmationEmailLink.create(email)
+    const confirmationLink = await this.confirmationEmailLink.create(email)
 
     await emailSender.sendConfirmationEmail({
       to: email,
