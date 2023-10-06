@@ -42,11 +42,8 @@ describe('Email', () => {
       name: 'Matheus Oliveira',
       password: 'random-hash'
     })
-
     await userRepository.verify('matheus@email.com')
-
     await confirmationEmailTokenRepository.storeToken('matheus@email.com', 'faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26')
-
     const validToken = 'faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26'
 
     const promise = sut.confirm(validToken)
@@ -105,7 +102,6 @@ describe('Email', () => {
     const datePast24Hours = dayjs().subtract(24, 'h').add(1, 's').toDate()
     confirmationEmailTokenRepository.changeCreatedAt('matheus@email.com', datePast24Hours)
     const validToken = 'faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26'
-
     await sut.confirm(validToken)
 
     const user = await userRepository.findByEmail({
