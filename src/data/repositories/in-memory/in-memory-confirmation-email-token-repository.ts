@@ -5,7 +5,10 @@ export class InMemoryConfirmationEmailTokenRepository implements ConfirmationEma
   private readonly repository: ConfirmationEmailToken[] = []
 
   async storeToken (email: string, token: string): Promise<void> {
-    throw new Error('Method not implemented.')
+    this.repository.push({
+      token,
+      userEmail: email
+    })
   }
 
   async getByToken (token: string): Promise<ConfirmationEmailToken | null> {
