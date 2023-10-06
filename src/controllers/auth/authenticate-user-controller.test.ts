@@ -1,10 +1,20 @@
-import { beforeAll, afterEach, describe, expect, it, afterAll } from 'vitest'
+import { beforeAll, afterEach, describe, expect, it, afterAll, vi } from 'vitest'
 import request from 'supertest'
 import app from '~/app'
 import { PrismaClient } from '@prisma/client'
 import { type User } from '~/data/dtos/user'
 
 let prisma: PrismaClient
+
+vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository', async () => ({
+  RabbitMqUserMessageQueueRepository: (await import('test/fakes/fake-user-message-queue-repository'))
+    .FakeUserMessageQueueRepository
+}))
+
+vi.mock('~/config/mq/email-consumer', async () => ({
+  EmailConsumer: (await import('test/fakes/fake-email-consumer'))
+    .FakeEmailConsumer
+}))
 
 describe('POST /auth', () => {
   beforeAll(async () => {

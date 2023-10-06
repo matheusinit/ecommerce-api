@@ -11,6 +11,11 @@ vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository.ts', async (
     .FakeUserMessageQueueRepository
 }))
 
+vi.mock('~/config/mq/email-consumer.ts', async () => ({
+  EmailConsumer: (await import('test/fakes/fake-email-consumer'))
+    .FakeEmailConsumer
+}))
+
 describe('POST /users', () => {
   beforeAll(async () => {
     prisma = new PrismaClient()
