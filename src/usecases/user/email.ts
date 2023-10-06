@@ -9,6 +9,12 @@ export class Email {
     private readonly userRepository: UserRepository
   ) {}
 
+  private tokenIsExpired (tokenDate: Date) {
+    const expirationDate = dayjs(tokenDate).add(24, 'h')
+    const isExpired = dayjs().isAfter(expirationDate)
+    return isExpired
+  }
+
   async confirm (token: string) {
     const tokenSchema = z.string().regex(/^[a-z0-9]{128}$/)
     const result = tokenSchema.safeParse(token)
@@ -18,9 +24,8 @@ export class Email {
     }
 
     const tokenFromDatabase = await this.confirmationEmailTokenRepository.getByToken(token)
-    const expirationDate = dayjs(tokenFromDatabase?.createdAt).add(24, 'h')
-    const tokenIsExpired = dayjs().isAfter(expirationDate)
 
+    const tokenIsExpired = this.tokenIsExpired(tokenFromDatabase?.createdAt)
     if (tokenIsExpired) {
       throw new Error('Token expired')
     }
