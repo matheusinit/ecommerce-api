@@ -72,6 +72,27 @@ describe('Email', () => {
     void expect(promise).rejects.toThrowError('Token expired')
   })
 
+  it('when token has exactly 24 hours of life, then should verify user', async () => {
+    const { sut, userRepository, confirmationEmailTokenRepository } = makeSut()
+    await userRepository.store({
+      email: 'matheus@email.com',
+      type: 'CUSTOMER',
+      name: 'Matheus Oliveira',
+      password: 'random-hash'
+    })
+    await confirmationEmailTokenRepository.storeToken('matheus@email.com', 'faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26')
+    const datePast24Hours = dayjs().subtract(24, 'h').toDate()
+    confirmationEmailTokenRepository.changeCreatedAt('matheus@email.com', datePast24Hours)
+    const validToken = 'faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26'
+    await sut.confirm(validToken)
+
+    const user = await userRepository.findByEmail({
+      email: 'matheus@email.com'
+    })
+
+    expect(user?.verified).toEqual(true)
+  })
+
   it('when is remaining 1 second for token become expired, then should verify user', async () => {
     const { sut, userRepository, confirmationEmailTokenRepository } = makeSut()
     await userRepository.store({
