@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { z } from 'zod'
 import { type ConfirmationEmailTokenRepository } from '~/data/repositories/protocols/confirmation-email-token'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
@@ -17,6 +18,12 @@ export class Email {
     }
 
     const tokenFromDatabase = await this.confirmationEmailTokenRepository.getByToken(token)
+    const expirationDate = dayjs(tokenFromDatabase?.createdAt).add(24, 'h')
+    const tokenIsExpired = dayjs().isAfter(expirationDate)
+
+    if (tokenIsExpired) {
+      throw new Error('Token expired')
+    }
 
     if (tokenFromDatabase === null) {
       throw new Error('Token not found')
