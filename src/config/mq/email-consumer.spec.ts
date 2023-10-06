@@ -1,7 +1,7 @@
 import { describe, it, expect, vitest } from 'vitest'
 import { InMemoryUserMessageQueueRepository } from '~/data/repositories/in-memory/in-memory-user-message-queue-repository'
 import { EmailConsumer } from './email-consumer'
-import { type ConfirmationEmail } from '~/usecases/user/confirmation-email'
+import { type ConfirmationEmail } from '~/usecases/procotols/confirmation-email'
 
 class FakeConfirmationEmail implements ConfirmationEmail {
   async send (email: string): Promise<void> {}

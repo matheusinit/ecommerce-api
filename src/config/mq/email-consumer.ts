@@ -1,5 +1,5 @@
 import { type UserMessageQueueRepository } from '~/data/repositories/protocols/user-repository-mq'
-import { type ConfirmationEmail } from '~/usecases/user/confirmation-email'
+import { type ConfirmationEmail } from '~/usecases/procotols/confirmation-email'
 
 export abstract class EmailConsumerAbstract {
   abstract consume (): Promise<void>

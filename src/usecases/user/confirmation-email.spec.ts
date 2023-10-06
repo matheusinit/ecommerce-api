@@ -1,5 +1,5 @@
 import { describe, it, expect, vitest } from 'vitest'
-import { ConfirmationEmail } from './confirmation-email'
+import { ConfirmationEmailImpl } from './confirmation-email'
 import { type ConfirmationEmailLink } from '../procotols/confirmation-email-link'
 
 class FakeConfirmationEmailLink implements ConfirmationEmailLink {
@@ -11,7 +11,7 @@ class FakeConfirmationEmailLink implements ConfirmationEmailLink {
 describe('Confirmation email', () => {
   it('when email is provided, then should call method to create confirmation email link', async () => {
     const confirmationEmailLink = new FakeConfirmationEmailLink()
-    const sut = new ConfirmationEmail(confirmationEmailLink)
+    const sut = new ConfirmationEmailImpl(confirmationEmailLink)
     const spy = vitest.spyOn(confirmationEmailLink, 'create')
 
     await sut.send('matheus@email.com')

@@ -1,7 +1,8 @@
 import { NodeMailerEmailSender } from '~/infra/email/nodemailer-email-sender'
 import { type ConfirmationEmailLink } from '../procotols/confirmation-email-link'
+import { type ConfirmationEmail } from '../procotols/confirmation-email'
 
-export class ConfirmationEmail {
+export class ConfirmationEmailImpl implements ConfirmationEmail {
   constructor (
     private readonly confirmationEmailLink: ConfirmationEmailLink
   ) {}
