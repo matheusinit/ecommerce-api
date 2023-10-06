@@ -13,6 +13,12 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "ConfirmationEmailToken" (
+    "userEmail" TEXT NOT NULL,
+    "token" TEXT NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "Product" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -28,6 +34,12 @@ CREATE TABLE "Product" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ConfirmationEmailToken_userEmail_token_key" ON "ConfirmationEmailToken"("userEmail", "token");
+
+-- AddForeignKey
+ALTER TABLE "ConfirmationEmailToken" ADD CONSTRAINT "ConfirmationEmailToken_userEmail_fkey" FOREIGN KEY ("userEmail") REFERENCES "User"("email") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

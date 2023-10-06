@@ -1,4 +1,4 @@
-import { type ConfirmationEmailTokenRepository } from '~/data/repositories/protocols/ConfirmationEmailToken'
+import { type ConfirmationEmailTokenRepository } from '~/data/repositories/protocols/confirmation-email-token'
 import { type ConfirmationEmailLink } from '../procotols/confirmation-email-link'
 
 type Hash = (value: string) => Promise<string>

@@ -35,15 +35,25 @@ export class RabbitMqUserMessageQueueRepository implements UserMessageQueueRepos
     const channel = await connection.createChannel()
     await channel.assertQueue('confirmation-email')
 
+    console.log('[AMQP] Consumer is running...')
+    console.log('[AMQP] Awaiting for messages...')
+
     await channel.consume('confirmation-email', (message) => {
       if (!message) {
         return null
       }
 
       const email = JSON.parse(message.content.toString()) as string
+
+      process(email)
+        .then(() => { console.log('[AMQP] Confirmation email processed') })
+        .catch((err) => {
+          console.log(err)
+        })
+
       channel.ack(message)
 
-      process(email).then().catch(() => {})
+      console.log('[AMQP] Consumer is done.')
     })
   }
 }
