@@ -8,10 +8,19 @@ class FakeConfirmationEmailLink implements ConfirmationEmailLink {
   }
 }
 
+const makeSut = () => {
+  const confirmationEmailLink = new FakeConfirmationEmailLink()
+  const sut = new ConfirmationEmailImpl(confirmationEmailLink)
+
+  return {
+    confirmationEmailLink,
+    sut
+  }
+}
+
 describe('Confirmation email', () => {
   it('when email is provided, then should call method to create confirmation email link', async () => {
-    const confirmationEmailLink = new FakeConfirmationEmailLink()
-    const sut = new ConfirmationEmailImpl(confirmationEmailLink)
+    const { sut, confirmationEmailLink } = makeSut()
     const spy = vitest.spyOn(confirmationEmailLink, 'create')
 
     await sut.send('matheus@email.com')
