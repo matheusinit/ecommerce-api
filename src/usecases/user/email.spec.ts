@@ -72,6 +72,6 @@ describe('Email', () => {
       email: 'matheus@email.com'
     })
 
-    expect(user.verified).toEqual(true)
+    expect(user?.verified).toEqual(true)
   })
 })
