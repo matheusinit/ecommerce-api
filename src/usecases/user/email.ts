@@ -14,6 +14,12 @@ export class Email {
       throw new Error('Invalid token')
     }
 
-    throw new Error('Token not found')
+    const tokenFromDatabase = await this.confirmationEmailTokenRepository.getByToken(token)
+
+    if (tokenFromDatabase === null) {
+      throw new Error('Token not found')
+    }
+
+    throw new Error('User is already verified')
   }
 }
