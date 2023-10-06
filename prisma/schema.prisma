@@ -16,6 +16,7 @@ model User {
   email     String    @unique
   type      String
   password  String
+  verified  Boolean
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   deletedAt DateTime?
@@ -27,6 +28,7 @@ model User {
 model ConfirmationEmailToken {
   userEmail String
   token  String
+  createdAt DateTime  @default(now())
 
   user User @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 

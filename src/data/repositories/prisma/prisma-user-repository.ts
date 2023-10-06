@@ -3,6 +3,17 @@ import { type FindByIdDtos, type FindByEmailParams, type StoreUserProps, type Us
 import { prisma } from '~/infra/db'
 
 export class PrismaUserRepository implements UserRepository {
+  async verify (email: string): Promise<void> {
+    await prisma.user.update({
+      where: {
+        email
+      },
+      data: {
+        verified: true
+      }
+    })
+  }
+
   async findById (params: FindByIdDtos): Promise<User | null> {
     return prisma.user.findUnique({
       where: {
@@ -26,7 +37,7 @@ export class PrismaUserRepository implements UserRepository {
 
     const user = await prisma.user.create({
       data: {
-        name, email, password, type
+        name, email, password, type, verified: false
       }
     })
 
