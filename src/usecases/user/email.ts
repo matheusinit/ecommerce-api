@@ -25,13 +25,14 @@ export class Email {
 
     const tokenFromDatabase = await this.confirmationEmailTokenRepository.getByToken(token)
 
-    const tokenIsExpired = this.tokenIsExpired(tokenFromDatabase?.createdAt)
-    if (tokenIsExpired) {
-      throw new Error('Token expired')
-    }
-
     if (tokenFromDatabase === null) {
       throw new Error('Token not found')
+    }
+
+    const tokenIsExpired = this.tokenIsExpired(tokenFromDatabase?.createdAt)
+
+    if (tokenIsExpired) {
+      throw new Error('Token expired')
     }
 
     const user = await this.userRepository.findByEmail({
