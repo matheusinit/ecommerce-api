@@ -1,11 +1,16 @@
 import app from './app'
 import { env } from './config/env'
 import { EmailConsumer } from './config/mq/email-consumer'
+import { PrismaConfirmationEmailTokenRepository } from './data/repositories/prisma/prisma-confirmation-email-token-repository'
 import { RabbitMqUserMessageQueueRepository } from './data/repositories/rabbitmq/user-message-queue-repository'
-import { ConfirmationEmail } from './usecases/user/confirmation-email'
+import { ConfirmationEmailImpl } from './usecases/user/confirmation-email'
+import { ConfirmationEmailLinkImpl } from './usecases/user/confirmation-email-link'
+import { hash } from './utils/hashing'
 
 const userRepositoryQueue = new RabbitMqUserMessageQueueRepository()
-const confirmationEmail = new ConfirmationEmail()
+const confirmationEmailTokenRepository = new PrismaConfirmationEmailTokenRepository()
+const confirmationLink = new ConfirmationEmailLinkImpl(hash, confirmationEmailTokenRepository)
+const confirmationEmail = new ConfirmationEmailImpl(confirmationLink)
 const emailConsumer = new EmailConsumer(userRepositoryQueue, confirmationEmail)
 
 emailConsumer.consume().then(() => {
