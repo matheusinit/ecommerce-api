@@ -7,7 +7,9 @@ export class ConfirmationEmailImpl implements ConfirmationEmail {
   constructor (
     private readonly confirmationEmailLink: ConfirmationEmailLink,
     private readonly emailSender: EmailSender
-  ) {}
+  ) {
+    this.send = this.send.bind(this)
+  }
 
   async send (email: string) {
     // TODO: Route that confirms email with hash passed as link
