@@ -1,5 +1,5 @@
 import { describe, it, expect, vitest } from 'vitest'
-import { Email } from './email'
+import { EmailImpl } from './email'
 import { InMemoryConfirmationEmailTokenRepository } from '~/data/repositories/in-memory/in-memory-confirmation-email-token-repository'
 import { InMemoryUserRepository } from '~/data/repositories/in-memory/in-memory-user-repository'
 import dayjs from 'dayjs'
@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 const makeSut = () => {
   const confirmationEmailTokenRepository = new InMemoryConfirmationEmailTokenRepository()
   const userRepository = new InMemoryUserRepository()
-  const sut = new Email(confirmationEmailTokenRepository, userRepository)
+  const sut = new EmailImpl(confirmationEmailTokenRepository, userRepository)
 
   return {
     confirmationEmailTokenRepository,

@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { type ConfirmationEmailTokenRepository } from '~/data/repositories/protocols/confirmation-email-token'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
 
-export class Email {
+export class EmailImpl {
   constructor (
     private readonly confirmationEmailTokenRepository: ConfirmationEmailTokenRepository,
     private readonly userRepository: UserRepository

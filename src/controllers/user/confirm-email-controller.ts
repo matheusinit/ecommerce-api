@@ -1,7 +1,7 @@
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type HttpResponse } from '~/infra/protocols/http-response'
-import { type Email } from '~/usecases/user/email'
-import { badRequest, httpError, noContent, notFound } from '~/utils/http'
+import { type Email } from '~/usecases/procotols/email'
+import { badRequest, httpError, internalServerError, noContent, notFound } from '~/utils/http'
 
 export class ConfirmEmailController {
   constructor (
@@ -30,7 +30,11 @@ export class ConfirmEmailController {
         return badRequest(httpError('Token expired'))
       }
 
-      return badRequest(httpError('User is already verified'))
+      if (error.message === 'User is already verified') {
+        return badRequest(httpError('User is already verified'))
+      }
+
+      return internalServerError(httpError('Internal server error'))
     }
   }
 }
