@@ -20,7 +20,13 @@ export class ConfirmEmailController {
         return notFound(httpError('Token not found'))
       }
 
-      return badRequest(httpError('Invalid token'))
+      if (error.message === 'Invalid token') {
+        return badRequest(httpError('Invalid token'))
+      }
+
+      if (error.message === 'Token expired') {
+        return badRequest(httpError('Token expired'))
+      }
     }
   }
 }
