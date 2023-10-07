@@ -23,6 +23,11 @@ export const ok = <T,>(body: T) => ({
   body
 })
 
+export const noContent = () => ({
+  statusCode: 204,
+  body: {}
+})
+
 export const partialContent = <T,>(body: T) => ({
   statusCode: 206,
   body

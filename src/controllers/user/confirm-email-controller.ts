@@ -1,7 +1,7 @@
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type HttpResponse } from '~/infra/protocols/http-response'
 import { type Email } from '~/usecases/user/email'
-import { badRequest, httpError, notFound } from '~/utils/http'
+import { badRequest, httpError, noContent, notFound } from '~/utils/http'
 
 export class ConfirmEmailController {
   constructor (
@@ -13,6 +13,8 @@ export class ConfirmEmailController {
       const token = request.query?.token ?? ''
 
       await this.email.confirm(token)
+
+      return noContent()
     } catch (err) {
       const error = err as Error
 
