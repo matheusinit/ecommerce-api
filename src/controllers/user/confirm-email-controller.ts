@@ -27,6 +27,8 @@ export class ConfirmEmailController {
       if (error.message === 'Token expired') {
         return badRequest(httpError('Token expired'))
       }
+
+      return badRequest(httpError('User is already verified'))
     }
   }
 }
