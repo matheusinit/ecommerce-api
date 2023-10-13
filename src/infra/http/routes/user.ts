@@ -11,13 +11,8 @@ import { RabbitMqUserMessageQueueRepository } from '~/data/repositories/rabbitmq
 import { ConfirmationEmailQueueImpl } from '~/usecases/user/confirmation-email-queue'
 import { ConfirmEmailController } from '~/controllers/user/confirm-email-controller'
 import { EmailImpl } from '~/usecases/user/email'
-import { ConfirmationEmailTokenRepository } from '~/data/repositories/protocols/confirmation-email-token'
 import { PrismaConfirmationEmailTokenRepository } from '~/data/repositories/prisma/prisma-confirmation-email-token-repository'
 import { SendConfirmationEmailController } from '~/controllers/user/send-confirmation-email-controller'
-import { ConfirmationEmailImpl } from '~/usecases/user/confirmation-email'
-import { NodeMailerEmailSender } from '~/infra/email/nodemailer-email-sender'
-import { ConfirmationEmailLinkImpl } from '~/usecases/user/confirmation-email-link'
-import { hash } from '~/utils/hashing'
 
 const makeRegisterUserController = () => {
   const userRepository = new PrismaUserRepository()
@@ -38,12 +33,10 @@ const makeConfirmEmailController = () => {
 }
 
 const makeSendConfirmationEmailController = () => {
-  const confirmationEmailTokenRepository = new PrismaConfirmationEmailTokenRepository()
-  const confirmationEmailLink = new ConfirmationEmailLinkImpl(hash, confirmationEmailTokenRepository)
-
-  const emailSender = new NodeMailerEmailSender()
-  const confirmationEmail = new ConfirmationEmailImpl(confirmationEmailLink, emailSender)
-  const controller = new SendConfirmationEmailController(confirmationEmail)
+  const userRepository = new PrismaUserRepository()
+  const userMessageQueueRepository = new RabbitMqUserMessageQueueRepository()
+  const confirmationEmailQueue = new ConfirmationEmailQueueImpl(userRepository, userMessageQueueRepository)
+  const controller = new SendConfirmationEmailController(confirmationEmailQueue)
   return controller
 }
 
