@@ -1,11 +1,11 @@
 import { type HttpRequest } from '~/infra/protocols/http-request'
 import { type HttpResponse } from '~/infra/protocols/http-response'
-import { type ConfirmationEmailQueueImpl } from '~/usecases/user/confirmation-email-queue'
-import { badRequest, httpError, noContent, notFound } from '~/utils/http'
+import { type ConfirmationEmailQueue } from '~/usecases/procotols/confirmation-email-queue'
+import { badRequest, httpError, internalServerError, noContent, notFound } from '~/utils/http'
 
 export class SendConfirmationEmailController {
   constructor (
-    private readonly confirmationEmailQueue: ConfirmationEmailQueueImpl
+    private readonly confirmationEmailQueue: ConfirmationEmailQueue
   ) {}
 
   async handle (request: HttpRequest): Promise<HttpResponse> {
@@ -30,6 +30,8 @@ export class SendConfirmationEmailController {
       if (error.message === 'User not found with given email') {
         return notFound(httpError('User not found with given email'))
       }
+
+      return internalServerError(httpError('Internal server error'))
     }
   }
 }
