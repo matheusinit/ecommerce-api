@@ -1,8 +1,5 @@
 import { type ConfirmationEmailQueue } from '~/usecases/procotols/confirmation-email-queue'
-
-interface EnqueueResponse {
-  message: string
-}
+import { type EnqueueResponse } from '~/usecases/procotols/dtos/enqueue-response'
 
 export class FakeConfirmationEmailQueue implements ConfirmationEmailQueue {
   async enqueue (email: string): Promise<EnqueueResponse> {
