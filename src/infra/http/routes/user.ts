@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
-import { Router, type Request, type Response } from 'express'
+import { Router } from 'express'
 import { isAuthenticated } from '../middlewares/auth'
 import { makeRegisterUserController } from '~/factories/user/make-register-user-controller'
 import { makeSendConfirmationEmailController } from '~/factories/confirmation-email/make-send-confirmation-email-controller'
