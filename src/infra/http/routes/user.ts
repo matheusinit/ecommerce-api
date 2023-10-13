@@ -1,44 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { RegisterUser } from '~/usecases/user/register-user'
-import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
-import { RegisterUserController } from '~/controllers/user'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
 import { Router, type Request, type Response } from 'express'
 import { isAuthenticated } from '../middlewares/auth'
 import { verifyToken } from '~/usecases/auth/verify-token'
 import { env } from '~/config/env'
-import { RabbitMqUserMessageQueueRepository } from '~/data/repositories/rabbitmq/user-message-queue-repository'
-import { ConfirmationEmailQueueImpl } from '~/usecases/confirmation-email/confirmation-email-queue'
-import { ConfirmEmailController } from '~/controllers/confirmation-email/confirm-email-controller'
-import { EmailImpl } from '~/usecases/confirmation-email/email'
-import { PrismaConfirmationEmailTokenRepository } from '~/data/repositories/prisma/prisma-confirmation-email-token-repository'
-import { SendConfirmationEmailController } from '~/controllers/confirmation-email/send-confirmation-email-controller'
-
-const makeRegisterUserController = () => {
-  const userRepository = new PrismaUserRepository()
-  const userMessageQueueRepository = new RabbitMqUserMessageQueueRepository()
-  const emailQueue = new ConfirmationEmailQueueImpl(userRepository, userMessageQueueRepository)
-  const registerUser = new RegisterUser(userRepository, emailQueue)
-  const registerUserController = new RegisterUserController(registerUser)
-
-  return registerUserController
-}
-
-const makeConfirmEmailController = () => {
-  const userRepository = new PrismaUserRepository()
-  const confirmationEmailTokenRepository = new PrismaConfirmationEmailTokenRepository()
-  const email = new EmailImpl(confirmationEmailTokenRepository, userRepository)
-
-  return new ConfirmEmailController(email)
-}
-
-const makeSendConfirmationEmailController = () => {
-  const userRepository = new PrismaUserRepository()
-  const userMessageQueueRepository = new RabbitMqUserMessageQueueRepository()
-  const confirmationEmailQueue = new ConfirmationEmailQueueImpl(userRepository, userMessageQueueRepository)
-  const controller = new SendConfirmationEmailController(confirmationEmailQueue)
-  return controller
-}
+import { makeRegisterUserController } from '~/factories/user/make-register-user-controller'
+import { makeSendConfirmationEmailController } from '~/factories/confirmation-email/make-send-confirmation-email-controller'
+import { makeConfirmEmailController } from '~/factories/confirmation-email/make-confirm-email-controller'
 
 const userRoutes = Router()
 
