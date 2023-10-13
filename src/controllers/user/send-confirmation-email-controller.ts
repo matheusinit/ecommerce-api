@@ -16,19 +16,19 @@ export class SendConfirmationEmailController {
       const error = err as Error
 
       if (error.message === 'Email is required') {
-        return badRequest(httpError('Email is required'))
+        return badRequest(httpError(error.message))
       }
 
       if (error.message === 'Invalid email was provided does not has the format: john.doe@email.com') {
-        return badRequest(httpError('Invalid email was provided does not has the format: john.doe@email.com'))
+        return badRequest(httpError(error.message))
       }
 
       if (error.message === 'User is already verified') {
-        return badRequest(httpError('User is already verified'))
+        return badRequest(httpError(error.message))
       }
 
       if (error.message === 'User not found with given email') {
-        return notFound(httpError('User not found with given email'))
+        return notFound(httpError(error.message))
       }
 
       return internalServerError(httpError('Internal server error'))
