@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, afterEach, vi } from 'vitest'
 import request from 'supertest'
 import app from '~/app'
 import { prisma } from '~/infra/db'
@@ -7,6 +7,11 @@ import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-rep
 import { PrismaConfirmationEmailTokenRepository } from '~/data/repositories/prisma/prisma-confirmation-email-token-repository'
 import { hash } from '~/utils/hashing'
 import { type Tokens } from '~/data/dtos/auth-tokens'
+
+vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository', async () => ({
+  RabbitMqUserMessageQueueRepository: (await import('test/fakes/fake-user-message-queue-repository'))
+    .FakeUserMessageQueueRepository
+}))
 
 describe('POST /v1/users/email-confirmation', () => {
   afterEach(async () => {
