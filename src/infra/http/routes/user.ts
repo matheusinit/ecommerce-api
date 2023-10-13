@@ -10,9 +10,10 @@ import { env } from '~/config/env'
 import { RabbitMqUserMessageQueueRepository } from '~/data/repositories/rabbitmq/user-message-queue-repository'
 import { ConfirmationEmailQueueImpl } from '~/usecases/user/confirmation-email-queue'
 import { ConfirmEmailController } from '~/controllers/user/confirm-email-controller'
-import { Email } from '~/usecases/user/email'
+import { EmailImpl } from '~/usecases/user/email'
 import { ConfirmationEmailTokenRepository } from '~/data/repositories/protocols/confirmation-email-token'
 import { PrismaConfirmationEmailTokenRepository } from '~/data/repositories/prisma/prisma-confirmation-email-token-repository'
+import { SendConfirmationEmailController } from '~/controllers/user/send-confirmation-email-controller'
 
 const makeRegisterUserController = () => {
   const userRepository = new PrismaUserRepository()
@@ -27,7 +28,7 @@ const makeRegisterUserController = () => {
 const makeConfirmEmailController = () => {
   const userRepository = new PrismaUserRepository()
   const confirmationEmailTokenRepository = new PrismaConfirmationEmailTokenRepository()
-  const email = new Email(confirmationEmailTokenRepository, userRepository)
+  const email = new EmailImpl(confirmationEmailTokenRepository, userRepository)
 
   return new ConfirmEmailController(email)
 }
@@ -43,6 +44,8 @@ userRoutes.get('/me', isAuthenticated, async (request: Request, response: Respon
 })
 
 userRoutes.post('/', expressRouteAdapt(makeRegisterUserController()))
-userRoutes.post('/email-confirmation', expressRouteAdapt(makeConfirmEmailController()))
+userRoutes.post('/email-confirmation', expressRouteAdapt(new SendConfirmationEmailController()))
+
+userRoutes.patch('/email-confirmation', expressRouteAdapt(makeConfirmEmailController()))
 
 export default userRoutes
