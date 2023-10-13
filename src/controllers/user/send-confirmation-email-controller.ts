@@ -14,6 +14,10 @@ export class SendConfirmationEmailController {
     } catch (err) {
       const error = err as Error
 
+      if (error.message === 'Email is required') {
+        return badRequest(httpError('Email is required'))
+      }
+
       if (error.message === 'User is already verified') {
         return badRequest(httpError('User is already verified'))
       }
