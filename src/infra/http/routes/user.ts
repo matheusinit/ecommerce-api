@@ -14,6 +14,10 @@ import { EmailImpl } from '~/usecases/user/email'
 import { ConfirmationEmailTokenRepository } from '~/data/repositories/protocols/confirmation-email-token'
 import { PrismaConfirmationEmailTokenRepository } from '~/data/repositories/prisma/prisma-confirmation-email-token-repository'
 import { SendConfirmationEmailController } from '~/controllers/user/send-confirmation-email-controller'
+import { ConfirmationEmailImpl } from '~/usecases/user/confirmation-email'
+import { NodeMailerEmailSender } from '~/infra/email/nodemailer-email-sender'
+import { ConfirmationEmailLinkImpl } from '~/usecases/user/confirmation-email-link'
+import { hash } from '~/utils/hashing'
 
 const makeRegisterUserController = () => {
   const userRepository = new PrismaUserRepository()
@@ -33,6 +37,16 @@ const makeConfirmEmailController = () => {
   return new ConfirmEmailController(email)
 }
 
+const makeSendConfirmationEmailController = () => {
+  const confirmationEmailTokenRepository = new PrismaConfirmationEmailTokenRepository()
+  const confirmationEmailLink = new ConfirmationEmailLinkImpl(hash, confirmationEmailTokenRepository)
+
+  const emailSender = new NodeMailerEmailSender()
+  const confirmationEmail = new ConfirmationEmailImpl(confirmationEmailLink, emailSender)
+  const controller = new SendConfirmationEmailController(confirmationEmail)
+  return controller
+}
+
 const userRoutes = Router()
 
 userRoutes.get('/me', isAuthenticated, async (request: Request, response: Response) => {
@@ -44,8 +58,7 @@ userRoutes.get('/me', isAuthenticated, async (request: Request, response: Respon
 })
 
 userRoutes.post('/', expressRouteAdapt(makeRegisterUserController()))
-userRoutes.post('/email-confirmation', expressRouteAdapt(new SendConfirmationEmailController()))
-
+userRoutes.post('/email-confirmation', isAuthenticated, expressRouteAdapt(makeSendConfirmationEmailController()))
 userRoutes.patch('/email-confirmation', expressRouteAdapt(makeConfirmEmailController()))
 
 export default userRoutes
