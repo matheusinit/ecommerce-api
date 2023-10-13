@@ -152,4 +152,37 @@ describe('POST /v1/users/email-confirmation', () => {
     expect(response.statusCode).toBe(400)
     expect(response.body.message).toBe('User is already verified')
   })
+
+  it('when valid data is provided, then should get no content', async () => {
+    const rawPassword = 'minhasenha1!'
+    const hashedPassword = await hash(rawPassword)
+    const user: User = {
+      name: 'Matheus Oliveira',
+      type: 'STORE-ADMIN',
+      email: 'matheus.oliveira@email.com',
+      password: hashedPassword
+    }
+    const userRepository = new PrismaUserRepository()
+    await userRepository.store(user)
+    const confirmationEmailTokenRepository = new PrismaConfirmationEmailTokenRepository()
+    const token = 'faa61c5709342a843d3c3e5181474f22b3ad181471faa7c23d6d757bafa3883db473ae0088f727e1402b6c2a823557284742b4eaee94f5fe51af490eb96fdf26'
+    await confirmationEmailTokenRepository.storeToken(user.email, token)
+    const { body } = await request(app)
+      .post('/v1/auth')
+      .send({
+        email: user.email,
+        password: rawPassword
+      })
+
+    const tokens: Tokens = body
+
+    const response = await request(app)
+      .post('/v1/users/email-confirmation')
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({
+        email: user.email
+      })
+
+    expect(response.statusCode).toBe(204)
+  })
 })
