@@ -18,6 +18,10 @@ export class SendConfirmationEmailController {
         return badRequest(httpError('Email is required'))
       }
 
+      if (error.message === 'Invalid email was provided does not has the format: john.doe@email.com') {
+        return badRequest(httpError('Invalid email was provided does not has the format: john.doe@email.com'))
+      }
+
       if (error.message === 'User is already verified') {
         return badRequest(httpError('User is already verified'))
       }
