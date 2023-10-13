@@ -47,6 +47,34 @@ describe('POST /v1/users/email-confirmation', () => {
     expect(response.body.message).toBe('Email is required')
   })
 
+  it('when invalid email is provided, then should get bad request', async () => {
+    const rawPassword = 'minhasenha1!'
+    const hashedPassword = await hash(rawPassword)
+    const user: User = {
+      name: 'Matheus Oliveira',
+      type: 'STORE-ADMIN',
+      email: 'matheus.oliveira@email.com',
+      password: hashedPassword
+    }
+    const userRepository = new PrismaUserRepository()
+    await userRepository.store(user)
+    const { body } = await request(app)
+      .post('/v1/auth')
+      .send({
+        email: user.email,
+        password: rawPassword
+      })
+
+    const tokens: Tokens = body
+    const response = await request(app)
+      .post('/v1/users/email-confirmation')
+      .set('Cookie', [`access-token=${tokens.accessToken}`, `refresh-token=${tokens.refreshToken}`])
+      .send({ email: 'invalid-email' })
+
+    expect(response.statusCode).toBe(400)
+    expect(response.body.message).toBe('Invalid email was provided does not has the format: john.doe@email.com')
+  })
+
   it('when user is not signed in, then should get unauthorized', async () => {
     const response = await request(app).post('/v1/users/email-confirmation').send({
       email: 'matheus@email.com'
