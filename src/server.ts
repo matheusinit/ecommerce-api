@@ -4,8 +4,8 @@ import { EmailConsumer } from './config/mq/email-consumer'
 import { PrismaConfirmationEmailTokenRepository } from './data/repositories/prisma/prisma-confirmation-email-token-repository'
 import { RabbitMqUserMessageQueueRepository } from './data/repositories/rabbitmq/user-message-queue-repository'
 import { NodeMailerEmailSender } from './infra/email/nodemailer-email-sender'
-import { ConfirmationEmailImpl } from './usecases/user/confirmation-email'
-import { ConfirmationEmailLinkImpl } from './usecases/user/confirmation-email-link'
+import { ConfirmationEmailImpl } from './usecases/confirmation-email/confirmation-email'
+import { ConfirmationEmailLinkImpl } from './usecases/confirmation-email/confirmation-email-link'
 import { hash } from './utils/hashing'
 
 const userRepositoryQueue = new RabbitMqUserMessageQueueRepository()
