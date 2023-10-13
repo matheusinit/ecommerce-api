@@ -11,10 +11,12 @@ export class SendConfirmationEmailController {
   async handle (request: HttpRequest): Promise<HttpResponse> {
     try {
       await this.confirmationEmailQueue.enqueue(request.body.email)
-
-      return badRequest(httpError('User is already verified'))
     } catch (err) {
       const error = err as Error
+
+      if (error.message === 'User is already verified') {
+        return badRequest(httpError('User is already verified'))
+      }
 
       if (error.message === 'User not found with given email') {
         return notFound(httpError('User not found with given email'))

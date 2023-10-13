@@ -30,6 +30,10 @@ export class ConfirmationEmailQueueImpl implements ConfirmationEmailQueue {
       throw new Error('User not found with given email')
     }
 
+    if (user.verified) {
+      throw new Error('User is already verified')
+    }
+
     const result = await this.userMessageQueueRepository.addEmailTaskToQueue(email)
 
     if (result.error) {
