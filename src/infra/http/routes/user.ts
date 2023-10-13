@@ -8,11 +8,11 @@ import { isAuthenticated } from '../middlewares/auth'
 import { verifyToken } from '~/usecases/auth/verify-token'
 import { env } from '~/config/env'
 import { RabbitMqUserMessageQueueRepository } from '~/data/repositories/rabbitmq/user-message-queue-repository'
-import { ConfirmationEmailQueueImpl } from '~/usecases/user/confirmation-email-queue'
-import { ConfirmEmailController } from '~/controllers/user/confirm-email-controller'
-import { EmailImpl } from '~/usecases/user/email'
+import { ConfirmationEmailQueueImpl } from '~/usecases/confirmation-email/confirmation-email-queue'
+import { ConfirmEmailController } from '~/controllers/confirmation-email/confirm-email-controller'
+import { EmailImpl } from '~/usecases/confirmation-email/email'
 import { PrismaConfirmationEmailTokenRepository } from '~/data/repositories/prisma/prisma-confirmation-email-token-repository'
-import { SendConfirmationEmailController } from '~/controllers/user/send-confirmation-email-controller'
+import { SendConfirmationEmailController } from '~/controllers/confirmation-email/send-confirmation-email-controller'
 
 const makeRegisterUserController = () => {
   const userRepository = new PrismaUserRepository()
