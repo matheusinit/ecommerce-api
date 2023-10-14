@@ -20,10 +20,10 @@ const baseSchema = z
   .nonstrict()
 
 let envSchema
-if (isProduction) {
+if (isProduction || isDevelopment) {
   envSchema = baseSchema.merge(productionEnvSchema)
 } else {
-  envSchema = baseSchema.merge(productionEnvSchema)
+  envSchema = baseSchema.merge(productionEnvSchema.partial())
 }
 
 export const env = envSchema.parse({
