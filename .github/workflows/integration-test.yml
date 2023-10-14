@@ -19,6 +19,11 @@ jobs:
           envkey_DATABASE_URL: "postgresql://root:eY8nPg78828BNTSY@testing-database/main?schema=public"
           envkey_REDIS_PASSWORD: C7YY3nxBYHek2g5s
           envkey_REDIS_URL: "redis://:C7YY3nxBYHek2g5s@cache"
+          envkey_MQ_URL: "amqp://guest:guest@message-queue"
+          envkey_SMTP_PROVIDER: "smtp.ethereal.email"
+          envkey_SMTP_PORT: 587
+          envkey_SMTP_USER: "johathan.miller77@ethereal.email"
+          envkey_SMTP_PASSWORD: "EUKwwjbS5Qax2ZJDBt"
           file_name: ".env.test.ci"
           fail_on_empty: false
           directory: .
