@@ -26,7 +26,7 @@ if (isProduction) {
   envSchema = baseSchema.merge(productionEnvSchema)
 }
 
-export const env = envSchema.safeParse({
+export const env = envSchema.parse({
   ...process.env,
   PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
   production: isProduction,
