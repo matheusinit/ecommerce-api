@@ -11,7 +11,7 @@ export class EmailImpl {
 
   private tokenIsExpired (tokenDate: Date) {
     const expirationDate = dayjs(tokenDate).add(24, 'h')
-    const isExpired = dayjs().isAfter(expirationDate)
+    const isExpired = dayjs().isAfter(expirationDate, 's')
     return isExpired
   }
 
