@@ -1,6 +1,6 @@
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { type UpdateSignInToken } from '~/usecases/update-sign-in-token'
+import { type UpdateSignInToken } from '~/usecases/auth/update-sign-in-token'
 import { badRequest, httpError, ok, unauthorized } from '~/utils/http'
 
 export class UpdateSignInTokenController implements Controller {

@@ -1,0 +1,75 @@
+style.
+  @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+  body {
+    size: 16px;
+    font-family: 'Muli';
+  }
+
+  .mt-4 {
+    margin-top: 16px;
+  }
+
+  .mb-4 {
+    margin-bottom: 16px;
+  }
+  
+  .center {
+    width: 90%;
+    margin: 0 auto;
+    display: block;
+    text-align: center
+  }
+
+  .w-50 {
+    width: 50%;
+  }
+
+  .button {
+    color: #333;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    display: inline-block;
+    margin-top: 2px;
+  }
+  
+  h2 {
+    size: 24px;
+  }
+
+  p {
+    size: 18px;
+  }
+
+  .highlight {
+    color: #134F5C;
+  }
+
+  .font-bold {
+    font-weight: bold;
+  }
+
+  hr {
+    border-top: 0.5px solid #ccc;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+div.center.mb-4.mt-4
+  h2 Confirme a sua conta
+  hr.w-50
+  p Por favor confirme que 
+    span.highlight.font-bold #{email} 
+    | é o seu endereço de e-mail clicando no botão abaixo ou use o link 
+    span.highlight #{confirmationLink} 
+    | dentre 
+    span.font-bold 24 horas
+  hr.w-50
+  a.button(href="#{confirmationLink}" type="button") Confirme o email
+
+  h4 Precisa de ajuda?
+  p Por favor, entre em contato conosco pelo o email #{supportEmail}

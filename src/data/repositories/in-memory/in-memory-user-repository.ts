@@ -5,6 +5,14 @@ import { type FindByIdDtos, type FindByEmailParams, type StoreUserProps, type Us
 export class InMemoryUserRepository implements UserRepository {
   private readonly users: EntityUser[] = []
 
+  async verify (email: string): Promise<void> {
+    const user = this.users.find(u => u.email === email) ?? null
+
+    if (user === null) return
+
+    user.verified = true
+  }
+
   async findById (params: FindByIdDtos): Promise<User | null> {
     const userEntity = this.users.find(user => user.id === params.id) ?? null
 
@@ -22,7 +30,7 @@ export class InMemoryUserRepository implements UserRepository {
     }
   }
 
-  async findByEmail (params: FindByEmailParams): Promise<User | null> {
+  async findByEmail (params: FindByEmailParams): Promise<User & { verified: boolean } | null> {
     const { email } = params
 
     const userEntity = this.users.find(user => user.email === email)
@@ -36,6 +44,7 @@ export class InMemoryUserRepository implements UserRepository {
       name: userEntity.name ?? null,
       email: userEntity.email,
       type: userEntity.type,
+      verified: userEntity.verified,
       password: userEntity.password,
       createdAt: userEntity.createdAt,
       updatedAt: userEntity.updatedAt ?? null,

@@ -1,7 +1,7 @@
 import { type UserType } from '~/data/dtos/user-type'
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { type RegisterUser } from '~/usecases/register-user'
+import { type RegisterUser } from '~/usecases/user/register-user'
 import { badRequest, created, httpError, internalServerError } from '~/utils/http'
 
 export class RegisterUserController implements Controller {
@@ -64,6 +64,12 @@ export class RegisterUserController implements Controller {
       if (error.message === 'Email registered') {
         return badRequest({
           message: error.message
+        })
+      }
+
+      if (error.message === 'Message nacked') {
+        return internalServerError({
+          message: 'The user was created, but for an internal error the confirmation email could not be sent. Please send a request to send the confirmation email again soon.'
         })
       }
 

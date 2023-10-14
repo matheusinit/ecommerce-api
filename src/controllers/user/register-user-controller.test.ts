@@ -1,10 +1,20 @@
 import { PrismaClient } from '@prisma/client'
-import { afterAll, afterEach, beforeAll, describe, it, expect } from 'vitest'
+import { afterAll, afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
 import request from 'supertest'
 import app from '~/app'
 import { type User } from '~/data/dtos/user'
 
 let prisma: PrismaClient
+
+vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository.ts', async () => ({
+  RabbitMqUserMessageQueueRepository: (await import('test/fakes/fake-user-message-queue-repository'))
+    .FakeUserMessageQueueRepository
+}))
+
+vi.mock('~/config/mq/email-consumer.ts', async () => ({
+  EmailConsumer: (await import('test/fakes/fake-email-consumer'))
+    .FakeEmailConsumer
+}))
 
 describe('POST /users', () => {
   beforeAll(async () => {
@@ -216,6 +226,28 @@ describe('POST /users', () => {
 
       expect(response.status).toBe(400)
       expect(response.body.message).toBeDefined()
+    })
+  })
+
+  describe('When confirmation email message could not be sent due to an error', () => {
+    it('then should get internal server errror', async () => {
+      const fakeUserMessageQueueRepository = await import('~/data/repositories/rabbitmq/user-message-queue-repository')
+      fakeUserMessageQueueRepository.RabbitMqUserMessageQueueRepository.prototype.addEmailTaskToQueue = vi.fn().mockImplementation(async () => ({
+        error: true,
+        message: 'Message nacked'
+      }))
+
+      const user: User = {
+        name: 'Matheus Oliveira',
+        type: 'STORE-ADMIN',
+        email: 'matheus.oliveira@email.com',
+        password: 'minhasenha1!'
+      }
+
+      const response = await request(app).post('/v1/users').send(user)
+
+      expect(response.status).toBe(500)
+      expect(response.body.message).toBe('The user was created, but for an internal error the confirmation email could not be sent. Please send a request to send the confirmation email again soon.')
     })
   })
 })

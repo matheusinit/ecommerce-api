@@ -1,31 +1,18 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { RegisterUser } from '../../../usecases/register-user'
-import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
-import { RegisterUserController } from '~/controllers/user'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
-import { Router, type Request, type Response } from 'express'
+import { Router } from 'express'
 import { isAuthenticated } from '../middlewares/auth'
-import { verifyToken } from '~/usecases/verify-token'
-import { env } from '~/config/env'
-
-const makeRegisterUserController = () => {
-  const userRepository = new PrismaUserRepository()
-  const registerUser = new RegisterUser(userRepository)
-  const registerUserController = new RegisterUserController(registerUser)
-
-  return registerUserController
-}
+import { makeRegisterUserController } from '~/factories/user/make-register-user-controller'
+import { makeSendConfirmationEmailController } from '~/factories/confirmation-email/make-send-confirmation-email-controller'
+import { makeConfirmEmailController } from '~/factories/confirmation-email/make-confirm-email-controller'
+import { MeController } from '~/controllers/user/me-controller'
 
 const userRoutes = Router()
 
-userRoutes.get('/me', isAuthenticated, async (request: Request, response: Response) => {
-  const accessToken = request.cookies['access-token']
-
-  const payload = await verifyToken(accessToken, env.ACCESS_TOKEN_SECRET)
-
-  return response.status(200).send(payload)
-})
+userRoutes.get('/me', isAuthenticated, expressRouteAdapt(new MeController()))
 
 userRoutes.post('/', expressRouteAdapt(makeRegisterUserController()))
+userRoutes.post('/email-confirmation', isAuthenticated, expressRouteAdapt(makeSendConfirmationEmailController()))
+userRoutes.patch('/email-confirmation', expressRouteAdapt(makeConfirmEmailController()))
 
 export default userRoutes

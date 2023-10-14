@@ -1,7 +1,8 @@
 import { z } from 'zod'
 import { type UserRepository } from '~/data/repositories/protocols/user-repository'
-import { hash } from '../utils/hashing'
+import { hash } from '~/utils/hashing'
 import { type UserType } from '~/data/dtos/user-type'
+import { type ConfirmationEmailQueue } from '../procotols/confirmation-email-queue'
 
 interface Request {
   name: string
@@ -12,7 +13,8 @@ interface Request {
 
 export class RegisterUser {
   constructor (
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
+    private readonly emailQueue: ConfirmationEmailQueue
   ) {}
 
   async execute (request: Request) {
@@ -59,6 +61,8 @@ export class RegisterUser {
     const hashedPassword = await hash(password)
 
     const user = await this.userRepository.store({ name, type, email, password: hashedPassword })
+
+    await this.emailQueue.enqueue(email)
 
     return user
   }

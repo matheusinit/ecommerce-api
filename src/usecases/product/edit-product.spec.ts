@@ -18,7 +18,8 @@ const makeProduct = () => ({
 describe('Edit product', () => {
   it('when product id is not provided, should throw an error', async () => {
     // Arrange
-    const sut = new EditProduct()
+    const productRepository = new InMemoryProductRepository()
+    const sut = new EditProduct(productRepository)
 
     // Act
     // @ts-expect-error "Pass undefined to product id to test it"
@@ -54,7 +55,7 @@ describe('Edit product', () => {
     const randCuid = createCuid()
 
     // Act
-    const promise = sut.execute(randCuid)
+    const promise = sut.execute(randCuid, {})
 
     // Assert
     void expect(promise).rejects.toThrow('product with given id does not exists')

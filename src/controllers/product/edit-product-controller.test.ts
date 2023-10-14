@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
 import request from 'supertest'
 import * as falso from '@ngneat/falso'
 import app from '~/app'
@@ -7,6 +7,16 @@ import { type User } from '~/data/dtos/user'
 import { type Tokens } from '~/data/dtos/auth-tokens'
 
 let prisma: PrismaClient
+
+vi.mock('~/data/repositories/rabbitmq/user-message-queue-repository', async () => ({
+  RabbitMqUserMessageQueueRepository: (await import('test/fakes/fake-user-message-queue-repository'))
+    .FakeUserMessageQueueRepository
+}))
+
+vi.mock('~/config/mq/email-consumer', async () => ({
+  EmailConsumer: (await import('test/fakes/fake-email-consumer'))
+    .FakeEmailConsumer
+}))
 
 const makeProductInput = () => ({
   name: falso.randProductName(),

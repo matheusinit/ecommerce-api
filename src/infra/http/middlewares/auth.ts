@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { env } from '~/config/env'
 import { RedisTokenRepository } from '~/data/repositories/redis/redis-token-repository'
-import { verifyToken } from '~/usecases/verify-token'
+import { verifyToken } from '~/usecases/auth/verify-token'
 
 const tokenRepository = new RedisTokenRepository()
 

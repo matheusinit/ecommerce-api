@@ -1,39 +1,10 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { PrismaUserRepository } from '~/data/repositories/prisma/prisma-user-repository'
-import { AuthenticateUserController, UpdateSignInTokenController, LogoutUserController } from '~/controllers/auth'
-import { DbAuthenticateUser } from '~/usecases/authenticate-user'
 import { expressRouteAdapt } from '~/utils/express-route-adapt'
-import { UpdateSignInToken } from '~/usecases/update-sign-in-token'
-import { tokenSigner } from '~/utils/jwt-generator'
-import { LogoutUser } from '~/usecases/logout-user'
-import { RedisTokenRepository } from '~/data/repositories/redis/redis-token-repository'
-import { verifyToken } from '~/usecases/verify-token'
 import { isAuthenticated } from '../middlewares/auth'
-
-const makeAuthenticateUserController = () => {
-  const userRepository = new PrismaUserRepository()
-  const tokenRepository = new RedisTokenRepository()
-  const authenticateUser = new DbAuthenticateUser(userRepository, tokenSigner, tokenRepository)
-  const authenticateUserController = new AuthenticateUserController(authenticateUser)
-
-  return authenticateUserController
-}
-
-const makeSignInTokenController = () => {
-  const updateSignInToken = new UpdateSignInToken()
-  const updateSignInTokenController = new UpdateSignInTokenController(updateSignInToken)
-
-  return updateSignInTokenController
-}
-
-const makeLogoutUserController = () => {
-  const tokenRepository = new RedisTokenRepository()
-  const logoutUser = new LogoutUser(tokenRepository, verifyToken)
-  const logoutUserController = new LogoutUserController(logoutUser)
-
-  return logoutUserController
-}
+import { makeAuthenticateUserController } from '~/factories/auth/make-authenticate-user-controller'
+import { makeSignInTokenController } from '~/factories/auth/make-sign-in-token-controller'
+import { makeLogoutUserController } from '~/factories/auth/make-logout-user-controller'
 
 const authRoutes = Router()
 

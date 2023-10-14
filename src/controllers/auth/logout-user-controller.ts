@@ -1,6 +1,6 @@
 import { type Controller } from '~/infra/protocols/controller'
 import { type HttpRequest } from '~/infra/protocols/http-request'
-import { type LogoutUser } from '~/usecases/logout-user'
+import { type LogoutUser } from '~/usecases/auth/logout-user'
 import { httpError, ok, unauthorized } from '~/utils/http'
 
 export class LogoutUserController implements Controller {
@@ -9,7 +9,11 @@ export class LogoutUserController implements Controller {
   ) {}
 
   async handle (request: HttpRequest) {
-    const accessToken = request.cookies['access-token']
+    const cookies = request.cookies
+
+    if (!cookies) { throw Error('Cookies not defined') }
+
+    const accessToken = cookies['access-token']
 
     const result = await this.logoutUser.execute({
       accessToken

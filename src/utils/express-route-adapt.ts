@@ -7,7 +7,7 @@ export const expressRouteAdapt = (controller: Controller) => {
     const httpRequest: HttpRequest = {
       body: request.body,
       cookies: request.cookies,
-      query: request.query,
+      query: request.query as Record<string, string>,
       params: request.params
     }
 
