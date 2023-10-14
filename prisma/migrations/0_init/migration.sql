@@ -5,6 +5,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "verified" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "deletedAt" TIMESTAMP(3),
@@ -15,7 +16,8 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "ConfirmationEmailToken" (
     "userEmail" TEXT NOT NULL,
-    "token" TEXT NOT NULL
+    "token" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
